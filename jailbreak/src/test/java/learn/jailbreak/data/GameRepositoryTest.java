@@ -46,4 +46,21 @@ class GameRepositoryTest {
         assertEquals(2, actual.getGameNumber());
         assertEquals(1, actual.getUserId());
     }
+
+    @Test
+    void shouldUpdateGame(){
+        //Arrange
+        Game toUpdate = repository.findById(1).orElse(null);
+        toUpdate.setCharacterName("Updated");
+        //Act
+        Game returned = repository.save(toUpdate);
+        Game actual = repository.findById(1).orElse(null);
+
+        //Assert
+        assertNotNull(actual);
+        assertNotNull(returned);
+        assertEquals(toUpdate.getCharacterName(), actual.getCharacterName());
+    }
+
+
 }

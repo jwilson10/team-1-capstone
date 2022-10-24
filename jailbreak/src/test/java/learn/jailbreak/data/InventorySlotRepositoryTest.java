@@ -1,5 +1,6 @@
 package learn.jailbreak.data;
 
+import learn.jailbreak.models.Game;
 import learn.jailbreak.models.InventorySlot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,5 +36,33 @@ class InventorySlotRepositoryTest {
 
         //Assert
         assertEquals(expected, actual.size());
+    }
+
+    @Test
+    @Transactional
+    void shouldAddInventorySlot(){
+        //Arrange
+        int expected = 2;
+
+        //Act
+        List<InventorySlot> actual = repository.findAll();
+
+        //Assert
+        assertEquals(expected, actual.size());
+    }
+
+    @Test
+    void shouldUpdateInventorySlot(){
+        //Arrange
+        InventorySlot toUpdate = repository.findById(1).orElse(null);
+        toUpdate.setQuantity(9999);
+        //Act
+        InventorySlot returned = repository.save(toUpdate);
+        InventorySlot actual = repository.findById(1).orElse(null);
+
+        //Assert
+        assertNotNull(actual);
+        assertNotNull(returned);
+        assertEquals(toUpdate.getQuantity(), actual.getQuantity());
     }
 }
