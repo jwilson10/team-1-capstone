@@ -16,8 +16,8 @@ BEGIN
     ('USER');
     
     insert into `user`(username, user_password, role_id) values
-    ('admin', 'admin', 1),
-    ('user', 'user', 2);
+    ('admin', '$2a$10$Sz5TSqta44K8xKEnAMHyvulRaIT4/z5c8P3CMo.gfG/X22.1RTV8O', 1),
+    ('user', '$2a$10$vmRBGkzIK16Ru71KGR564uaafeZHI8cJXwDWr5qk3X/ncnJ9XTurG', 2);
     
     insert into game (user_id, character_name, game_number) values
     (1, 'admin test', 1),

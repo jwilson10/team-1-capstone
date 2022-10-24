@@ -1,18 +1,18 @@
 package learn.jailbreak.controllers;
 
-import learn.jailbreak.domain.AppUserService;
 import learn.jailbreak.domain.Result;
 import learn.jailbreak.domain.UserService;
 import learn.jailbreak.models.User;
 import learn.jailbreak.security.JwtConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +28,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtConverter converter;
     private final UserService userService;
+    private final PasswordEncoder encoder;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, UserService appUserService) {
+    public AuthController(AuthenticationManager authenticationManager, JwtConverter converter, UserService appUserService, PasswordEncoder encoder) {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
         this.userService = appUserService;
+        this.encoder = encoder;
     }
 
     @PostMapping("/authenticate")
@@ -82,5 +84,10 @@ public class AuthController {
         map.put("userId", result.getPayload().getUserId());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/print_hash")
+    public void printHash(){
+        System.out.println(encoder.encode("admin"));
     }
 }

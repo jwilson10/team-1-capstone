@@ -3,6 +3,7 @@ package learn.jailbreak.security;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +30,10 @@ public class SecurityConfig {
         http.cors();
 
         http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
+                .antMatchers(HttpMethod.GET, "/print_hash").permitAll()
+                .antMatchers("/refresh_token").authenticated()
+                .antMatchers("/create_account").permitAll()
                 .antMatchers("/**").denyAll()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(authConfig), converter))
