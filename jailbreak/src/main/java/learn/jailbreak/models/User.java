@@ -1,9 +1,11 @@
 package learn.jailbreak.models;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,7 +53,19 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        SimpleGrantedAuthority authority = null;
+        switch(roleId){
+            case 1:
+                authority = new SimpleGrantedAuthority("USER");
+                break;
+            case 2:
+                authority = new SimpleGrantedAuthority("ADMIN");
+                break;
+        }
+
+        ArrayList<GrantedAuthority> result = new ArrayList<>();
+        result.add(authority);
+        return result;
     }
 
     @Override
@@ -65,17 +79,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

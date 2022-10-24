@@ -17,14 +17,10 @@ public class JwtConverter {
     private final int EXPIRATION_MINUTES = 15;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
     public String getTokenFromUser(User user) {
-        String authorities = user.getAuthorities().stream()
-                .map(i -> i.getAuthority())
-                .collect(Collectors.joining(","));
-
         return Jwts.builder()
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
-                .claim("app_user_id", user.getUserId())
+                .claim("user_id", user.getUserId())
                 .claim("role_id", user.getRoleId())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLIS))
                 .signWith(key)

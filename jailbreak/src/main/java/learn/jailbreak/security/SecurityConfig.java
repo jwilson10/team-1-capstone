@@ -31,7 +31,7 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET, "/print_hash").permitAll()
+                .antMatchers(HttpMethod.GET, "/print_hash").hasAnyAuthority("USER")
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/create_account").permitAll()
                 .antMatchers("/**").denyAll()
