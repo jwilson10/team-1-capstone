@@ -61,4 +61,17 @@ public class UserRepositoryTest {
         //Assert
         assertNull(repository.findById(1).orElse(null));
     }
+
+    @Test
+    void shouldFindByUsername(){
+        //Arrange
+        String username = "admin";
+
+        //Act
+        User user = repository.findByUsername(username);
+
+        //Assert
+        assertEquals(username, user.getUsername());
+        assertEquals(1, user.getUserId());
+    }
 }
