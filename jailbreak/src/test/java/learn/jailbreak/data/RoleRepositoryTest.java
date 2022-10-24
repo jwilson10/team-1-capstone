@@ -51,4 +51,12 @@ class RoleRepositoryTest {
         assertNotNull(returned);
         assertEquals(toUpdate.getRoleName(), actual.getRoleName());
     }
+
+    @Test
+    void shouldDeleteRole(){
+        //Act
+        repository.deleteById(1);
+        //Assert
+        assertNull(repository.findById(1).orElse(null));
+    }
 }

@@ -65,4 +65,12 @@ class InventorySlotRepositoryTest {
         assertNotNull(returned);
         assertEquals(toUpdate.getQuantity(), actual.getQuantity());
     }
+
+    @Test
+    void shouldDeleteInventorySlot(){
+        //Act
+        repository.deleteById(1);
+        //Assert
+        assertNull(repository.findById(1).orElse(null));
+    }
 }

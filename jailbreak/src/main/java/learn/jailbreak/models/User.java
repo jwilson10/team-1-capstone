@@ -1,6 +1,7 @@
 package learn.jailbreak.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -11,6 +12,18 @@ public class User {
     private String userPassword;
     @Column(name="role_id")
     private int roleId;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name="user_id", insertable = false, updatable = false, nullable = false)
+    private List<Game> games;
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 
     public int getUserId() {
         return userId;

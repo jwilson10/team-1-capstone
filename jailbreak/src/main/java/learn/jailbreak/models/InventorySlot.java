@@ -7,8 +7,10 @@ public class InventorySlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
+
     @Column(name="game_id")
     private int gameId;
+
     @Column(name="resource_id")
     private int resourceId;
     private int quantity;

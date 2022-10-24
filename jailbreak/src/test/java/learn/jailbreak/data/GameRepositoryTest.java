@@ -62,5 +62,17 @@ class GameRepositoryTest {
         assertEquals(toUpdate.getCharacterName(), actual.getCharacterName());
     }
 
+    @Test
+    void shouldDeleteGame(){
+        //Arrange
+
+
+        //Act
+        repository.deleteById(1);
+
+        //Assert
+        assertNull(repository.findById(1).orElse(null));
+    }
+
 
 }

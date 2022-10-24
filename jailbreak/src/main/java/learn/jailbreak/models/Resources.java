@@ -1,9 +1,7 @@
 package learn.jailbreak.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Resources {
@@ -13,6 +11,18 @@ public class Resources {
     private String resourceName;
     private int resourceValue;
     private int resourceDefaultIncRate;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "resource_id", insertable = false, updatable = false, nullable = false)
+    private List<InventorySlot> inventorySlotList;
+
+    public List<InventorySlot> getInventorySlotList() {
+        return inventorySlotList;
+    }
+
+    public void setInventorySlotList(List<InventorySlot> inventorySlotList) {
+        this.inventorySlotList = inventorySlotList;
+    }
 
     public int getResourceId() {
         return resourceId;

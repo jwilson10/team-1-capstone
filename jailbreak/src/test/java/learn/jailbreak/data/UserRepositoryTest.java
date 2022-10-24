@@ -52,4 +52,13 @@ public class UserRepositoryTest {
         assertNotNull(returned);
         assertEquals(toUpdate.getUsername(), actual.getUsername());
     }
+
+    @Test
+    void shouldDeleteUser(){
+        //Act
+        repository.deleteById(1);
+
+        //Assert
+        assertNull(repository.findById(1).orElse(null));
+    }
 }

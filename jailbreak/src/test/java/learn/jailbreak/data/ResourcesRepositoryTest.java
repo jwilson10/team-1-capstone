@@ -67,4 +67,16 @@ class ResourcesRepositoryTest {
         assertNotNull(returned);
         assertEquals(toUpdate.getResourceName(), actual.getResourceName());
     }
+
+    @Test
+    void shouldDeleteResources(){
+        //Arrange
+
+
+        //Act
+        repository.deleteById(1);
+
+        //Assert
+        assertNull(repository.findById(1).orElse(null));
+    }
 }
