@@ -1,0 +1,85 @@
+package learn.jailbreak.domain;
+
+import learn.jailbreak.data.GameRepository;
+import learn.jailbreak.data.UserRepository;
+import learn.jailbreak.models.Game;
+import learn.jailbreak.models.User;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class GameService {
+
+    private final GameRepository gameRepository;
+
+    private final UserRepository userRepository;
+
+    public GameService(GameRepository gameRepository, UserRepository userRepository) {
+        this.gameRepository = gameRepository;
+        this.userRepository = userRepository;
+    }
+
+
+    //TODO: Create Game
+
+    public Result<Game> createGame(Game game){
+        Result<Game> result = validate(game);
+        if(!result.isSuccess()){
+            return result;
+        }
+        Game newGame = gameRepository.save(game);
+        if(newGame == null){
+            result.addMessage("Unable to create game.");
+        } else{
+            result.setPayload(newGame);
+        }
+        return result;
+    }
+
+    //TODO: Get game
+    //TODO: Update character name
+    //TODO: Delete game
+
+    private Result<Game> validate(Game game){
+        Result<Game> result = new Result<>();
+        if(game == null){
+            result.addMessage("Game cannot be null.");
+            return result;
+        }
+        result = validateName(game);
+        if(result.isSuccess()){
+            result = validateGameNumber(game);
+        }
+        return result;
+    }
+
+    private Result<Game> validateGameNumber(Game game) {
+        Result<Game> result = new Result<>();
+        User user = userRepository.findById(game.getUserId()).orElse(null);
+        if(user == null){
+            result.addMessage("User not found.");
+            return result;
+        }
+        List<Game> games = user.getGames();
+        if(games.size() == 3){
+            result.addMessage("Maximum games already reached.");
+            return result;
+        }
+        for(Game g : games){
+            if(game.getGameNumber() == g.getGameNumber()){
+                result.addMessage("Game already exists in slot.");
+                return result;
+            }
+        }
+        return result;
+    }
+
+    private Result<Game> validateName(Game game){
+        Result<Game> result = new Result<>();
+        if(game.getCharacterName() == null || game.getCharacterName().isBlank()){
+            result.addMessage("Character name is required.");
+        }
+        return result;
+    }
+}
