@@ -56,10 +56,10 @@ public class User implements UserDetails {
         SimpleGrantedAuthority authority = null;
         switch(roleId){
             case 1:
-                authority = new SimpleGrantedAuthority("USER");
+                authority = new SimpleGrantedAuthority("ADMIN");
                 break;
             case 2:
-                authority = new SimpleGrantedAuthority("ADMIN");
+                authority = new SimpleGrantedAuthority("USER");
                 break;
         }
 
