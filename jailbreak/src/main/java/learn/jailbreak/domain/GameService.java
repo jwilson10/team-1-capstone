@@ -43,14 +43,13 @@ public class GameService {
     }
 
     //TODO: Get game
-    //TODO: Update character name
+
+    public Result<Game> findGame(Game game) {
+        return updateValidation(game);
+    }
 
     public Result<Game> update(Game game){
-        Result<Game> result = validate(game);
-        if(!result.isSuccess()){
-            return result;
-        }
-        result = updateValidation(game);
+        Result<Game> result = updateValidation(game);
         if(result.isSuccess()){
             gameRepository.save(game);
         }
@@ -82,7 +81,10 @@ public class GameService {
     }
 
     private Result<Game> updateValidation(Game game){
-        Result<Game> result = new Result<>();
+        Result<Game> result = validate(game);
+        if(!result.isSuccess()){
+            return result;
+        }
         User user = userRepository.findById(game.getUserId()).orElse(null);
         if(user == null){
             result.addMessage("User not found.");

@@ -172,6 +172,31 @@ class GameServiceTest {
         assertEquals("Game cannot be null.", result.getMessages().get(0));
     }
 
+    @Test
+    void shouldFindExistingGame(){
+        User user = createValidUser();
+        Game game = createValidGame();
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.findGame(game);
+
+        assertTrue(result.isSuccess());
+        assertEquals("Test", result.getPayload().getCharacterName());
+    }
+
+    @Test
+    void shouldNotFindNonExistentGame(){
+        User user = createValidUser();
+        Game game = createValidGame();
+        game.setGameNumber(1);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.findGame(game);
+
+        assertFalse(result.isSuccess());
+        assertEquals("Game not found.", result.getMessages().get(0) );
+    }
+
     private static Game createValidGame(){
         Game game = new Game();
         game.setCharacterName("Test");
