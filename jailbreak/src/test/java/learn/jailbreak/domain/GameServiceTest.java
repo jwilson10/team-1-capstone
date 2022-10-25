@@ -197,8 +197,34 @@ class GameServiceTest {
         assertEquals("Game not found.", result.getMessages().get(0) );
     }
 
+    @Test
+    void shouldDeleteExistingGame(){
+        User user = createValidUser();
+        Game game = createValidGame();
+        game.setGameId(0);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.deleteGame(game);
+        assertTrue(result.isSuccess());
+        assertEquals(1, result.getPayload().getGameId());
+    }
+
+    @Test
+    void shouldNotDeleteNonExistentGame(){
+        User user = createValidUser();
+        Game game = createValidGame();
+        game.setGameNumber(3);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.deleteGame(game);
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Game not found.", result.getMessages().get(0));
+    }
+
     private static Game createValidGame(){
         Game game = new Game();
+        game.setGameId(1);
         game.setCharacterName("Test");
         game.setUserId(1);
         game.setGameNumber(2);

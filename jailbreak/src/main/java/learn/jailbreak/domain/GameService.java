@@ -42,8 +42,6 @@ public class GameService {
         return result;
     }
 
-    //TODO: Get game
-
     public Result<Game> findGame(Game game) {
         return updateValidation(game);
     }
@@ -57,6 +55,14 @@ public class GameService {
     }
 
     //TODO: Delete game
+
+    public Result<Game> deleteGame(Game game){
+        Result<Game> result = updateValidation(game);
+        if(result.isSuccess()){
+            gameRepository.deleteById(result.getPayload().getGameId());
+        }
+        return result;
+    }
 
     private Result<Game> validate(Game game){
         Result<Game> result = new Result<>();
