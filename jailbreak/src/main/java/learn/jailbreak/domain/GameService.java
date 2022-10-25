@@ -20,11 +20,16 @@ public class GameService {
         this.userRepository = userRepository;
     }
 
-
-    //TODO: Create Game
-
     public Result<Game> createGame(Game game){
         Result<Game> result = validate(game);
+        if(!result.isSuccess()){
+            return result;
+        }
+        result = validateGameNumber(game);
+        if(!result.isSuccess()){
+            return result;
+        }
+        result = validateGameNumber(game);
         if(!result.isSuccess()){
             return result;
         }
@@ -39,6 +44,19 @@ public class GameService {
 
     //TODO: Get game
     //TODO: Update character name
+
+    public Result<Game> update(Game game){
+        Result<Game> result = validate(game);
+        if(!result.isSuccess()){
+            return result;
+        }
+        result = updateValidation(game);
+        if(result.isSuccess()){
+            gameRepository.save(game);
+        }
+        return result;
+    }
+
     //TODO: Delete game
 
     private Result<Game> validate(Game game){
@@ -48,9 +66,37 @@ public class GameService {
             return result;
         }
         result = validateName(game);
-        if(result.isSuccess()){
-            result = validateGameNumber(game);
+        if(game.getGameNumber() < 1 || game.getGameNumber() > 3){
+            result.addMessage("Invalid game number.");
+            return result;
         }
+        return result;
+    }
+
+    private Result<Game> validateName(Game game){
+        Result<Game> result = new Result<>();
+        if(game.getCharacterName() == null || game.getCharacterName().isBlank()){
+            result.addMessage("Character name is required.");
+        }
+        return result;
+    }
+
+    private Result<Game> updateValidation(Game game){
+        Result<Game> result = new Result<>();
+        User user = userRepository.findById(game.getUserId()).orElse(null);
+        if(user == null){
+            result.addMessage("User not found.");
+            return result;
+        }
+        List<Game> games = user.getGames();
+        for(Game g : games){
+            if(g.getGameNumber() == game.getGameNumber()){
+                game.setGameId(g.getGameId());
+                result.setPayload(game);
+                return result;
+            }
+        }
+        result.addMessage("Game not found.");
         return result;
     }
 
@@ -71,14 +117,6 @@ public class GameService {
                 result.addMessage("Game already exists in slot.");
                 return result;
             }
-        }
-        return result;
-    }
-
-    private Result<Game> validateName(Game game){
-        Result<Game> result = new Result<>();
-        if(game.getCharacterName() == null || game.getCharacterName().isBlank()){
-            result.addMessage("Character name is required.");
         }
         return result;
     }

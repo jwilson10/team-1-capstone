@@ -31,14 +31,16 @@ class GameServiceTest {
     @Test
     void shouldCreateGame() {
         Game game = createValidGame();
+        game.setGameNumber(1);
 
         Game expected = new Game();
         expected.setCharacterName("Test");
         expected.setUserId(1);
-        expected.setGameNumber(2);
+        expected.setGameNumber(1);
         expected.setGameId(3);
 
         when(gameRepository.save(game)).thenReturn(expected);
+        when(userRepository.findById(1)).thenReturn(Optional.of(createValidUser()));
 
         Result<Game> result = gameService.createGame(game);
         assertTrue(result.isSuccess());
@@ -47,8 +49,8 @@ class GameServiceTest {
 
     @Test
     void shouldNotCreateGameWithNoCharacterName(){
-        Game game = new Game();
-
+        Game game = createValidGame();
+        game.setCharacterName("");
 
         when(gameRepository.save(game)).thenReturn(game);
 
@@ -56,6 +58,8 @@ class GameServiceTest {
 
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Character name is required.", result.getMessages().get(0));
     }
 
     @Test
@@ -66,6 +70,8 @@ class GameServiceTest {
 
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Game cannot be null.", result.getMessages().get(0));
     }
 
     @Test
@@ -77,6 +83,8 @@ class GameServiceTest {
 
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("User not found.", result.getMessages().get(0));
     }
 
     @Test
@@ -89,7 +97,79 @@ class GameServiceTest {
         Result<Game> result = gameService.createGame(game);
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Game already exists in slot.", result.getMessages().get(0));
 
+    }
+
+    @Test
+    void shouldNotCreateInvalidGameNumber(){
+        Game game = createValidGame();
+        game.setGameNumber(9);
+        User user = createValidUser();
+        when(userRepository.findById(game.getUserId())).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.createGame(game);
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Invalid game number.", result.getMessages().get(0));
+
+    }
+
+    @Test
+    void shouldNotCreateTooManyGames(){
+        Game game = createValidGame();
+        game.setGameNumber(1);
+        User user = createValidUser();
+        List<Game> games = user.getGames();
+        Game game2 = createValidGame();
+        game.setGameNumber(2);
+        Game game3 = createValidGame();
+        game.setGameNumber(3);
+        games.add(game2);
+        games.add(game3);
+        user.setGames(games);
+        when(userRepository.findById(game.getUserId())).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.createGame(game);
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Maximum games already reached.", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldUpdateValidGame(){
+        User user = createValidUser();
+        Game game = createValidGame();
+        game.setCharacterName("Updated");
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.update(game);
+        assertTrue(result.isSuccess());
+        assertNotNull(result.getPayload());
+        assertEquals("Updated", result.getPayload().getCharacterName());
+    }
+
+    @Test
+    void shouldNotUpdateNonExistentGame(){
+        User user = createValidUser();
+        Game game = createValidGame();
+        game.setGameNumber(1);
+        game.setCharacterName("Updated");
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+
+        Result<Game> result = gameService.update(game);
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Game not found.", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotUpdateNullGame(){
+        Result<Game> result = gameService.update(null);
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Game cannot be null.", result.getMessages().get(0));
     }
 
     private static Game createValidGame(){
