@@ -6,6 +6,7 @@ import learn.jailbreak.models.Game;
 import learn.jailbreak.models.User;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +19,20 @@ public class GameService {
     public GameService(GameRepository gameRepository, UserRepository userRepository) {
         this.gameRepository = gameRepository;
         this.userRepository = userRepository;
+    }
+
+    public Result<List<Game>> findAllForUser(String username){
+        User user = userRepository.findByUsername(username);
+        List<Game> gameList = new ArrayList<>();
+        Result<List<Game>> result = new Result<>();
+        if(user == null){
+            result.addMessage("User Not Found.");
+            return result;
+        }
+
+        gameList = user.getGames();
+        result.setPayload(gameList);
+        return result;
     }
 
     public Result<Game> createGame(Game game){

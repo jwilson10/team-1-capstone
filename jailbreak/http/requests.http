@@ -9,4 +9,19 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/print_hash HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwiYXBwX3VzZXJfaWQiOjIsInJvbGVfaWQiOjIsImV4cCI6MTY2NjY0NTEzMX0.vPlp6EoPiL2VEsLAON5q4fjc767gSJ2tyFYUZ67WpCQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2NzA4OTcwfQ.ZftMaHS2-4HBv5XVsvM-9AN5rstAr25dK3t3u-NMsEA
+
+###
+
+POST http://localhost:8080/create_account HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "a!12345678"
+}
+
+###
+
+GET http://localhost:8080/game HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2NzI2MDY1fQ.Dpvjf3yavNxYdzzeAGBKQKq4K-Khs4uCU4M3Gc7PWOM
