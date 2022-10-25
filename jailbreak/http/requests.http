@@ -1,0 +1,12 @@
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+###
+
+GET http://localhost:8080/print_hash HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwiYXBwX3VzZXJfaWQiOjIsInJvbGVfaWQiOjIsImV4cCI6MTY2NjY0NTEzMX0.vPlp6EoPiL2VEsLAON5q4fjc767gSJ2tyFYUZ67WpCQ
