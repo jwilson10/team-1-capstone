@@ -36,6 +36,7 @@ public class InventorySlotService {
         if(result.isSuccess()){
             result.setResultType(ResultType.SUCCESS);
             InventorySlot newSlot = inventorySlotRepository.save(inventorySlot);
+            result.setPayload(newSlot);
         }
         return result;
     }
