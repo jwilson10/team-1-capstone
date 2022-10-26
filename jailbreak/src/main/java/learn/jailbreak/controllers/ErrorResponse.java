@@ -1,6 +1,7 @@
 package learn.jailbreak.controllers;
 
 import learn.jailbreak.domain.Result;
+import learn.jailbreak.domain.ResultType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,9 +17,14 @@ public class ErrorResponse {
     public String getMessage(){
         return message;
     }
-    //TODO: Implement build
+
     public static <T> ResponseEntity<Object> build(Result<T> result){
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        return null;
+        if(result.getResultType() == null || result.getResultType() == ResultType.INVALID){
+            status = HttpStatus.BAD_REQUEST;
+        } else if (result.getResultType() == ResultType.INVALID){
+            status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(result.getMessages(), status);
     }
 }

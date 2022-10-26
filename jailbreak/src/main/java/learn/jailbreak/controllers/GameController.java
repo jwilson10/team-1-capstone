@@ -33,7 +33,7 @@ public class GameController {
         List<Game> games = service.findAllForUser(user.getUsername()).getPayload();
         return games;
     }
-    //TODO: Implement create game
+
     @PostMapping
     public ResponseEntity<Object> createGame(@AuthenticationPrincipal User user, @RequestBody Game game){
         game.setUserId(user.getUserId()); //in case someone tries doing something to someone else's game..
