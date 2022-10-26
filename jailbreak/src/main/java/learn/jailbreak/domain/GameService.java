@@ -62,6 +62,10 @@ public class GameService {
         return result;
     }
 
+    public Game findGameById(int id){
+        return gameRepository.findById(id).orElse(null);
+    }
+
     public Result<Game> findGame(Game game) {
         return updateValidation(game);
     }

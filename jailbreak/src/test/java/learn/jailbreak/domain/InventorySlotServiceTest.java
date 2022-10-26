@@ -122,6 +122,25 @@ class InventorySlotServiceTest {
         assertEquals("Amount cannot be negative.", result.getMessages().get(0));
     }
 
+    @Test
+    void shouldUpdateValidInventorySlot() {
+        Game game = createValidGame();
+        InventorySlot inventorySlot = createValidInventorySlot();
+        inventorySlot.setQuantity(100);
+        inventorySlot.setSlotId(1);
+        Resources resources = createValidResources();
+        when(resourcesRepository.findById(1)).thenReturn(Optional.of(resources));
+        when(gameRepository.findById(1)).thenReturn(Optional.of(game));
+        when(inventorySlotRepository.save(inventorySlot)).thenReturn(inventorySlot);
+
+        Result<InventorySlot> result = inventorySlotService.create(inventorySlot);
+
+        assertTrue(result.isSuccess());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
+        assertEquals(1, result.getPayload().getSlotId());
+
+    }
+
     private static InventorySlot createValidInventorySlot(){
         InventorySlot inventorySlot = new InventorySlot();
         inventorySlot.setQuantity(1);

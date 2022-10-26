@@ -26,10 +26,7 @@ public class InventorySlotService {
         this.gameRepository = gameRepository;
     }
 
-    //TODO: Find All Inventory Slots
-
-
-    //TODO: Create Inventory Slot
+    //TODO: Find All Inventory Slots? -- I don't know if we need this
 
     public Result<InventorySlot> create(InventorySlot inventorySlot){
         Result<InventorySlot> result = validate(inventorySlot);
@@ -41,10 +38,14 @@ public class InventorySlotService {
         return result;
     }
 
-    //TODO: Decrease Quantity
+    //TODO: To delete or not delete?
+    public Result<InventorySlot> update(InventorySlot inventorySlot){
+        Result<InventorySlot> result = validate(inventorySlot);
+        if(result.isSuccess()){
 
-
-    //TODO: Increase Quantity
+        }
+        return result;
+    }
 
     private Result<InventorySlot> validate(InventorySlot inventorySlot) {
         Result<InventorySlot> result = new Result<>();

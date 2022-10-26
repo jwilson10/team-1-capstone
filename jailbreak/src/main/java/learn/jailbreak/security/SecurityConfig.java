@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/print_hash").hasAnyAuthority("USER")
                 .antMatchers("/game").authenticated()
                 .antMatchers("/game/*").authenticated()
+                .antMatchers("/inventory").authenticated()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/create_account").permitAll()
                 .antMatchers("/**").denyAll()
