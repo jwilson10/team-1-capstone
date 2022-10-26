@@ -3,8 +3,39 @@ import "./GameScreenMain.css"
 import ActionButtons1 from "./ActionButtons1";
 import ResourceDisplay from "./ResourceDisplay";
 import MessagesDisplay from "./MessagesDisplay";
+import { useEffect } from "react";
+import { useState } from "react";
 
-function GameScreenMain(){
+function GameScreenMain(){    
+    const [updateState, setUpdateState] = useState(
+        {number: 0}
+        );
+    const [resourceUpdate, setResourceUpdate] = useState({});
+
+    const UPDATE_DELAY_IN_MS = 1500;
+
+    useEffect(() =>{
+        setInterval(update, UPDATE_DELAY_IN_MS);
+    }, []);
+
+    function update(){
+        setUpdateState(previousState => {
+            const newState = {...previousState};
+            newState.number += 1;
+            return newState;
+        });
+    }
+
+    function updateResource(evt){
+        const resourceName = evt.target.getAttribute("resourceName"); 
+        const amount = evt.target.getAttribute("amount"); 
+
+        setResourceUpdate({
+            resourceName: resourceName,
+            amount: amount
+        });
+    }
+
     return (
         <>
             <HomeLogoutNavbar></HomeLogoutNavbar>
@@ -14,7 +45,7 @@ function GameScreenMain(){
                     <div className="col col-10 game">
                         <div className="row">
                             <div className="col messages">
-                                <MessagesDisplay></MessagesDisplay>
+                                <MessagesDisplay updateState={updateState}></MessagesDisplay>
                             </div>
                             <div className="col col-9">
                                 <div className="col">
@@ -37,7 +68,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Basic</h6>
-                                                    <ActionButtons1></ActionButtons1>
+                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
                                                 </div>
                                             </div>
                                         </div>
@@ -46,7 +77,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Craft</h6>
-                                                    <ActionButtons1></ActionButtons1>
+                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +86,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Trade</h6>
-                                                    <ActionButtons1></ActionButtons1>
+                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
                                                 </div>
                                             </div>
                                         </div>
@@ -63,7 +94,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay></ResourceDisplay>
+                                                    <ResourceDisplay resourceUpdate={resourceUpdate}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>

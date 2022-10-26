@@ -1,33 +1,36 @@
+import { useState } from "react";
+import { useEffect } from "react";
 import "./MessagesDisplay.css"
 
-function MessagesDisplay(){
+function MessagesDisplay({updateState}){
+
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        //addMessageToFront("Messages Display: " + updateState.number);
+    }, [updateState]);
+
+    function addMessageToFront(message){
+        const newMessages = [...messages];
+        newMessages.unshift(message);
+
+        setMessages(newMessages);
+    }
+
+    function handleMessages(){
+        return(
+            <>
+                {messages.map((value, index) => 
+                    <p key={`${value}-${index}`} className={index === 0 ? "fade-in" : ""}>{value}</p>)}
+            </>
+        );
+    }
+
     return(
         <>
             <div id="overlay"></div>
             <div id="messages">
-                <p>Loooooooooooooooooooooooooooooooooooooooooooooooooong 
-                     Messsssssssssssssssssssssssssssssaaaaaaaaaaaaaaaage</p>
-                <p>Message 1</p>
-                <p>Message 1</p>
-                <p>Message 1</p>
-                <p>Message 1</p>
-                <p>Messacadscge 1sdcas</p>
-                <p>Messaasdge 1</p>
-                <p>Message cdadca1</p>
-                <p>Messdasage 1</p>
-                <p>Mescsacdadscge 1</p>
-                <p>sdasadasd ds1</p>
-                <p>Messcdaadsge 1</p>
-                <p>Messadacdascdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
-                <p>Messdasdasdage 1</p>
+                {handleMessages()}
             </div>
         </>
     );

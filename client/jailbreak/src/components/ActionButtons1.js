@@ -1,7 +1,7 @@
-function ActionButtons1(){
+function ActionButtons1({updateResource}){
     return(
         <>
-            <button className="btn btn-light mt-3">Gather Cheese</button>
+            <button className="btn btn-light mt-3" resourcename="cheese" amount="5" onClick={updateResource}>Gather Cheese</button>
             <button className="btn btn-light mt-3">Run</button>
             <button className="btn btn-light mt-3">Sleep</button>
         </>
