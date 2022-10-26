@@ -3,7 +3,7 @@ function CreateAccount() {
         <>
 
         <div className="text-body text-lg-center" class="container">
-        <h1 className=" d-flex align-items-center justify-content-center m-5">Log in</h1>
+        <h1 className=" d-flex align-items-center justify-content-center m-5">Create Account</h1>
         </div>
         <div className="container">
         </div>
