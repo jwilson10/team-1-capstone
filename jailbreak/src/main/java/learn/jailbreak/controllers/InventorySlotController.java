@@ -26,16 +26,32 @@ public class InventorySlotController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createInventorySlot(@AuthenticationPrincipal User user, @RequestBody InventorySlot inventorySlot){
+    public ResponseEntity<Object> createInventorySlot(@AuthenticationPrincipal User user, @RequestBody InventorySlot inventorySlot) {
         Game game = gameService.findGameById(inventorySlot.getGameId());
-        if(game == null){
+        if (game == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else if(game.getUserId() != user.getUserId()){
+        } else if (game.getUserId() != user.getUserId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        Result<InventorySlot> result= inventorySlotService.create(inventorySlot);
-        if(result.isSuccess()){
+        Result<InventorySlot> result = inventorySlotService.create(inventorySlot);
+        if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    //TODO: Ask corbin about minutiae
+    @PutMapping
+    public ResponseEntity<Object> updateInventorySlot(@AuthenticationPrincipal User user, @RequestBody InventorySlot inventorySlot){
+        Game game = gameService.findGameById(inventorySlot.getGameId());
+        if (game == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (game.getUserId() != user.getUserId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        Result<InventorySlot> result = inventorySlotService.create(inventorySlot);
+        if(result.isSuccess()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ErrorResponse.build(result);
     }

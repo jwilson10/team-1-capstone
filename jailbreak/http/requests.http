@@ -24,16 +24,54 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/game HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2NzI2MDY1fQ.Dpvjf3yavNxYdzzeAGBKQKq4K-Khs4uCU4M3Gc7PWOM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2ODE0MTc5fQ.waj8EJiNv19uWvsfzzZ8BPd0b0_LqiQINZaxBKrsmog
 
 ###
 
 POST http://localhost:8080/game HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2Nzk3MDExfQ.LFdfUBt-ouFv2ksAobxTLRGXPRGfhMMZYNPtuNoft58
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2Nzk5NDYzfQ.HzXphD5tM3wWfX6nBEWwRV8yJOOcDVFyqll6Frwhax4
 Content-Type: application/json
 
 {
-    "userId": 1,
+    "userId": 2,
     "characterName": "Buddy Holly",
     "gameNumber": 2
+}
+
+###
+GET http://localhost:8080/game/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2Nzk4OTcxfQ.HFTX932lhMRPK14ZLWXwuSWJqHySUxzqt-Dr6BbWp2Q
+
+###
+PUT http://localhost:8080/game HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2Nzk4OTcxfQ.HFTX932lhMRPK14ZLWXwuSWJqHySUxzqt-Dr6BbWp2Q
+Content-Type: application/json
+
+{
+    "userId": 2,
+    "characterName": "Ocean Man",
+    "gameNumber": 1
+}
+
+###
+DELETE http://localhost:8080/game HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2Nzk5NDYzfQ.HzXphD5tM3wWfX6nBEWwRV8yJOOcDVFyqll6Frwhax4
+Content-Type: application/json
+
+{
+    "userId": 2,
+    "characterName": "Buddy Holly",
+    "gameNumber": 2
+}
+
+###
+
+POST http://localhost:8080/inventory HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2ODE0MTc5fQ.waj8EJiNv19uWvsfzzZ8BPd0b0_LqiQINZaxBKrsmog
+Content-Type: application/json
+
+{
+    "gameId": 2,
+    "resourceId": 1,
+    "quantity": 2
 }
