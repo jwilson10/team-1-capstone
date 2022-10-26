@@ -7,6 +7,16 @@ public class Result<T> {
     private List<String> messages = new ArrayList<>();
     private T payload;
 
+    private ResultType resultType;
+
+    public ResultType getResultType() {
+        return resultType;
+    }
+
+    public void setResultType(ResultType resultType) {
+        this.resultType = resultType;
+    }
+
     public List<String> getMessages() {
         return messages;
     }

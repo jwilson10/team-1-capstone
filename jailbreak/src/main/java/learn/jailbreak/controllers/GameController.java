@@ -1,9 +1,12 @@
 package learn.jailbreak.controllers;
 
 import learn.jailbreak.domain.GameService;
+import learn.jailbreak.domain.Result;
 import learn.jailbreak.domain.UserService;
 import learn.jailbreak.models.Game;
 import learn.jailbreak.models.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +35,13 @@ public class GameController {
     }
     //TODO: Implement create game
     @PostMapping
-    public List<Game> createGame(@AuthenticationPrincipal User user, @RequestBody Game game){
-        return new ArrayList<Game>();
+    public ResponseEntity<Object> createGame(@AuthenticationPrincipal User user, @RequestBody Game game){
+        game.setUserId(user.getUserId()); //in case someone tries doing something to someone else's game..
+        Result<Game> result = service.createGame(game);
+        if(result.isSuccess()){
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
     }
 
 
