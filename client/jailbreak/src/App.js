@@ -17,24 +17,24 @@ function App() {
 
     <Router>
       <Switch>
-        {/* <Route>
+        <Route exact path="/">
           <StartScreen />
-        </Route> */}
-        <Route>
+        </Route>
+        <Route path="/login">
           <LoginScreen />
-        </Route> 
-        {/* <Route>
+        </Route>
+        <Route path="/create-account">
           <CreateAccount />
-        </Route> */}
-        {/* <Route>
+        </Route>
+        <Route path="/create-game">
           <CreateGame />
         </Route>
-        <Route>
+        <Route path="/all-games">
           <DisplayGames />
         </Route>
-        <Route>
+        <Route path="/game">
           <GameScreenMain />
-        </Route> */}
+        </Route>
       </Switch>
     </Router>
   );

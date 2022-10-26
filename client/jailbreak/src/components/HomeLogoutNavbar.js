@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function HomeLogoutNavbar(){
     return (
         <>
@@ -5,7 +7,7 @@ function HomeLogoutNavbar(){
                 <div className="container-fluid">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <button className="btn btn-primary">Home</button>
+                            <Link className="btn btn-primary" to="/">Home</Link>
                         </li>
                     </ul>
 
