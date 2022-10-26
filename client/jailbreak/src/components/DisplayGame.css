@@ -1,0 +1,17 @@
+/* div{
+    border:1px solid black;
+} */
+
+.toward-center{
+    position: relative;
+    top: 7vh;
+}
+
+.game-card{
+    height: 60vh;
+    border:2px solid black;
+}
+
+h1{
+    text-align: center;
+}

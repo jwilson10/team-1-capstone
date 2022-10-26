@@ -1,0 +1,32 @@
+/* div{
+    border:1px solid black;
+} */
+
+/* p{
+    border:1px solid black;
+} */
+
+.messages{
+    height: 80vh;
+}
+
+.toward-center{
+    position: relative;
+    top: 5vh;
+}
+
+.action{
+    height: 60vh;
+}
+
+.resources{
+    height: 60vh;
+}
+
+.action-card{
+    height: 100%;
+}
+
+.nav-row{
+    height: 10vh;
+}
