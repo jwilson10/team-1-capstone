@@ -34,12 +34,39 @@ public class GameController {
         return games;
     }
 
+    @GetMapping("/{gameNumber}")
+    public ResponseEntity<Object> findGame(@AuthenticationPrincipal User user, @PathVariable int gameNumber){
+        Game game = new Game();
+        game.setGameNumber(gameNumber);
+        game.setCharacterName("Dummy Name");
+        game.setUserId(user.getUserId());
+        Result<Game> result = service.findGame(game);
+        if(result == null || result.getPayload() == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(result.getPayload());
+    }
+
     @PostMapping
     public ResponseEntity<Object> createGame(@AuthenticationPrincipal User user, @RequestBody Game game){
-        game.setUserId(user.getUserId()); //in case someone tries doing something to someone else's game..
+        if(user.getUserId() != game.getUserId()){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         Result<Game> result = service.createGame(game);
         if(result.isSuccess()){
             return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> updateGame(@AuthenticationPrincipal User user, @RequestBody Game game){
+        if(user.getUserId() != game.getUserId()){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        Result<Game> result = service.update(game);
+        if(result.isSuccess()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ErrorResponse.build(result);
     }

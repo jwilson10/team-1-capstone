@@ -123,7 +123,11 @@ public class GameService {
         List<Game> games = user.getGames();
         for(Game g : games){
             if(g.getGameNumber() == game.getGameNumber()){
+                if(game.getCharacterName().equalsIgnoreCase("Dummy Name")){
+                    game = g;
+                }
                 game.setGameId(g.getGameId());
+                game.setInventorySlotList(g.getInventorySlotList());
                 result.setPayload(game);
                 result.setResultType(ResultType.SUCCESS);
                 return result;

@@ -25,3 +25,15 @@ Content-Type: application/json
 
 GET http://localhost:8080/game HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2NzI2MDY1fQ.Dpvjf3yavNxYdzzeAGBKQKq4K-Khs4uCU4M3Gc7PWOM
+
+###
+
+POST http://localhost:8080/game HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2Nzk3MDExfQ.LFdfUBt-ouFv2ksAobxTLRGXPRGfhMMZYNPtuNoft58
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "characterName": "Buddy Holly",
+    "gameNumber": 2
+}
