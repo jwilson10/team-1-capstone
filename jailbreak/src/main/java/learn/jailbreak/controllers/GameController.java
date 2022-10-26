@@ -71,5 +71,17 @@ public class GameController {
         return ErrorResponse.build(result);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Object> deleteGame(@AuthenticationPrincipal User user, @RequestBody Game game){
+        if(user.getUserId() != game.getUserId()){
+            return  new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        Result<Game> result = service.deleteGame(game);
+        if(result.isSuccess()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
+    }
+
 
 }
