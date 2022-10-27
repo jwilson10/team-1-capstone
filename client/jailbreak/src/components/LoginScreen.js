@@ -6,6 +6,8 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
+    
+
     const history = useHistory();
 
     function handleChange() {
@@ -44,7 +46,7 @@ if (response.status === 200) {
         </div>
         <div className="container">
         </div>
-         <form onSubmit={handleSubmit()}>
+         <form onSubmit={handleSubmit}>
          <div className="d-grid gap-2 col-6 mx-auto">
                  <label htmlFor="username" className="form-label d-flex align-items-center justify-content-center"> Enter Username</label>
                  <input type="text" className="form-control" id="username" name="username"></input>
