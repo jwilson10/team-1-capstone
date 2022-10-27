@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {useHistory} from "react-router-dom";
 import Error from "./Error";
-import AuthContext from "../context/AuthContext";
 
 function Login() {
 
@@ -10,9 +9,11 @@ function Login() {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
     
-    const auth = useContext(AuthContext);
 
     const history = useHistory();
+
+    function handleChange() {
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -32,7 +33,6 @@ function Login() {
 if (response.status === 200) {
     const { jwt_token } = await response.json();
     console.log(jwt_token);
-    auth.login(jwt_token);
     history.push("/all-games");
   } else if (response.status === 403) {
     setErrors(["Login failed."]);
