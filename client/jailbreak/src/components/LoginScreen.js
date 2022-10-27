@@ -4,6 +4,7 @@ import {useHistory} from "react-router-dom";
 import Error from "./Error";
 import AuthContext from "../context/AuthContext";
 
+//Dummy commit message
 function Login() {
 
     const [username, setUsername] = useState("");
