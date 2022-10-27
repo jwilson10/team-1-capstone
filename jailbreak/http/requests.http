@@ -75,3 +75,8 @@ Content-Type: application/json
     "resourceId": 1,
     "quantity": 2
 }
+
+###
+
+GET http://localhost:8080/resources/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2ODM1MDc0fQ.XaaEXiomct7MgVx2TZx__hWbLgxbvDEdAAe_v_o_2SU
