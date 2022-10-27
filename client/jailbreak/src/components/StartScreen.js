@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 
 function StartScreen() {
-
     return (
         <>
             <div>

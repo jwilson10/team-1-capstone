@@ -17,9 +17,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        {/* <Route exact path="/">
+        <Route exact path="/">
           <StartScreen />
-        </Route> */}
+        </Route>
         <Route exact path="/">
           <LoginScreen />
         </Route>

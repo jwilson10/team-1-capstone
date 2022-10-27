@@ -2,15 +2,13 @@ import { Link } from "react-router-dom";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
 
-
 function CreateAccount() {
     return (
         <>
 
         <div className="text-body text-lg-center" class="container">
-        <h1 className=" d-flex align-items-center justify-content-center m-5">Create Account</h1>
-        </div>
-    
+        <h1 className=" d-flex align-items-center justify-content-center m-5">Register Account</h1>
+        </div>    
          <form>
              <div className="d-grid gap-2 col-6 mx-auto">
                  <label htmlFor="username" className="form-label d-flex align-items-center justify-content-center"> Enter Username</label>
@@ -23,12 +21,10 @@ function CreateAccount() {
         </form>
         <div className="d-grid gap-2 col-6 mx-auto">
         <Link to="/CreateAccount" className="row justify-content-center  mt-5 ">
-                        <button className="btn btn-dark" type="submit">Create</button>
+                        <button className="btn btn-dark" type="submit">Sign Up</button>
                     </Link>
              </div>
         </>
     )
-
-
 }
 export default CreateAccount;
