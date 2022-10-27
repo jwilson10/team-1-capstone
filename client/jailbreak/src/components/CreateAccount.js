@@ -53,7 +53,7 @@ if (response.status === 201) {
                  <input type="text" className="form-control" id="password" name="password" onChange={(event) => setPassword(event.target.value)}></input>
              </div>
         <div className="d-grid gap-2 col-6 mx-auto">
-            <button className="btn btn-dark" type="submit">Sign Up</button>
+            <button className="btn btn-dark m-5" type="submit">Sign Up</button>
         </div>
         </form>
         </>
