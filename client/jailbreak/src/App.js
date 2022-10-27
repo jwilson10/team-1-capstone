@@ -14,16 +14,6 @@ import GameScreenMain from "./components/GameScreenMain";
 import Error from "./components/Error";
 import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
-     
-
-/*
-  At the beginning of the login function, store the token parameter in localStorage using the localStorage.setItem method.
-
-  At the end of the logout function, remove the token from localStorage using the localStorage.removeItem method.
-
-  Add an if statement right before the main return to return null if the restoreLoginAttemptCompleted state variable is false. This prevents any of the application routes from rendering until the useEffect hook callback function that's responsible for attempting to restore the user's login state has had a chance to completely execute.
-
-*/
 
 const LOCAL_STORAGE_TOKEN_KEY = "jailbreakToken";
 
