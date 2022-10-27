@@ -16,7 +16,10 @@ function ResourceDisplay({resourceUpdate}){
         if(found){
             found.amount = parseInt(found.amount) + parseInt(resourceUpdate.amount);
         }else{
-            console.log("Resource not present");
+            newResources[newResources.length] = {
+                resourceName: resourceUpdate.resourceName,
+                amount: resourceUpdate.amount
+            };
         }
 
         setResources(newResources);
