@@ -19,9 +19,11 @@ function App() {
   const [user, setUser] = useState(null);
 
   const login = (token) => {
+    console.log("Should log in!");
+
     const { sub: username, role_id: role } = jwtDecode(token);
   
-    const roleString = "NONE";
+    let roleString = "NONE";
     if(role === 1){
       roleString = "ADMIN"
     }else if(role === 2){
@@ -42,6 +44,8 @@ function App() {
   };
     
   const logout = () => {
+    console.log("Should log in!");
+
     setUser(null);
   };
   
