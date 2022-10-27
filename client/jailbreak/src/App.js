@@ -20,10 +20,10 @@ function App() {
         <Route exact path="/">
           <StartScreen />
         </Route>
-        <Route path="/">
+        <Route exact path="/login">
           <LoginScreen />
         </Route>
-        <Route exact path="/">
+        <Route exact path="/create-account">
           <CreateAccount />
         </Route>
         <Route path="/create-game">

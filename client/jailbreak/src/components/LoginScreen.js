@@ -29,7 +29,7 @@ function Login() {
 if (response.status === 200) {
     const { jwt_token } = await response.json();
     console.log(jwt_token);
-    history.push("/");
+    history.push("/all-games");
   } else if (response.status === 403) {
     setErrors(["Login failed."]);
   } else {
@@ -44,7 +44,7 @@ if (response.status === 200) {
         </div>
         <div className="container">
         </div>
-         <form>
+         <form onSubmit={handleSubmit()}>
          <div className="d-grid gap-2 col-6 mx-auto">
                  <label htmlFor="username" className="form-label d-flex align-items-center justify-content-center"> Enter Username</label>
                  <input type="text" className="form-control" id="username" name="username"></input>
@@ -52,14 +52,11 @@ if (response.status === 200) {
              <div className="d-grid gap-2 col-6 mx-auto">
                  <label htmlFor="password" className="form-label d-flex align-items-center justify-content-center m-3">Enter Password</label>
                  <input type="text" className="form-control" id="password" name="password"></input>
+             </div><div className="d-grid gap-2 col-6 mx-auto">
+                        <button className="btn btn-dark m-5" type="submit">Login</button>
              </div>
         </form>
-             <div className="d-grid gap-2 col-6 mx-auto">
-             <Link to="/login" className="row justify-content-center  mt-5">
-                        <button className="btn btn-dark" type="submit">Login</button>
-                    </Link>
-             </div>
-             <div >
+        <div>
         <Link to="/create-account"><h6 className=" d-flex align-items-center justify-content-center m-5">Don't have an account? Create one</h6></Link>
         </div>
         </>

@@ -12,7 +12,13 @@ function GameScreenMain(){
         );
     const [resourceUpdate, setResourceUpdate] = useState({});
 
-    const UPDATE_DELAY_IN_MS = 1500;
+    //This is an object instead of a string because setEffect in the message display
+    //didnt trigger when the string was set to its previous value
+    const [message, setMessage] = useState({
+        message: ""
+    });
+
+    const UPDATE_DELAY_IN_MS = 20000;
 
     useEffect(() =>{
         setInterval(update, UPDATE_DELAY_IN_MS);
@@ -34,6 +40,12 @@ function GameScreenMain(){
             resourceName: resourceName,
             amount: amount
         });
+        
+        if(amount > 0){
+            setMessage({
+                message: `you gained ${amount} ${resourceName}`
+            });
+        }
     }
 
     return (
@@ -45,7 +57,7 @@ function GameScreenMain(){
                     <div className="col col-10 game">
                         <div className="row">
                             <div className="col messages">
-                                <MessagesDisplay updateState={updateState}></MessagesDisplay>
+                                <MessagesDisplay message={message} updateState={updateState}></MessagesDisplay>
                             </div>
                             <div className="col col-9">
                                 <div className="col">
