@@ -16,12 +16,11 @@ function HomeLogoutNavbar(){
                     </ul>
 
                     {auth.user && (
-                        <div>
-                            Welcome {auth.user.username}!
-                            <button onClick={() => auth.logout()}>Logout</button>
+                        <div className="text-light">
+                            Logged in as: {auth.user.username}
                         </div>
                     )}
-                    
+
                     <ul className="navbar-nav">
                         <li className="nav-item">
                             <button className="btn btn-danger">Log Out</button>

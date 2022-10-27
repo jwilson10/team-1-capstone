@@ -4,7 +4,7 @@ import {
   Route
 } from "react-router-dom";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StartScreen from "./components/StartScreen";
 import LoginScreen from "./components/LoginScreen";
 import CreateAccount from "./components/CreateAccount";
@@ -15,18 +15,42 @@ import Error from "./components/Error";
 import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
      
+
+/*
+  At the beginning of the login function, store the token parameter in localStorage using the localStorage.setItem method.
+
+  At the end of the logout function, remove the token from localStorage using the localStorage.removeItem method.
+
+  Add an if statement right before the main return to return null if the restoreLoginAttemptCompleted state variable is false. This prevents any of the application routes from rendering until the useEffect hook callback function that's responsible for attempting to restore the user's login state has had a chance to completely execute.
+
+*/
+
+const LOCAL_STORAGE_TOKEN_KEY = "jailbreakToken";
+
 function App() {
   const [user, setUser] = useState(null);
+  const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+    if(token){
+      login(token);
+    }
+
+    setRestoreLoginAttemptCompleted(true);
+  }, []);
 
   const login = (token) => {
     console.log("Should log in!");
 
+    localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+
     const { sub: username, role_id: role } = jwtDecode(token);
-  
+
     let roleString = "NONE";
-    if(role === 1){
+    if (role === 1) {
       roleString = "ADMIN"
-    }else if(role === 2){
+    } else if (role === 2) {
       roleString = "USER"
     }
 
@@ -35,25 +59,30 @@ function App() {
       roleString,
       token
     };
-  
+
     console.log(user);
-  
+
     setUser(user);
-  
+
     return user;
   };
-    
+
   const logout = () => {
-    console.log("Should log in!");
+    console.log("Should log out!");
 
     setUser(null);
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
   };
-  
+
   const auth = {
-    user: user ? {...user} : null,
+    user: user ? { ...user } : null,
     login,
     logout
-  };  
+  };
+
+  if (!restoreLoginAttemptCompleted) {
+    return null;
+  }
 
   return (
     <AuthContext.Provider value={auth}>
