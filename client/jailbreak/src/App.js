@@ -11,6 +11,7 @@ import CreateAccount from "./components/CreateAccount";
 import CreateGame from "./components/CreateGame";
 import DisplayGames from "./components/DisplayGames";
 import GameScreenMain from "./components/GameScreenMain";
+import Error from "./components/Error";
 import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
      
