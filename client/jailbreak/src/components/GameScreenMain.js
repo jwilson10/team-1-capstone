@@ -3,8 +3,9 @@ import "./GameScreenMain.css"
 import ActionButtons1 from "./ActionButtons1";
 import ResourceDisplay from "./ResourceDisplay";
 import MessagesDisplay from "./MessagesDisplay";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
+import AuthContext from "../context/AuthContext";
 
 function GameScreenMain(){    
     const [updateState, setUpdateState] = useState(
@@ -17,6 +18,8 @@ function GameScreenMain(){
     const [message, setMessage] = useState({
         message: ""
     });
+
+    const auth = useContext(AuthContext);
 
     const UPDATE_DELAY_IN_MS = 20000;
 
@@ -51,6 +54,7 @@ function GameScreenMain(){
     return (
         <>
             <HomeLogoutNavbar></HomeLogoutNavbar>
+            {!auth.user && <p>No User!</p>}
             <div className="container-fluid toward-center">
                 <div className="row more-columns">
                     <div className="col col-1"></div>
