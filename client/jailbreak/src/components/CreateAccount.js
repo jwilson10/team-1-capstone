@@ -1,3 +1,8 @@
+import { Link } from "react-router-dom";
+import {useState} from "react";
+import {useHistory} from "react-router-dom";
+
+
 function CreateAccount() {
     return (
         <>
@@ -17,7 +22,9 @@ function CreateAccount() {
              </div>
         </form>
         <div className="d-grid gap-2 col-6 mx-auto">
-                 <button className="btn btn-primary  m-5" type="submit" data-bs-toggle="button" autocomplete="off">Create Account</button>    
+        <Link to="/CreateAccount" className="row justify-content-center  mt-5 ">
+                        <button className="btn btn-dark" type="submit">Create</button>
+                    </Link>
              </div>
         </>
     )

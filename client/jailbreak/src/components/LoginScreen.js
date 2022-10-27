@@ -1,10 +1,46 @@
 import { Link } from "react-router-dom";
+import {useState} from "react";
+import {useHistory} from "react-router-dom";
+
 
 function Login() {
 
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState([]);
+    const history = useHistory();
+
+
+    function handleChange() {
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const response = await fetch("http://localhost:8080/authenticate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+        username,
+        password,
+    }),
+});
+
+if (response.status === 200) {
+    const { jwt_token } = await response.json();
+    console.log(jwt_token);
+    history.push("/");
+  } else if (response.status === 403) {
+    setErrors(["Login failed."]);
+  } else {
+    setErrors(["Unknown error."]);
+  }
+};
+
     return (
         <>
-
         <div >
         <h1 className=" d-flex align-items-center justify-content-center m-5">Log in</h1>
         </div>
@@ -21,13 +57,14 @@ function Login() {
              </div>
         </form>
              <div className="d-grid gap-2 col-6 mx-auto">
-                 <button className="btn btn-primary  m-5" type="submit" data-bs-toggle="button" autocomplete="off">Login</button>
-                 <Link to="/login">login link </Link>  
+             <Link to="/login" className="row justify-content-center  mt-5">
+                        <button className="btn btn-dark" type="submit">Login</button>
+                    </Link>
              </div>
-    
+             <div >
+        <h6 className=" d-flex align-items-center justify-content-center m-5">Don't dave an account? Create</h6>
+        </div>
         </>
     )
-
-
 }
 export default Login;

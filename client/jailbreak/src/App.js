@@ -5,38 +5,39 @@ import {
 } from "react-router-dom";
 
 import React from 'react';
+import StartScreen from "./components/StartScreen";
 import LoginScreen from "./components/LoginScreen";
 import CreateAccount from "./components/CreateAccount";
-import StartScreen from "./components/StartScreen";
 import CreateGame from "./components/CreateGame";
 import DisplayGames from "./components/DisplayGames";
 import GameScreenMain from "./components/GameScreenMain";
-
+     
 function App() {
-  return (
 
+  return (
     <Router>
       <Switch>
-        <Route path={["/enter"]}>
+        {/* <Route exact path="/">
           <StartScreen />
-        </Route>
-        <Route path={["/login"]}>
+        </Route> */}
+        <Route exact path="/">
           <LoginScreen />
-        </Route> 
-        <Route>
+        </Route>
+        <Route exact path="/">
           <CreateAccount />
         </Route>
-        <Route>
+        <Route path="/create-game">
           <CreateGame />
         </Route>
-        <Route>
+        <Route path="/all-games">
           <DisplayGames />
         </Route>
-        <Route>
+        <Route path="/game">
           <GameScreenMain />
         </Route>
       </Switch>
     </Router>
   );
 }
+
 export default App;
