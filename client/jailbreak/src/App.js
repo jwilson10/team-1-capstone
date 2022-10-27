@@ -17,16 +17,16 @@ function App() {
 
     <Router>
       <Switch>
-        {/* <Route>
+        <Route path={["/enter"]}>
           <StartScreen />
-        </Route> */}
-        <Route>
+        </Route>
+        <Route path={["/login"]}>
           <LoginScreen />
         </Route> 
-        {/* <Route>
+        <Route>
           <CreateAccount />
-        </Route> */}
-        {/* <Route>
+        </Route>
+        <Route>
           <CreateGame />
         </Route>
         <Route>
@@ -34,7 +34,7 @@ function App() {
         </Route>
         <Route>
           <GameScreenMain />
-        </Route> */}
+        </Route>
       </Switch>
     </Router>
   );

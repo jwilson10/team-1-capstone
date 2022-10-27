@@ -1,3 +1,7 @@
+import { Link } from "react-router-dom";
+
+
+
 function StartScreen() {
 
     return(
@@ -9,6 +13,7 @@ function StartScreen() {
             </div>
             <div className="row justify-content-center  mt-5">
             <button class="btn btn-dark" type="submit">Enter Game</button>
+            <Link to="/enter">enter link </Link>  
             </div>
         </div>
         </>

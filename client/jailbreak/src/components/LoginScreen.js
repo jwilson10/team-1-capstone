@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Login() {
 
     return (
@@ -19,7 +21,8 @@ function Login() {
              </div>
         </form>
              <div className="d-grid gap-2 col-6 mx-auto">
-                 <button className="btn btn-primary  m-5" type="submit" data-bs-toggle="button" autocomplete="off">Login</button>    
+                 <button className="btn btn-primary  m-5" type="submit" data-bs-toggle="button" autocomplete="off">Login</button>
+                 <Link to="/login">login link </Link>  
              </div>
     
         </>
