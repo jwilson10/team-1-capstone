@@ -5,6 +5,7 @@ import "./MessagesDisplay.css"
 function MessagesDisplay({message, updateState}){
 
     const [messages, setMessages] = useState([]);
+    const [addExtraSpace, setAddExtraSpace] = useState(true);
 
     useEffect(() => {
         //addMessageToFront("Messages Display: " + updateState.number);
@@ -16,10 +17,19 @@ function MessagesDisplay({message, updateState}){
 
 
     function addMessageToFront(message){
-        const newMessages = [...messages];
-        newMessages.unshift(message);
+        setMessages(oldMessages => {
+            const newMessages = [...oldMessages];
 
-        setMessages(newMessages);
+            if(addExtraSpace){
+                newMessages.unshift(message + " ");
+                setAddExtraSpace(false);
+            }else{
+                newMessages.unshift(message);
+                setAddExtraSpace(true);
+            }
+
+            return newMessages;  
+        });
     }
 
     function handleMessages(){
