@@ -1,30 +1,62 @@
 import { Link } from "react-router-dom";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
+import Error from "./Error";
 
 function CreateAccount() {
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState([]);
+    const history = useHistory();
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const response = await fetch("http://localhost:8080/create_account", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+        username,
+        password,
+    }),
+});
+
+if (response.status === 201) {
+    const { jwt_token } = await response.json();
+    console.log(jwt_token);
+    history.push("/all-games");
+  } else if (response.status === 403) {
+    setErrors(["Login failed."]);
+  } else {
+    setErrors(["Unknown error."]);
+  }
+};
     return (
         <>
-
-        <div className="text-body text-lg-center" class="container">
+        {errors.map((error, i) => (
+        <Error key={i} msg={error} />
+      ))}
+        <div className="text-body text-lg-center">
         <h1 className=" d-flex align-items-center justify-content-center m-5">Register Account</h1>
         </div>    
-         <form>
+         <form onSubmit={handleSubmit}>
              <div className="d-grid gap-2 col-6 mx-auto">
                  <label htmlFor="username" className="form-label d-flex align-items-center justify-content-center"> Enter Username</label>
-                 <input type="text" className="form-control" id="username" name="username"></input>
+                 <input type="text" className="form-control" onChange={(event) => setUsername(event.target.value)} id="username"></input>
              </div>
              <div className="d-grid gap-2 col-6 mx-auto">
                  <label htmlFor="password" className="form-label d-flex align-items-center justify-content-center m-5">Enter Password</label>
-                 <input type="text" className="form-control" id="password" name="password"></input>
+                 <input type="text" className="form-control" id="password" name="password" onChange={(event) => setPassword(event.target.value)}></input>
              </div>
-        </form>
         <div className="d-grid gap-2 col-6 mx-auto">
-        <Link to="/CreateAccount" className="row justify-content-center  mt-5 ">
-                        <button className="btn btn-dark" type="submit">Sign Up</button>
-                    </Link>
-             </div>
+            <button className="btn btn-dark" type="submit">Sign Up</button>
+        </div>
+        </form>
         </>
-    )
+    );
 }
 export default CreateAccount;

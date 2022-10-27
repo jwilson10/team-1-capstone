@@ -11,6 +11,7 @@ import CreateAccount from "./components/CreateAccount";
 import CreateGame from "./components/CreateGame";
 import DisplayGames from "./components/DisplayGames";
 import GameScreenMain from "./components/GameScreenMain";
+import Error from "./components/Error";
      
 function App() {
 
@@ -31,6 +32,9 @@ function App() {
         </Route>
         <Route path="/all-games">
           <DisplayGames />
+        </Route>
+        <Route path="/error">
+          <Error />
         </Route>
         <Route path="/game">
           <GameScreenMain />
