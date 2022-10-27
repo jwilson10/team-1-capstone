@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/">
           <StartScreen />
         </Route>
-        <Route exact path="/">
+        <Route path="/">
           <LoginScreen />
         </Route>
         <Route exact path="/">

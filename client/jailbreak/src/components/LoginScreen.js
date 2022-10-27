@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-import {useState} from "react";
-import {useHistory} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
 
 function Login() {
 
@@ -14,6 +13,7 @@ function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         const response = await fetch("http://localhost:8080/authenticate", {
             method: "POST",
             headers: {
@@ -60,7 +60,7 @@ if (response.status === 200) {
                     </Link>
              </div>
              <div >
-        <h6 className=" d-flex align-items-center justify-content-center m-5">Don't have an account? Create one</h6>
+        <Link to="/create-account"><h6 className=" d-flex align-items-center justify-content-center m-5">Don't have an account? Create one</h6></Link>
         </div>
         </>
     )
