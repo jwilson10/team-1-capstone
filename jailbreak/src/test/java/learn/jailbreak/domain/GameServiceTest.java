@@ -44,6 +44,7 @@ class GameServiceTest {
 
         Result<Game> result = gameService.createGame(game);
         assertTrue(result.isSuccess());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
         assertEquals(expected.getGameId(), result.getPayload().getGameId());
     }
 
@@ -58,6 +59,7 @@ class GameServiceTest {
 
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(ResultType.INVALID, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Character name is required.", result.getMessages().get(0));
     }
@@ -70,6 +72,7 @@ class GameServiceTest {
 
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(ResultType.INVALID, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Game cannot be null.", result.getMessages().get(0));
     }
@@ -83,6 +86,7 @@ class GameServiceTest {
 
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(ResultType.NOT_FOUND, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("User not found.", result.getMessages().get(0));
     }
@@ -97,6 +101,7 @@ class GameServiceTest {
         Result<Game> result = gameService.createGame(game);
         assertFalse(result.isSuccess());
         assertNull(result.getPayload());
+        assertEquals(ResultType.INVALID, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Game already exists in slot.", result.getMessages().get(0));
 
@@ -111,6 +116,7 @@ class GameServiceTest {
 
         Result<Game> result = gameService.createGame(game);
         assertFalse(result.isSuccess());
+        assertEquals(ResultType.INVALID, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Invalid game number.", result.getMessages().get(0));
 
@@ -133,6 +139,7 @@ class GameServiceTest {
 
         Result<Game> result = gameService.createGame(game);
         assertFalse(result.isSuccess());
+        assertEquals(ResultType.INVALID, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Maximum games already reached.", result.getMessages().get(0));
     }
@@ -147,6 +154,7 @@ class GameServiceTest {
         Result<Game> result = gameService.update(game);
         assertTrue(result.isSuccess());
         assertNotNull(result.getPayload());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
         assertEquals("Updated", result.getPayload().getCharacterName());
     }
 
@@ -160,6 +168,7 @@ class GameServiceTest {
 
         Result<Game> result = gameService.update(game);
         assertFalse(result.isSuccess());
+        assertEquals(ResultType.NOT_FOUND, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Game not found.", result.getMessages().get(0));
     }
@@ -168,6 +177,7 @@ class GameServiceTest {
     void shouldNotUpdateNullGame(){
         Result<Game> result = gameService.update(null);
         assertFalse(result.isSuccess());
+        assertEquals(ResultType.INVALID, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Game cannot be null.", result.getMessages().get(0));
     }
@@ -181,6 +191,7 @@ class GameServiceTest {
         Result<Game> result = gameService.findGame(game);
 
         assertTrue(result.isSuccess());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
         assertEquals("Test", result.getPayload().getCharacterName());
     }
 
@@ -194,6 +205,7 @@ class GameServiceTest {
         Result<Game> result = gameService.findGame(game);
 
         assertFalse(result.isSuccess());
+        assertEquals(ResultType.NOT_FOUND, result.getResultType());
         assertEquals("Game not found.", result.getMessages().get(0) );
     }
 
@@ -206,6 +218,7 @@ class GameServiceTest {
 
         Result<Game> result = gameService.deleteGame(game);
         assertTrue(result.isSuccess());
+        assertEquals(ResultType.SUCCESS, result.getResultType());
         assertEquals(1, result.getPayload().getGameId());
     }
 
@@ -218,6 +231,7 @@ class GameServiceTest {
 
         Result<Game> result = gameService.deleteGame(game);
         assertFalse(result.isSuccess());
+        assertEquals(ResultType.NOT_FOUND, result.getResultType());
         assertEquals(1, result.getMessages().size());
         assertEquals("Game not found.", result.getMessages().get(0));
     }

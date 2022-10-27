@@ -17,3 +17,13 @@ p{
     text-align: left;
     word-break: break-word;
 }
+
+/* fade in effect done with help of https://blog.hubspot.com/website/css-fade-in#text-transition */
+.fade-in{
+    animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+    0% { opacity: .1; }
+    100% { opacity: 1; }
+}

@@ -1,30 +1,46 @@
-function ResourceDisplay(){
+import { useEffect } from "react";
+import { useState } from "react";
+
+function ResourceDisplay({resourceUpdate}){
+
+    const [resources, setResources] = useState([
+        {
+            resourceName: "cheese",
+            amount: 10
+        }
+    ]);
+
+    useEffect(() => {
+        const newResources = [...resources];
+        const found = newResources.find(value => value.resourceName === resourceUpdate.resourceName);
+        if(found){
+            found.amount = parseInt(found.amount) + parseInt(resourceUpdate.amount);
+        }else{
+            console.log("Resource not present");
+        }
+
+        setResources(newResources);
+    }, [resourceUpdate]);
+
+    function handleResources(){
+        return(
+            <>
+                {resources.map((value, index) => 
+                    <div className="row mt-3 justify-content-between" key={`${value.resourceName}-${index}`}>
+                        <div className="col-4">{value.resourceName}</div>
+                        <div className="col-4">{value.amount}</div>
+                    </div>)}
+            </>
+        );
+    }
+
     return(
         <>
             <div className="container-fluid">
-                <div className="row mt-3 justify-content-between">
-                    <div className="col-4">Cheese:</div>
-                    <div className="col-4">10</div>
-                </div>
-                <div className="row mt-3 justify-content-between">
-                    <div className="col-4">Cheese:</div>
-                    <div className="col-4">10</div>
-                </div>
-                <div className="row mt-3 justify-content-between">
-                    <div className="col-4">Cheese:</div>
-                    <div className="col-4">10</div>
-                </div>
-                <div className="row mt-3 justify-content-between">
-                    <div className="col-4">Cheese:</div>
-                    <div className="col-4">10</div>
-                </div>
-                <div className="row mt-3 justify-content-between">
-                    <div className="col-4">Cheese:</div>
-                    <div className="col-4">10</div>
-                </div>
+                {handleResources()}
             </div>
         </>
-    )
+    );
 }
 
 export default ResourceDisplay;
