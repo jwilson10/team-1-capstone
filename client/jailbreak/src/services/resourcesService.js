@@ -1,4 +1,4 @@
-const RESOURCES_API_URL = "http://localhost:8080/inventory";
+const RESOURCES_API_URL = "http://localhost:8080/resources";
 
 //Get mapping
 export async function findResourcesById(resourcesId){

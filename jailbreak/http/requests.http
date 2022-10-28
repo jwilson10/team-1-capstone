@@ -29,8 +29,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c
 ###
 
 GET http://localhost:8080/resources/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTIyNDI5fQ.LFdu54aMhpI3AFRHWbghOpd6hHtRQAVit35t03dveiI
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTgzODE5fQ.Yl7TmHH1rtwV5wX1HkG6EWaU5fIdmOzrrkA1Ki0Xieo
 ###
 
 POST http://localhost:8080/game HTTP/1.1

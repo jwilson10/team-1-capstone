@@ -36,8 +36,6 @@ function MessagesDisplay({message, updateState}){
         return(
             <>
                 {messages.map((value, index) => {
-                    console.log(index);
-
                     return(
                         <p key={`${value}-${index}`} className={index === 0 ? "fade-in" : ""}>{value}</p>)}
                     )

@@ -6,12 +6,32 @@ import MessagesDisplay from "./MessagesDisplay";
 import { useContext, useEffect } from "react";
 import { useState } from "react";
 import AuthContext from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
+
+/*
+    {
+        "gameId": 1,
+        "userId": 1,
+        "characterName": "Ethan",
+        "gameNumber": 1,
+        "inventorySlotList": [
+          {
+            "slotId": 2,
+            "gameId": 2,
+            "resourceId": 1,
+            "quantity": 10
+          }
+        ]
+    }
+*/
 
 function GameScreenMain(){    
     const [updateState, setUpdateState] = useState(
         {number: 0}
         );
     const [resourceUpdate, setResourceUpdate] = useState({});
+    const [initialResources, setInitialResources] = useState([]);
+    const [game, setGame] = useState({});
 
     //This is an object instead of a string because setEffect in the message display
     //didnt trigger when the string was set to its previous value
@@ -21,10 +41,21 @@ function GameScreenMain(){
 
     const auth = useContext(AuthContext);
 
+    const history = useHistory();
+
     const UPDATE_DELAY_IN_MS = 20000;
 
     useEffect(() =>{
-        setInterval(update, UPDATE_DELAY_IN_MS);
+        if(history.location.state && history.location.state.game){
+            setInterval(update, UPDATE_DELAY_IN_MS);
+
+            setGame(history.location.state.game);
+            setInitialResources(history.location.state.game.inventorySlotList);
+            console.log(history.location.state.game);
+        }else{
+            //TODO: Error, no game specified. Return to home screen.
+            console.log("No game specified!");
+        }
     }, []);
 
     function update(){
@@ -48,13 +79,16 @@ function GameScreenMain(){
             setMessage({
                 message: `you gained ${amount} ${resourceName}`
             });
+        }else{
+            setMessage({
+                message: `you lost ${amount} ${resourceName}`
+            });
         }
     }
 
     return (
         <>
             <HomeLogoutNavbar></HomeLogoutNavbar>
-            {!auth.user && <p>No User!</p>}
             <div className="container-fluid toward-center">
                 <div className="row more-columns">
                     <div className="col col-1"></div>
@@ -110,7 +144,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay resourceUpdate={resourceUpdate}></ResourceDisplay>
+                                                    <ResourceDisplay initialResources={initialResources} resourceUpdate={resourceUpdate}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>
