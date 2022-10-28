@@ -63,6 +63,15 @@ export async function findAllForUser(){
 
 
 //create game
+export async function createGame(gameToCreate){
+  console.log("In Create Game");
+
+  await delay(1500);
+
+  games[gameToCreate.gameNumber] = gameToCreate;
+
+  return gameToCreate;
+}
 
 
 //update game

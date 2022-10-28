@@ -53,7 +53,8 @@ constraint invetory_slot_game_id
     references game(game_id)
 );
 
-
+use jailbreak;
+select * from `user`;
 
 
 

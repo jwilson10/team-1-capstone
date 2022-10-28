@@ -15,7 +15,7 @@ import Error from "./components/Error";
 import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
 
-const LOCAL_STORAGE_TOKEN_KEY = "jailbreakToken";
+const LOCAL_STORAGE_TOKEN_KEY = "jwt";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,7 +35,7 @@ function App() {
 
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
-    const { sub: username, role_id: role } = jwtDecode(token);
+    const { sub: username, user_id: userId, role_id: role } = jwtDecode(token);
 
     let roleString = "NONE";
     if (role === 1) {
@@ -45,6 +45,7 @@ function App() {
     }
 
     const user = {
+      userId,
       username,
       roleString,
       token

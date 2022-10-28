@@ -53,3 +53,7 @@ quantity int not null,
     references game(game_id)
 );
     -- call set_known_good_state();
+    
+use jailbreak_test;
+select * from `game`;
+select * from `user`;

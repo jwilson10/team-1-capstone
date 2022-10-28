@@ -1,36 +1,50 @@
 import HomeLogoutNavbar from "./HomeLogoutNavbar";
 import "./CreateGame.css";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+import { createGame } from "../services/gameService";
 
 function CreateGame(){
-    const [game, setGame] = useState({
-        name: ""
-    });
-
+    const [name, setName] = useState("");
     const [errors, setErrors] = useState([]);
 
-    function handleChange(evt){
-        const nextGame = {...game};
+    const history = useHistory();
+    const auth = useContext(AuthContext);
 
-        nextGame.name = evt.target.value;
+    function handleChange(evt){
+        const nextName = evt.target.value;
         
-        setGame(nextGame);
+        setName(nextName);
 
         //Just testing errors, TODO: remove this when proper error handling is in place.
-        if(nextGame.name === ""){
+        if(nextName === ""){
             setErrors([]);
         }else{
-            setErrors(["Buh", "BuhBuh", "UhBuh", nextGame.name]);
+            setErrors(["Buh", "BuhBuh", "UhBuh", nextName]);
         }
 
-        console.log(nextGame);
+        console.log(nextName);
     }
 
     function handleSubmit(evt){
         evt.preventDefault();
         evt.stopPropagation();
 
-        //TODO: Use the gameService to create a new game.
+        if(history.location.state && history.location.state.gameNumber){
+            const newGame = {
+                "userId": auth.user.userId,
+                "characterName": name,
+                "gameNumber": history.location.state.gameNumber
+            }
+
+            console.log(newGame);
+
+            createGame(newGame).then(result => history.push("/all-games")).catch(console.log);
+        }else{
+            //TODO: Error, don't know what the game number is
+        }
     }
 
     function displayErrors(){
@@ -60,7 +74,7 @@ function CreateGame(){
                         <label htmlFor="characterName">Character Name:</label>
                     </div>
                     <div className="row justify-content-center">
-                        <input type="text" name="characterName" id="characterName" onChange={handleChange}></input>
+                        <input type="text" name="characterName" id="characterName" onChange={handleChange} autoFocus></input>
                     </div>
                     <div className="row justify-content-center mt-4">
                         <button className="btn btn-success">Start</button>

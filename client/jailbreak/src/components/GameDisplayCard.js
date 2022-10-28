@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom";
-import { deleteGame } from "../service-doubles/gameServiceDouble";
+import { Link, useHistory } from "react-router-dom";
+import { deleteGame } from "../services/gameService";
 
-function GameDisplayCard({title, game, resetGames}){
+function GameDisplayCard({title, game, resetGames, gameNum}){
+
+    const history = useHistory();
 
     function onDelete(){
-        deleteGame(game.gameNumber)
-            .then(result => resetGames());
+        deleteGame(game)
+            .then(result => {
+                resetGames();
+            });
+    }
+
+    function onGoToGameCreation(){
+        history.push("/create-game", {gameNumber: gameNum})
+    }
+
+    function onGoToGame(){
+        history.push("/game", {game: game})
     }
 
     return(
@@ -22,7 +34,7 @@ function GameDisplayCard({title, game, resetGames}){
                                     <div className="row">
                                         <div className="col-3"></div>
                                         <div className="col">
-                                            <Link className="btn btn-success w-100" to="/game">Start</Link>
+                                            <button className="btn btn-success w-100" onClick={onGoToGame}>Start</button>
                                         </div>
                                         <div className="col-3"></div>
                                     </div>
@@ -43,7 +55,7 @@ function GameDisplayCard({title, game, resetGames}){
                                     <div className="row">
                                         <div className="col-3"></div>
                                         <div className="col">
-                                            <Link className="btn btn-warning w-100" to="/create-game">Create Game</Link>
+                                            <button className="btn btn-warning w-100" onClick={onGoToGameCreation}>Create Game</button>
                                         </div>
                                         <div className="col-3"></div>
                                     </div>
