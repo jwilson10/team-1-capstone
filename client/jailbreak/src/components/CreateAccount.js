@@ -45,11 +45,11 @@ if (response.status === 201) {
         </div>    
          <form onSubmit={handleSubmit}>
              <div className="d-grid gap-2 col-6 mx-auto">
-                 <label htmlFor="username" className="form-label d-flex align-items-center justify-content-center"> Enter Username</label>
+                 <label htmlFor="username" className="form-label d-flex align-items-center justify-content-center m-3"> Enter Username</label>
                  <input type="text" className="form-control" onChange={(event) => setUsername(event.target.value)} id="username"></input>
              </div>
              <div className="d-grid gap-2 col-6 mx-auto">
-                 <label htmlFor="password" className="form-label d-flex align-items-center justify-content-center m-5">Enter Password</label>
+                 <label htmlFor="password" className="form-label d-flex align-items-center justify-content-center m-3">Enter Password</label>
                  <input type="text" className="form-control" id="password" name="password" onChange={(event) => setPassword(event.target.value)}></input>
              </div>
         <div className="d-grid gap-2 col-6 mx-auto">
