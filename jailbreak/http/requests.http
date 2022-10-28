@@ -2,8 +2,8 @@ POST http://localhost:8080/authenticate HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "test",
-    "password": "a!12345678"
+    "username": "user",
+    "password": "user"
 }
 
 ###
@@ -24,7 +24,12 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/game HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2ODE0MTc5fQ.waj8EJiNv19uWvsfzzZ8BPd0b0_LqiQINZaxBKrsmog
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTIyNDI5fQ.LFdu54aMhpI3AFRHWbghOpd6hHtRQAVit35t03dveiI
+
+###
+
+GET http://localhost:8080/resources/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTIyNDI5fQ.LFdu54aMhpI3AFRHWbghOpd6hHtRQAVit35t03dveiI
 
 ###
 

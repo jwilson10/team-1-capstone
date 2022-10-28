@@ -1,7 +1,27 @@
 import HomeLogoutNavbar from "./HomeLogoutNavbar";
 import "./DisplayGame.css"
+import GameDisplayCard from "./GameDisplayCard";
+import { useEffect, useState } from "react";
+import { findAllForUser } from "../service-doubles/gameServiceDouble";
 
 function DisplayGames(){
+
+    const [games, setGames] = useState([]);
+
+    useEffect(() => {
+        resetGames();
+    }, []);
+
+    function resetGames(){
+        findAllForUser().then(result => {
+            console.log("In Reset");
+
+            const newGames = [...result.games];
+
+            setGames(newGames);
+        });
+    }
+
     return (
         <>
             <HomeLogoutNavbar></HomeLogoutNavbar>
@@ -9,38 +29,9 @@ function DisplayGames(){
             <h1>Your Saved Games</h1>
                 <div className="container mt-4">
                     <div className="row justify-content-center">
-                        {/* Cards */}
-                        <div className="col">
-                            <div className="card game-card">
-                                <div className="card-body d-flex flex-column align-items-center">
-                                    <h4 className="card-title">Game 1</h4>
-                                    <h5 className="card-title">Name 1</h5>
-                                    <button className="btn btn-success mt-auto">Start Game</button>
-                                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="card game-card">
-                                <div className="card-body d-flex flex-column align-items-center">
-                                    <h4 className="card-title">Game 2</h4>
-                                    <h5 className="card-title">Name 2</h5>
-                                    <button className="btn btn-success mt-auto">Start Game</button>
-                                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="card game-card">
-                                <div className="card-body d-flex flex-column align-items-center">
-                                    <h4 className="card-title">Game 3</h4>
-                                    <h5 className="card-title">- Empty -</h5>
-                                    {/* TODO: navigate to game creation screen */}
-                                    <button className="btn btn-warning mt-auto">Create Game</button>
-                                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
-                                </div>
-                            </div>
-                        </div>
+                        <GameDisplayCard title="Game 1" game={games[0]} resetGames={resetGames}></GameDisplayCard>
+                        <GameDisplayCard title="Game 2" game={games[1]} resetGames={resetGames}></GameDisplayCard>
+                        <GameDisplayCard title="Game 3" game={games[2]} resetGames={resetGames}></GameDisplayCard>
                     </div>
                 </div>
             </div>
