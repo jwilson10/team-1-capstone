@@ -63,6 +63,6 @@ export async function create_account(){
         const body = await response.json();
         return makeUser(body);
     } else {
-        return Promise.reject();
+        return response.json();
     }
 }

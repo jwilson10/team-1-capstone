@@ -45,9 +45,6 @@ if (response.status === 200) {
   return (
     <>
     <div>
-    {errors.map((error, i) => (
-    <Error key={i} msg={error} />
-    ))}
     <h1 className=" d-flex align-items-center justify-content-center m-5">Log in</h1>
     </div>
     <div className="container">
@@ -65,7 +62,12 @@ if (response.status === 200) {
         </div>
     </form>
     <div>
-      <Link to="/create-account"><h6 className=" d-flex align-items-center justify-content-center m-5">Don't have an account? Create one</h6></Link>
+    {errors.map((error, i) => (
+    <Error key={i} msg={error} />
+    ))}
+    </div>
+    <div>
+      <Link to="/create-account"><h6 className=" d-flex align-items-center justify-content-center m-3">Don't have an account? Create one</h6></Link>
     </div>  
     </>
   )

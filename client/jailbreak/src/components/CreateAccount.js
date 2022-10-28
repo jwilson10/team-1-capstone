@@ -37,9 +37,6 @@ if (response.status === 201) {
 };
     return (
         <>
-        {errors.map((error, i) => (
-        <Error key={i} msg={error} />
-      ))}
         <div className="text-body text-lg-center">
         <h1 className=" d-flex align-items-center justify-content-center m-5">Register Account</h1>
         </div>    
@@ -54,6 +51,11 @@ if (response.status === 201) {
              </div>
         <div className="d-grid gap-2 col-6 mx-auto">
             <button className="btn btn-dark m-5" type="submit">Sign Up</button>
+        </div>
+        <div>
+        {errors.map((error, i) => (
+        <Error key={i} msg={error} />
+        ))}
         </div>
         </form>
         </>

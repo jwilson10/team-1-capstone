@@ -4,11 +4,13 @@ function Error({ msg }) {
   const history = useHistory();
 
   return (
-    <p>
-      🙅🏾‍♂️ Error{" "}
-      {history.location.state ? ` - ${history.location.state.msg}` : ""}
-      {msg}
-    </p>
+    <div className="d-flex align-items-center justify-content-center m-1">
+      <div className="alert alert-danger">
+        ERROR!{" "}
+        {history.location.state ? ` - ${history.location.state.msg}` : ""}
+        {msg}
+      </div>
+    </div>
   );
 }
 
