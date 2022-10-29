@@ -7,6 +7,7 @@ import { useContext, useEffect } from "react";
 import { useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import { findGame } from "../services/gameService";
 
 /*
     {
@@ -86,6 +87,15 @@ function GameScreenMain(){
         }
     }
 
+    async function updateGame(){
+        const result = await findGame(game.gameId);
+        setGame(result);
+    }
+
+    function saveGame(){
+        console.log(game);
+    }
+
     return (
         <>
             <HomeLogoutNavbar></HomeLogoutNavbar>
@@ -144,7 +154,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay initialResources={initialResources} resourceUpdate={resourceUpdate}></ResourceDisplay>
+                                                    <ResourceDisplay inventorySlotList={game.inventorySlotList} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +163,7 @@ function GameScreenMain(){
                                         <div className="col-9">
                                         </div>
                                         <div className="col-3">
-                                            <button className="btn btn-success w-100">Save</button>
+                                            <button className="btn btn-success w-100" onClick={saveGame}>Save</button>
                                         </div>
                                     </div>
                                 </div>

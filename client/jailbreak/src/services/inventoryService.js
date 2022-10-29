@@ -23,8 +23,7 @@ export async function createInventorySlot(slot){
 }
 
 //Put mapping
-
-export async function createInventorySlot(slot){
+export async function updateInventorySlot(slot){
     const init = {
         method: "PUT",
         headers: {

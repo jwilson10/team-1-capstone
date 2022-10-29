@@ -8,6 +8,19 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:8080/inventory HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTk1ODE3fQ.ixV2NL1mqMOgaAcVhUJAMfeO8XZP9iaEITmk688I944
+Content-Type: application/json
+
+{
+    "gameId": 2,
+    "quantity": 1,
+    "resourceId": 2,
+    "slotId": 3
+}
+
+###
+
 GET http://localhost:8080/print_hash HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2NzA4OTcwfQ.ZftMaHS2-4HBv5XVsvM-9AN5rstAr25dK3t3u-NMsEA
 
@@ -24,12 +37,13 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/game HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTIyNDI5fQ.LFdu54aMhpI3AFRHWbghOpd6hHtRQAVit35t03dveiI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTk1MjUyfQ.fS3vThE4MmRwBfZXM_utM5UgESetKR4sB1Gp3vJxgpQ
 
 ###
 
 GET http://localhost:8080/resources/1 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2OTgzODE5fQ.Yl7TmHH1rtwV5wX1HkG6EWaU5fIdmOzrrkA1Ki0Xieo
+
 ###
 
 POST http://localhost:8080/game HTTP/1.1

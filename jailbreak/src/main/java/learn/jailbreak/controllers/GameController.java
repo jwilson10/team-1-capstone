@@ -36,15 +36,23 @@ public class GameController {
 
     @GetMapping("/{gameNumber}")
     public ResponseEntity<Object> findGame(@AuthenticationPrincipal User user, @PathVariable int gameNumber){
-        Game game = new Game();
-        game.setGameNumber(gameNumber);
-        game.setCharacterName("Dummy Name");
-        game.setUserId(user.getUserId());
-        Result<Game> result = service.findGame(game);
-        if(result == null || result.getPayload() == null){
+//        Game game = new Game();
+//        game.setGameNumber(gameNumber);
+//        game.setCharacterName("Dummy Name");
+//        game.setUserId(user.getUserId());
+//        Result<Game> result = service.findGame(game);
+//
+//        if(result == null || result.getPayload() == null){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return ResponseEntity.ok(result.getPayload());
+
+        Game game = service.findGameById(gameNumber);
+        if(game == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(result.getPayload());
+        return ResponseEntity.ok(game);
+
     }
 
     @PostMapping

@@ -57,3 +57,4 @@ quantity int not null,
 use jailbreak_test;
 select * from `game`;
 select * from `user`;
+select * from resources;

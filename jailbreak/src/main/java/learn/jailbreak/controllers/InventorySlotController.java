@@ -29,6 +29,7 @@ public class InventorySlotController {
     public ResponseEntity<Object> createInventorySlot(@AuthenticationPrincipal User user, @RequestBody InventorySlot inventorySlot) {
         Game game = gameService.findGameById(inventorySlot.getGameId());
         if (game == null) {
+            System.out.println("Reached 404");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if (game.getUserId() != user.getUserId()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

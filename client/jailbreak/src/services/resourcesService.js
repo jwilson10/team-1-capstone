@@ -16,3 +16,24 @@ export async function findResourcesById(resourcesId){
         return Promise.reject();
     }
 }
+
+export async function findResourcesByName(resourceName){
+    switch(resourceName){
+        case "cheese":
+            return {
+                resourceId: 1,
+                resourceName: "cheese",
+                resourceValue: 1,
+                resourceDefaultIncRate: 1
+            };
+        case "yogies":
+            return {
+                resourceId: 2,
+                resourceName: "yogies",
+                resourceValue: 2,
+                resourceDefaultIncRate: 1
+            };
+        default:
+            return undefined;
+    }
+}

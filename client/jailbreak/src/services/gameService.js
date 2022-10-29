@@ -27,6 +27,7 @@ export async function findGame(gameId){
         }
     }
 
+    const url = `${GAME_API_URL}/${gameId}`;
     const response = await fetch(`${GAME_API_URL}/${gameId}`, init);
     if(response.ok) {
         return response.json();
