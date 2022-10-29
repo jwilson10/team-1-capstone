@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResourcesRepository extends JpaRepository<Resources, Integer> {
+
+    public Resources findByResourceName(String resourceName);
+
 }

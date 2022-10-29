@@ -17,4 +17,9 @@ public class ResourcesService {
     public Resources findResourcesById(int resourcesId){
         return resourcesRepository.findById(resourcesId).orElse(null);
     }
+
+    public Resources findResourcesByName(String resourcesName){
+        return resourcesRepository.findByResourceName(resourcesName);
+    }
+
 }

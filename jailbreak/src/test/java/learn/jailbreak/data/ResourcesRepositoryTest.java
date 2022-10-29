@@ -79,4 +79,21 @@ class ResourcesRepositoryTest {
         //Assert
         assertNull(repository.findById(1).orElse(null));
     }
+
+    @Test
+    void shouldFindByResourceName(){
+        //Arrange
+        String cheese = "cheese"; //string cheese haha
+
+        //Act
+        Resources resources = repository.findByResourceName(cheese);
+
+        //Assert
+        assertNotNull(resources);
+        assertEquals(1, resources.getResourceId());
+        assertEquals(cheese, resources.getResourceName());
+        assertEquals(1, resources.getResourceDefaultIncRate());
+        assertEquals(1, resources.getResourceValue());
+    }
+
 }

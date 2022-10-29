@@ -28,4 +28,13 @@ public class ResourcesController {
         return ResponseEntity.ok(resources);
     }
 
+    @GetMapping("/name/{resourceName}")
+    public ResponseEntity<Object> findByResourceName(@PathVariable String resourceName){
+        Resources resources = resourcesService.findResourcesByName(resourceName);
+        if(resources == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(resources);
+    }
+
 }
