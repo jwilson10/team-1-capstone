@@ -58,6 +58,7 @@ create table `event`(
 );
 
 create table game_event(
+	game_event_id int primary key auto_increment, 
 	event_id int not null,
     game_id int not null,
 	constraint fk_game_event_event_id
@@ -67,6 +68,7 @@ create table game_event(
         foreign key (game_id)
         references inventory_slot(game_id)
 	);
+    
 use jailbreak;
 select * from `user`;
 
