@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .antMatchers("/game/*").authenticated()
                 .antMatchers("/inventory").authenticated()
                 .antMatchers("/resources/*").authenticated()
+                .antMatchers("/resources/name/*").authenticated()
                 .antMatchers("/refresh_token").authenticated()
                 .antMatchers("/create_account").permitAll()
                 .antMatchers("/**").denyAll()

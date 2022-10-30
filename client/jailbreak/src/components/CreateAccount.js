@@ -28,8 +28,7 @@ function CreateAccount() {
 if (response.status === 201) {
     // const { jwt_token } = 
     await response.json();
-    // console.log(jwt_token);
-    
+        
     history.push("/login");
   } else if (response.status === 403) {
     setErrors(["Login failed."]);

@@ -24,8 +24,6 @@ function CreateGame(){
         }else{
             setErrors(["Buh", "BuhBuh", "UhBuh", nextName]);
         }
-
-        console.log(nextName);
     }
 
     function handleSubmit(evt){
@@ -38,9 +36,7 @@ function CreateGame(){
                 "characterName": name,
                 "gameNumber": history.location.state.gameNumber
             }
-
-            console.log(newGame);
-
+            
             createGame(newGame).then(result => history.push("/all-games")).catch(console.log);
         }else{
             //TODO: Error, don't know what the game number is

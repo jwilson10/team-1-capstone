@@ -16,8 +16,6 @@ function DisplayGames(){
 
     function resetGames(){
         findAllForUser().then(result => {
-            console.log("Display: In Reset");
-
             const newGames = [];
             result.forEach(element => {
                 newGames[element.gameNumber - 1] = element;

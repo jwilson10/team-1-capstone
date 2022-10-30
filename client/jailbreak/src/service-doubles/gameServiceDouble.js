@@ -49,8 +49,6 @@ const games = [
 
 //get all games for all users
 export async function findAllForUser(){
-    console.log("In Find Games");
-
     await delay(1500);
 
     return {
@@ -64,8 +62,6 @@ export async function findAllForUser(){
 
 //create game
 export async function createGame(gameToCreate){
-  console.log("In Create Game");
-
   await delay(1500);
 
   games[gameToCreate.gameNumber] = gameToCreate;
@@ -79,8 +75,6 @@ export async function createGame(gameToCreate){
 
 //delete game
 export async function deleteGame(gameNumber){
-    console.log("In Delete");
-
     await delay(1500);
 
     let toDelete = games.find((game) => game && game.gameNumber === gameNumber);

@@ -30,7 +30,7 @@ function GameScreenMain(){
     const [updateState, setUpdateState] = useState(
         {number: 0}
         );
-    const [resourceUpdate, setResourceUpdate] = useState({});
+    const [resourceUpdate, setResourceUpdate] = useState(undefined);
     const [initialResources, setInitialResources] = useState([]);
     const [game, setGame] = useState({});
 
@@ -47,16 +47,21 @@ function GameScreenMain(){
     const UPDATE_DELAY_IN_MS = 20000;
 
     useEffect(() =>{
-        if(history.location.state && history.location.state.game){
+        async function getGameFromHistory(){
             setInterval(update, UPDATE_DELAY_IN_MS);
 
-            setGame(history.location.state.game);
-            setInitialResources(history.location.state.game.inventorySlotList);
-            console.log(history.location.state.game);
-        }else{
-            //TODO: Error, no game specified. Return to home screen.
-            console.log("No game specified!");
+            if(history.location.state && history.location.state.game){    
+                const upToDateGame = await findGame(history.location.state.game.gameId);
+    
+                setGame(upToDateGame);
+                setInitialResources(upToDateGame.inventorySlotList);
+            }else{
+                //TODO: Error, no game specified. Return to home screen.
+                console.log("No game specified!");
+            }
         }
+
+        getGameFromHistory();
     }, []);
 
     function update(){
@@ -154,7 +159,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay inventorySlotList={game.inventorySlotList} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame}></ResourceDisplay>
+                                                    <ResourceDisplay resourceUpdate={resourceUpdate} game={game} updateGame={updateGame}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>

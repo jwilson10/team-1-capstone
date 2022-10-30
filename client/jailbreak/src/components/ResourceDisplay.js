@@ -4,26 +4,26 @@ import { createInventorySlot, updateInventorySlot } from "../services/inventoryS
 import {findResourcesById, findResourcesByName} from "../services/resourcesService";
 
 
-function ResourceDisplay({inventorySlotList, resourceUpdate, game, updateGame}){
+function ResourceDisplay({resourceUpdate, game, updateGame}){
 
     const [resources, setResources] = useState([]);
 
     useEffect(() => {
+        if(!resourceUpdate){
+            return;
+        }
+
         async function updateInventory(){
 
             //Add or update an inventory slot.
             const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
             let slot = undefined;
             if(found){
-                console.log("Should update");
-
                 slot = found.slot;
                 slot.quantity = parseInt(slot.quantity) + parseInt(resourceUpdate.amount);
 
                 await updateInventorySlot(slot);
             }else{
-                console.log("Should create");
-
                 const resource = await findResourcesByName(resourceUpdate.resourceName);
 
                 if(!resource){
@@ -37,7 +37,6 @@ function ResourceDisplay({inventorySlotList, resourceUpdate, game, updateGame}){
                 }
 
                 await createInventorySlot(slot);
-                
             }
         }
 
@@ -47,11 +46,11 @@ function ResourceDisplay({inventorySlotList, resourceUpdate, game, updateGame}){
     }, [resourceUpdate]);
 
     useEffect(() => {
-        if(!inventorySlotList) return;
-
+        if(!game.inventorySlotList) return;
+        
         //Map the inventory slots to their respective resources.
         async function loadResources() {
-            const newResources = await Promise.all(inventorySlotList.map( async (slot) => {
+            const newResources = await Promise.all(game.inventorySlotList.map( async (slot) => {
                 const result = await findResourcesById(slot.resourceId);
                 const newResource = result;
 
@@ -62,11 +61,10 @@ function ResourceDisplay({inventorySlotList, resourceUpdate, game, updateGame}){
             }));
 
             setResources(newResources);
-            console.log(newResources);
         }
 
         loadResources();
-    }, [inventorySlotList]);
+    }, [game]);
 
     function handleResources(){
         return(

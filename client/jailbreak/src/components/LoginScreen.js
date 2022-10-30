@@ -32,7 +32,7 @@ function Login() {
 
 if (response.status === 200) {
     const { jwt_token } = await response.json();
-    console.log(jwt_token);
+
     auth.login(jwt_token);
     history.push("/all-games");
   } else if (response.status === 403) {

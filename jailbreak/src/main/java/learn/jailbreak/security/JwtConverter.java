@@ -14,7 +14,7 @@ public class JwtConverter {
 
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final String ISSUER = "jailbreak";
-    private final int EXPIRATION_MINUTES = 15;
+    private final int EXPIRATION_MINUTES = 45;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
     public String getTokenFromUser(User user) {
         return Jwts.builder()

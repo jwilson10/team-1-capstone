@@ -31,8 +31,6 @@ function App() {
   }, []);
 
   const login = (token) => {
-    console.log("Should log in!");
-
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
     const { sub: username, user_id: userId, role_id: role } = jwtDecode(token);
@@ -51,16 +49,12 @@ function App() {
       token
     };
 
-    console.log(user);
-
     setUser(user);
 
     return user;
   };
 
   const logout = () => {
-    console.log("Should log out!");
-
     setUser(null);
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
   };
