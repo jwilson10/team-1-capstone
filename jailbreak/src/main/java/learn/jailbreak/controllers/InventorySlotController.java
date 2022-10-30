@@ -41,7 +41,6 @@ public class InventorySlotController {
         return ErrorResponse.build(result);
     }
 
-    //TODO: Ask corbin about minutiae
     @PutMapping
     public ResponseEntity<Object> updateInventorySlot(@AuthenticationPrincipal User user, @RequestBody InventorySlot inventorySlot){
         Game game = gameService.findGameById(inventorySlot.getGameId());
