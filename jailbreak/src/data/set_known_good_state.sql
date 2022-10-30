@@ -31,4 +31,12 @@ BEGIN
     (1, 1, 2),
     (2, 2, 1);
     
+    insert into event(event_name) values
+    ("tutorial"),
+    ("distraction");
+    
+    insert into game_event(game_id, event_id) values
+    (1, 1),
+    (2, 1),
+    (2, 2);
 END
