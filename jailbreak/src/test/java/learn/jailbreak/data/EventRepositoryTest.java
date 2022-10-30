@@ -41,4 +41,13 @@ class EventRepositoryTest {
         assertEquals("tutorial", event.getEventName());
     }
 
+    @Test
+    void shouldFindByEventName(){
+        Event event = repository.findByEventName("tutorial");
+
+        assertNotNull(event);
+        assertEquals(1, event.getEventId());
+        assertEquals("tutorial", event.getEventName());
+    }
+
 }
