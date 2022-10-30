@@ -1,5 +1,9 @@
-CREATE PROCEDURE `set_known_good_state` ()
+CREATE DEFINER=`root`@`%` PROCEDURE `set_known_good_state`()
 BEGIN
+	delete from game_event;
+    alter table game_event auto_increment = 1;
+    delete from event;
+    alter table event auto_increment = 1;
 	delete from inventory_slot;
     alter table inventory_slot auto_increment = 1;
     delete from resources;
