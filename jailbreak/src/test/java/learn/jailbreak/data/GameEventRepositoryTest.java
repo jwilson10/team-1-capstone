@@ -44,4 +44,14 @@ class GameEventRepositoryTest {
         assertEquals(4, actual.getGameEventId());
     }
 
+    @Test
+    void shouldFindByGameId(){
+        List<GameEvent> gameEvents = gameEventRepository.findByGameId(2);
+
+        assertNotNull(gameEvents);
+        assertEquals(2, gameEvents.size());
+        assertEquals(1, gameEvents.get(0).getEventId());
+        assertEquals(2, gameEvents.get(1).getEventId());
+    }
+
 }
