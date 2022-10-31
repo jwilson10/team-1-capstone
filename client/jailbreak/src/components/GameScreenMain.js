@@ -84,8 +84,11 @@ function GameScreenMain(){
     }
 
     async function updateGame(){
-        const result = await findGame(game.gameId);
-        setGame(result);
+        if(game.gameId){
+            console.log("Game ID:" + game.gameId);
+            const result = await findGame(game.gameId);
+            setGame(result);
+        }
     }
 
     function saveGame(){
