@@ -122,3 +122,26 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c
     "gameId": 1,
     "eventId": 2
 }
+
+###
+GET http://localhost:8080/event/tutorial HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY3MjMwNTQxfQ.iOtP_dD1XI74KW8sg2_QgHPW7Q1e0upRlyXaFrFHtoM
+
+###
+POST http://3.14.126.9:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+###
+
+POST http://localhost:8080/create_account HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "123abc1!"    
+}

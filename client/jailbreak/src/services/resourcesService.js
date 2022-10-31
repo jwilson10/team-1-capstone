@@ -1,4 +1,4 @@
-const RESOURCES_API_URL = "http://localhost:8080/resources";
+const RESOURCES_API_URL = `${process.env.REACT_APP_API_URL}/resources`;
 
 //Get mapping
 export async function findResourcesById(resourcesId){

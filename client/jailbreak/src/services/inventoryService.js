@@ -1,4 +1,4 @@
-const INVENTORY_API_URL = "http://localhost:8080/inventory";
+const INVENTORY_API_URL = `${process.env.REACT_APP_API_URL}/inventory`;
 
 //Post mapping
 export async function createInventorySlot(slot){

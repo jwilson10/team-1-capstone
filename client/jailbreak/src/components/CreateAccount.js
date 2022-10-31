@@ -13,7 +13,7 @@ function CreateAccount() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch("http://localhost:8080/create_account", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/create_account`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
