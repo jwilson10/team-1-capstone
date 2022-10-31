@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .antMatchers("/game/*").authenticated()
                 .antMatchers("/game/event").authenticated()
                 .antMatchers("/game/event/*").authenticated()
+                .antMatchers("/event/*").authenticated()
                 .antMatchers("/inventory").authenticated()
                 .antMatchers("/resources/*").authenticated()
                 .antMatchers("/resources/name/*").authenticated()
