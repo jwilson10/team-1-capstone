@@ -4,7 +4,8 @@ import { createInventorySlot, updateInventorySlot } from "../services/inventoryS
 import {findResourcesById, findResourcesByName} from "../services/resourcesService";
 
 
-function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame}){
+function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
+                            triggerTutorialEvent}){
 
     const [resources, setResources] = useState([]);
 
@@ -69,10 +70,20 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame}){
     useEffect(() => {
         if(!resources) return;
 
+        //Trigger the "tutorial" event when prerequisites are met
+        const cheese = resources.find(resource => resource.resourceName === "cheese");
+        if(cheese && cheese.slot.quantity >= 15){
+            triggerTutorialEvent();
+        }
+
         async function handleIncrements(){
+            console.log("resources");
+            console.log(resources);
+
             await Promise.all(
-                resources.forEach(async resource => {
+                resources.map(resource => {
                     if(!resource) return;
+
 
                     //Main Goal: update the inventory slot for each resource
 
@@ -85,8 +96,10 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame}){
                     }
                     
                     const slot = resource.slot;
+                    if(!slot) return;
+
                     slot.quantity = parseInt(slot.quantity) + increment;
-                    updateInventorySlot(slot);
+                    return updateInventorySlot(slot);
                 })
             );
 

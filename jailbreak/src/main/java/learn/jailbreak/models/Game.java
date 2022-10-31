@@ -18,6 +18,10 @@ public class Game {
     @JoinColumn(name="game_id", insertable = false, updatable = false, nullable = false)
     private List<InventorySlot> inventorySlotList;
 
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name="game_id", insertable = false, updatable = false, nullable = false)
+    private List<GameEvent> eventsList;
+
     public List<InventorySlot> getInventorySlotList() {
         return inventorySlotList;
     }
@@ -56,5 +60,13 @@ public class Game {
 
     public void setGameNumber(int gameNumber) {
         this.gameNumber = gameNumber;
+    }
+
+    public List<GameEvent> getEventsList() {
+        return eventsList;
+    }
+
+    public void setEventsList(List<GameEvent> eventsList) {
+        this.eventsList = eventsList;
     }
 }

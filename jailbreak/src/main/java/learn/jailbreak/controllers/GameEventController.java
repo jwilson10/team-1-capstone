@@ -44,7 +44,7 @@ public class GameEventController {
         if(gameEvent == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //don't want a null gameEvent
         }
-        Game game = gameService.findGameById(gameEvent.getEventId());
+        Game game = gameService.findGameById(gameEvent.getGameId());
         if(game == null || game.getUserId() != user.getUserId()){
             return new ResponseEntity<>(HttpStatus.CONFLICT); //don't want them modifying other user's stuff
         }

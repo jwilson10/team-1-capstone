@@ -106,3 +106,5 @@ select * from resources;
     (1, 1),
     (2, 1),
     (2, 2);
+    
+select * from game_event;

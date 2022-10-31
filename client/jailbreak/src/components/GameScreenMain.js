@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { findGame } from "../services/gameService";
 import ActionButtons2 from "./ActionButtons2";
 import ActionButtons3 from "./ActionButtons3";
+import { createGameEvent } from "../services/gameEventService";
 
 function GameScreenMain(){    
     const [stateForUpdate, setStateForUpdate] = useState(
@@ -18,6 +19,7 @@ function GameScreenMain(){
     const [resourceUpdate, setResourceUpdate] = useState(undefined);
     const [initialResources, setInitialResources] = useState([]);
     const [game, setGame] = useState({});
+    const [updateInterval, setUpdateInterval] = useState(undefined);
 
     //This is an object instead of a string because setEffect in the message display
     //didnt trigger when the string was set to its previous value
@@ -32,7 +34,9 @@ function GameScreenMain(){
     const UPDATE_DELAY_IN_MS = 4000;
 
     useEffect(() =>{
-        setInterval(update, UPDATE_DELAY_IN_MS);
+        if(!updateInterval){
+            setUpdateInterval(setInterval(update, UPDATE_DELAY_IN_MS));
+        }
 
         async function getGameFromHistory(){
             if(history.location.state && history.location.state.game){    
@@ -70,11 +74,11 @@ function GameScreenMain(){
         
         if(amount > 0){
             setMessage({
-                message: `you gained ${amount} ${resourceName}`
+                message: `you gain ${amount} ${resourceName}`
             });
         }else{
             setMessage({
-                message: `you lost ${amount} ${resourceName}`
+                message: `you lose ${amount} ${resourceName}`
             });
         }
     }
@@ -88,6 +92,21 @@ function GameScreenMain(){
         //Todo: Implement. The game pretty much saves on its own though I think, so
         //this may not be necessary.
         console.log(game);
+    }
+
+    function triggerTutorialEvent(){
+        console.log("Trigger tutorial event start");
+        if(game.eventsList.find(event => event.eventId === 1)){
+            return;
+        }
+        console.log("Trigger tutorial event past initial if");
+
+        createGameEvent({
+            eventId: 1,
+            gameId: game.gameId
+        });
+
+        updateGame();
     }
 
     return (
@@ -148,7 +167,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame}></ResourceDisplay>
+                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerTutorialEvent={triggerTutorialEvent}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>
