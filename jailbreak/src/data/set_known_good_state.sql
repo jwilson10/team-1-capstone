@@ -29,7 +29,8 @@ BEGIN
     
     insert into resources (resource_name, resource_value, resource_default_inc_rate) values
     ('cheese', 1, 1),
-    ('yogies', 2, 1);
+    ('yogies', 2, 1),
+    ('minions', 3, 1);
     
     insert into inventory_slot(game_id, resource_id, quantity) values
     (1, 1, 2),

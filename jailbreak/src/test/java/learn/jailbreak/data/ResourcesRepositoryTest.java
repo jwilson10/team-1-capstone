@@ -29,7 +29,7 @@ class ResourcesRepositoryTest {
     @Transactional
     void shouldFindAll(){
         //Arrange
-        int expected = 2;
+        int expected = 3;
 
         //Act
         List<Resources> actual = repository.findAll();
@@ -50,7 +50,7 @@ class ResourcesRepositoryTest {
         assertEquals(resources.getResourceName(), actual.getResourceName());
         assertEquals(resources.getResourceValue(), actual.getResourceValue());
         assertEquals(resources.getResourceDefaultIncRate(), actual.getResourceDefaultIncRate());
-        assertEquals(3, actual.getResourceId());
+        assertEquals(4, actual.getResourceId());
     }
 
     @Test
@@ -74,10 +74,10 @@ class ResourcesRepositoryTest {
 
 
         //Act
-        repository.deleteById(1);
+        repository.deleteById(3);
 
         //Assert
-        assertNull(repository.findById(1).orElse(null));
+        assertNull(repository.findById(3).orElse(null));
     }
 
     @Test
