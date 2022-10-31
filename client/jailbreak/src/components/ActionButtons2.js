@@ -1,7 +1,9 @@
+import ResourceButton from "./ResourceButton";
+
 function ActionButtons2({updateResource}){
     return(
         <>
-            <button className="btn btn-light mt-3" resourcename="cheese" amount="5" onClick={updateResource}>Gather Minions</button>
+            <ResourceButton resourceName="minions" amount="5" updateResource={updateResource} content="Gather Minions"></ResourceButton>
         </>
     )
 }

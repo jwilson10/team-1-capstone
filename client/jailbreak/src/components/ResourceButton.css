@@ -27,3 +27,18 @@
     background-color: rgb(247, 193, 239);
     outline: 2px solid black;
 }
+
+.minions{
+    background-color: rgba(181, 181, 181, 0.904);
+    outline: 1px solid black;
+}
+
+.minions:hover{
+    background-color: rgba(199, 199, 199, 0.912);
+    outline: 2px solid black;
+}
+
+.minions:active:hover{
+    background-color: rgba(181, 181, 181, 0.904);
+    outline: 2px solid black;
+}
