@@ -10,7 +10,7 @@ function CreateAccount() {
     const [errors, setErrors] = useState([]);
     const history = useHistory();
 
-
+// add mesage when user already exists
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await fetch("http://localhost:8080/create_account", {
@@ -35,6 +35,7 @@ if (response.status === 201) {
   } else {
     setErrors(["Unknown error."]);
   }
+  
 };
     return (
         <>
