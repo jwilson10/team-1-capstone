@@ -12,8 +12,8 @@ import ActionButtons2 from "./ActionButtons2";
 import ActionButtons3 from "./ActionButtons3";
 
 function GameScreenMain(){    
-    const [updateState, setUpdateState] = useState(
-        {number: 0}
+    const [stateForUpdate, setStateForUpdate] = useState(
+            {number: 0}
         );
     const [resourceUpdate, setResourceUpdate] = useState(undefined);
     const [initialResources, setInitialResources] = useState([]);
@@ -29,13 +29,15 @@ function GameScreenMain(){
 
     const history = useHistory();
 
-    const UPDATE_DELAY_IN_MS = 20000;
+    const UPDATE_DELAY_IN_MS = 4000;
 
     useEffect(() =>{
-        async function getGameFromHistory(){
-            setInterval(update, UPDATE_DELAY_IN_MS);
+        setInterval(update, UPDATE_DELAY_IN_MS);
 
+        async function getGameFromHistory(){
             if(history.location.state && history.location.state.game){    
+                //The game stored in history state doesnt update, so we need to grab the updated
+                //version from the backend.
                 const upToDateGame = await findGame(history.location.state.game.gameId);
     
                 setGame(upToDateGame);
@@ -50,7 +52,7 @@ function GameScreenMain(){
     }, []);
 
     function update(){
-        setUpdateState(previousState => {
+        setStateForUpdate(previousState => {
             const newState = {...previousState};
             newState.number += 1;
             return newState;
@@ -97,7 +99,7 @@ function GameScreenMain(){
                     <div className="col col-10 game">
                         <div className="row">
                             <div className="col messages">
-                                <MessagesDisplay message={message} updateState={updateState}></MessagesDisplay>
+                                <MessagesDisplay message={message} stateForUpdate={stateForUpdate}></MessagesDisplay>
                             </div>
                             <div className="col col-9">
                                 <div className="col">
@@ -146,7 +148,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay resourceUpdate={resourceUpdate} game={game} updateGame={updateGame}></ResourceDisplay>
+                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>

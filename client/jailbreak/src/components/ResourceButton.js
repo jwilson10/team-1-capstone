@@ -9,7 +9,6 @@ function ResourceButton({resourceName, amount, updateResource, content}){
         if(!isCoolingDown) return;
 
         setTimeout(() => {
-            console.log("timer should be done");
             setIsCoolingDown(false);
         }, cooldownTime);
     }, [isCoolingDown]);

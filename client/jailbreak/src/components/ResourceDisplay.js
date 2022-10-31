@@ -4,7 +4,7 @@ import { createInventorySlot, updateInventorySlot } from "../services/inventoryS
 import {findResourcesById, findResourcesByName} from "../services/resourcesService";
 
 
-function ResourceDisplay({resourceUpdate, game, updateGame}){
+function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame}){
 
     const [resources, setResources] = useState([]);
 
@@ -65,6 +65,36 @@ function ResourceDisplay({resourceUpdate, game, updateGame}){
 
         loadResources();
     }, [game]);
+
+    useEffect(() => {
+        if(!resources) return;
+
+        async function handleIncrements(){
+            await Promise.all(
+                resources.forEach(async resource => {
+                    if(!resource) return;
+
+                    //Main Goal: update the inventory slot for each resource
+
+                    //set the proper increment
+                    let increment = 1;
+                    switch(resource.resourceName){
+                        case "cheese":
+                            increment = 5;
+                            break;
+                    }
+                    
+                    const slot = resource.slot;
+                    slot.quantity = parseInt(slot.quantity) + increment;
+                    updateInventorySlot(slot);
+                })
+            );
+
+            updateGame();
+        }
+
+        handleIncrements();
+    }, [stateForUpdate]);
 
     function handleResources(){
         return(
