@@ -56,3 +56,33 @@ use jailbreak_test;
 select * from `game`;
 select * from `user`;
 select * from resources;
+
+    insert into `role`(role_name) values
+    ('ADMIN'),
+    ('USER');
+    
+    insert into `user`(username, user_password, role_id) values
+    ('admin', '$2a$10$Sz5TSqta44K8xKEnAMHyvulRaIT4/z5c8P3CMo.gfG/X22.1RTV8O', 1),
+    ('user', '$2a$10$vmRBGkzIK16Ru71KGR564uaafeZHI8cJXwDWr5qk3X/ncnJ9XTurG', 2);
+    
+    insert into game (user_id, character_name, game_number) values
+    (1, 'admin test', 1),
+    (2, 'user test', 1);
+    
+    insert into resources (resource_name, resource_value, resource_default_inc_rate) values
+    ('cheese', 1, 1),
+    ('yogies', 2, 1);
+    
+    insert into inventory_slot(game_id, resource_id, quantity) values
+    (1, 1, 2),
+    (2, 2, 1);
+    
+    insert into event(event_name) values
+    ("tutorial"),
+    ("meeting"),
+    ("distraction");
+    
+    insert into game_event(game_id, event_id) values
+    (1, 1),
+    (2, 1),
+    (2, 2);
