@@ -98,3 +98,27 @@ Content-Type: application/json
 
 GET http://localhost:8080/resources/1 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY2ODM1MDc0fQ.XaaEXiomct7MgVx2TZx__hWbLgxbvDEdAAe_v_o_2SU
+
+###
+POST http://localhost:8080/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+###
+
+GET http://localhost:8080/game/event/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY3MjMwMDg2fQ.3jRb9Ywvo6ovVEz2UWLWVCJWNXI0pA_emWZdt0kQpY4
+
+###
+POST http://localhost:8080/game/event HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqYWlsYnJlYWsiLCJzdWIiOiJ1c2VyIiwidXNlcl9pZCI6Miwicm9sZV9pZCI6MiwiZXhwIjoxNjY3MjMwMjc5fQ.JxZkQq3Lh24fCAm01ZKpxcdD_HV2V3KZcMhzSUYtFPg
+
+{
+    "gameId": 1,
+    "eventId": 2
+}
