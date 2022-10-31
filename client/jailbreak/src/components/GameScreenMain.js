@@ -8,23 +8,8 @@ import { useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
 import { findGame } from "../services/gameService";
-
-/*
-    {
-        "gameId": 1,
-        "userId": 1,
-        "characterName": "Ethan",
-        "gameNumber": 1,
-        "inventorySlotList": [
-          {
-            "slotId": 2,
-            "gameId": 2,
-            "resourceId": 1,
-            "quantity": 10
-          }
-        ]
-    }
-*/
+import ActionButtons2 from "./ActionButtons2";
+import ActionButtons3 from "./ActionButtons3";
 
 function GameScreenMain(){    
     const [updateState, setUpdateState] = useState(
@@ -98,6 +83,8 @@ function GameScreenMain(){
     }
 
     function saveGame(){
+        //Todo: Implement. The game pretty much saves on its own though I think, so
+        //this may not be necessary.
         console.log(game);
     }
 
@@ -142,7 +129,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Craft</h6>
-                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
+                                                    <ActionButtons2 updateResource={updateResource}></ActionButtons2>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,7 +138,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Trade</h6>
-                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
+                                                    <ActionButtons3 updateResource={updateResource}></ActionButtons3>
                                                 </div>
                                             </div>
                                         </div>

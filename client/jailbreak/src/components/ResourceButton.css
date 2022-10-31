@@ -1,0 +1,29 @@
+.cheese{
+    background-color: rgba(255, 230, 0, 0.904);
+    outline: 1px solid black;
+}
+
+.cheese:hover{
+    background-color: rgba(255, 255, 0, 0.912);
+    outline: 2px solid black;
+}
+
+.cheese:active:hover{
+    background-color: rgba(255, 230, 0, 0.904);
+    outline: 2px solid black;
+}
+
+.yogies{
+    background-color: rgb(247, 193, 239);
+    outline: 1px solid black;
+}
+
+.yogies:hover{
+    background-color: rgb(255, 216, 249);
+    outline: 2px solid black;
+}
+
+.yogies:active:hover{
+    background-color: rgb(247, 193, 239);
+    outline: 2px solid black;
+}
