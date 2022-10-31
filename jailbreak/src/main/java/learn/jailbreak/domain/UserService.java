@@ -41,6 +41,11 @@ public class UserService implements UserDetailsService {
 
         password = passwordEncoder.encode(password);
 
+        result = validateUsername(username);
+        if(!result.isSuccess()){
+            return result;
+        }
+
         User appUser = new User(0, username, password, 2);
 
         try {
@@ -75,6 +80,14 @@ public class UserService implements UserDetailsService {
                             " a letter, and a non-digit/non-letter");
         }
 
+        return result;
+    }
+
+    private Result<User> validateUsername(String username) {
+        Result result = new Result();
+        if(userRepository.findByUsername(username) != null){
+            result.addMessage("The provided username already exists");
+        }
         return result;
     }
 
