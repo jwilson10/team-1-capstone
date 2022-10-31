@@ -10,7 +10,6 @@ function CreateAccount() {
     const [errors, setErrors] = useState([]);
     const history = useHistory();
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await fetch("http://localhost:8080/create_account", {
@@ -26,15 +25,19 @@ function CreateAccount() {
 });
 
 if (response.status === 201) {
-    // const { jwt_token } = 
+    const { jwt_token } = 
     await response.json();
         
     history.push("/login");
   } else if (response.status === 403) {
     setErrors(["Login failed."]);
   } else {
-    setErrors(["Unknown error."]);
+    const result = await response.json();
+    console.log(result);
+    setErrors(result);
   }
+
+  
 };
     return (
         <>

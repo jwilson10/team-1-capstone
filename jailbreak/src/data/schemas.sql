@@ -19,8 +19,6 @@ create table `user` (
         references `role`(role_id)
     );
     
-
-
 create table game(
 	game_id int primary key auto_increment,
 	user_id int not null ,
@@ -52,6 +50,7 @@ create table inventory_slot(
 		foreign key (game_id)
 		references game(game_id)
 );
+
 create table `event`(
 	event_id int primary key auto_increment,
     event_name varchar(100) not null

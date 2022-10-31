@@ -38,8 +38,9 @@ if (response.status === 200) {
   } else if (response.status === 403) {
     setErrors(["Login failed."]);
   } else {
-    setErrors(["Unknown error."]);
-  }
+    const result = await response.json();
+    console.log(result);
+    setErrors(result);  }
 };
 
   return (
