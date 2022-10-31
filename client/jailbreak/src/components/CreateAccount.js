@@ -25,7 +25,7 @@ function CreateAccount() {
 });
 
 if (response.status === 201) {
-    // const { jwt_token } = 
+    const { jwt_token } = 
     await response.json();
         
     history.push("/login");
@@ -36,6 +36,7 @@ if (response.status === 201) {
     console.log(result);
     setErrors(result);
   }
+
   
 };
     return (
@@ -57,8 +58,6 @@ if (response.status === 201) {
         </div>
         <div>
         {errors.map((error, i) => (
-            
-
         <Error key={i} msg={error} />
         ))}
         </div>
