@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import {useState} from "react";
 import {useHistory} from "react-router-dom";
 import Error from "./Error";
+import "./StartScreen.css";
 
 function CreateAccount() {
 
@@ -41,7 +42,7 @@ if (response.status === 201) {
 };
     return (
         <>
-        <div className="text-body text-lg-center">
+        <div>
         <h1 className=" d-flex align-items-center justify-content-center m-5">Register Account</h1>
         </div>    
          <form onSubmit={handleSubmit}>
