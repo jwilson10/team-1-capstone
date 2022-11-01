@@ -59,11 +59,9 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                     const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
                     let slot = undefined;
                     let newQuantity = 0;
-                    console.log(found);
                     if(found){
                         let slotResourceId = found.resourceId;
                         let currentSlot = game.inventorySlotList.find(value => value.resourceId === found.resourceId);
-                        console.log(currentSlot);
                         newQuantity = currentSlot.quantity + 1;
                         slot ={
                             slotId: currentSlot.slotId,
@@ -131,8 +129,6 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
         }
 
         async function handleIncrements(){
-            console.log("resources");
-            console.log(resources);
 
             await Promise.all(
                 resources.map(resource => {
