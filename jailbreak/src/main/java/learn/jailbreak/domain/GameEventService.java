@@ -3,6 +3,7 @@ package learn.jailbreak.domain;
 import learn.jailbreak.data.EventRepository;
 import learn.jailbreak.data.GameEventRepository;
 import learn.jailbreak.data.GameRepository;
+import learn.jailbreak.models.Game;
 import learn.jailbreak.models.GameEvent;
 import learn.jailbreak.models.InventorySlot;
 import org.springframework.stereotype.Service;
