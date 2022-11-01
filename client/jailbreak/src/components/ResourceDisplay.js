@@ -5,7 +5,7 @@ import {findResourcesById, findResourcesByName} from "../services/resourcesServi
 
 
 function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
-                            triggerTutorialEvent}){
+                            triggerEvent}){
 
     const [resources, setResources] = useState([]);
 
@@ -16,34 +16,34 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
 
         async function updateInventory(){
             if(resourceUpdate.amount > 0){
-            //Add or update an inventory slot.
-            const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
-            let slot = undefined;
-            if(found){
-                slot = found.slot;
-                slot.quantity = parseInt(slot.quantity) + parseInt(resourceUpdate.amount);
+                //Add or update an inventory slot.
+                const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
+                let slot = undefined;
+                if(found){
+                    slot = found.slot;
+                    slot.quantity = parseInt(slot.quantity) + parseInt(resourceUpdate.amount);
 
-                await updateInventorySlot(slot);
-            }else{
-                const resource = await findResourcesByName(resourceUpdate.resourceName);
+                    await updateInventorySlot(slot);
+                }else{
+                    const resource = await findResourcesByName(resourceUpdate.resourceName);
 
-                if(!resource){
-                    return Promise.reject();
+                    if(!resource){
+                        return Promise.reject();
+                    }
+
+                    slot = {
+                        resourceId: resource.resourceId,
+                        quantity: resourceUpdate.amount,
+                        gameId: game.gameId
+                    }
+
+                    await createInventorySlot(slot);
                 }
-
-                slot = {
-                    resourceId: resource.resourceId,
-                    quantity: resourceUpdate.amount,
-                    gameId: game.gameId
-                }
-
-                await createInventorySlot(slot);
-            }
             } else{
                 //remove cheese
                 //update inventory slot (or create one)
             }
-            }
+        }
 
         updateInventory().then(() => {
             updateGame();
@@ -77,10 +77,19 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
         //Trigger the "tutorial" event when prerequisites are met
         const cheese = resources.find(resource => resource.resourceName === "cheese");
         if(cheese && cheese.slot.quantity >= 15){
-            triggerTutorialEvent();
+            triggerEvent(1);
         }
 
         async function handleIncrements(){
+            if(!localStorage.getItem("eventState")){
+                return;
+            }
+
+            const eventState = JSON.parse(localStorage.getItem("eventState"));
+            if(!eventState){
+                return;
+            }
+            
             console.log("resources");
             console.log(resources);
 
@@ -92,10 +101,13 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                     //Main Goal: update the inventory slot for each resource
 
                     //set the proper increment
-                    let increment = 1;
+                    let increment = 0;
                     switch(resource.resourceName){
                         case "cheese":
-                            increment = 5;
+                            increment = eventState.cheeseIncrement;
+                            break;
+                        case "yogies":
+                            increment = eventState.yogiesIncrement;
                             break;
                     }
                     

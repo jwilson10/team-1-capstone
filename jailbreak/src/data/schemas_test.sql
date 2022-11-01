@@ -50,6 +50,23 @@ quantity int not null,
     foreign key (game_id)
     references game(game_id)
 );
+
+create table `event`(
+	event_id int primary key auto_increment,
+    event_name varchar(100) not null
+);
+
+create table game_event(
+	game_event_id int primary key auto_increment, 
+	event_id int not null,
+    game_id int not null,
+	constraint fk_game_event_event_id
+		foreign key (event_id)
+        references `event`(event_id),
+	constraint fk_game_event_game_id
+        foreign key (game_id)
+        references inventory_slot(game_id)
+);
     -- call set_known_good_state();
     
 use jailbreak_test;

@@ -31,13 +31,10 @@ function GameScreenMain(){
 
     const history = useHistory();
 
-    const UPDATE_DELAY_IN_MS = 4000;
+    const UPDATE_DELAY_IN_MS = 2000;
 
     useEffect(() =>{
-        if(!updateInterval){
-            setUpdateInterval(setInterval(update, UPDATE_DELAY_IN_MS));
-        }
-
+    
         async function getGameFromHistory(){
             if(history.location.state && history.location.state.game){    
                 //The game stored in history state doesnt update, so we need to grab the updated
@@ -54,6 +51,33 @@ function GameScreenMain(){
 
         getGameFromHistory();
     }, []);
+
+    
+    function handleEventState(){
+        if(game && game.eventsList){
+            const eventState = {
+                cheeseIncrement: 0,
+                yogiesIncrement: 0,
+            };
+            
+            game.eventsList.forEach(element => {
+                switch(element.eventId){
+                    case 1:
+                        eventState.cheeseIncrement += 3;
+                        break;
+                    case 2:
+                        eventState.yogiesIncrement += 1;
+                        break;
+                }
+            });
+
+            localStorage.setItem("eventState", JSON.stringify(eventState));
+        }
+    }
+
+    useEffect(() => {
+        handleEventState();
+    }, [game]);
 
     function update(){
         setStateForUpdate(previousState => {
@@ -97,19 +121,21 @@ function GameScreenMain(){
         console.log(game);
     }
 
-    function triggerTutorialEvent(){
-        console.log("Trigger tutorial event start");
-        if(game.eventsList.find(event => event.eventId === 1)){
+    async function triggerEvent(eventId){
+        if(game.eventsList.find(event => event.eventId === eventId)){
             return;
         }
-        console.log("Trigger tutorial event past initial if");
 
-        createGameEvent({
-            eventId: 1,
+        await createGameEvent({
+            eventId: eventId,
             gameId: game.gameId
         });
 
         updateGame();
+    }
+
+    if(!updateInterval){
+        setUpdateInterval(setInterval(update, UPDATE_DELAY_IN_MS));
     }
 
     return (
@@ -170,7 +196,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerTutorialEvent={triggerTutorialEvent}></ResourceDisplay>
+                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerEvent={triggerEvent}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>
