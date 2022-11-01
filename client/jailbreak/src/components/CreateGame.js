@@ -32,9 +32,9 @@ function CreateGame(){
             
             const response = createGame(newGame).then(result => history.push("/all-games")).catch(errs => {
                 if(errs){
-                    
+                    setErrors(errs);
                 } else{
-
+                    setErrors(["Something else went wrong. :("]);
                 }});
         }else{
             //TODO: Error, don't know what the game number is
