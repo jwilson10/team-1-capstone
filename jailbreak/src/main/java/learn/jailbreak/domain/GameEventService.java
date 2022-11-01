@@ -53,7 +53,7 @@ public class GameEventService {
     private Result<GameEvent> createValidate(GameEvent gameEvent){
         Result<GameEvent> result = validate(gameEvent);
         if(result.isSuccess()){
-            if(gameEvent.getGameEventId() != 0 || gameEventRepository.findById(gameEvent.getEventId()).orElse(null) != null){
+            if(gameEvent.getGameEventId() != 0 || gameEventRepository.findById(gameEvent.getGameEventId()).orElse(null) != null){
                 result.addMessage("Current Game Event Slot already exists.");
             }
         }

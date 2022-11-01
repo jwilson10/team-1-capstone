@@ -60,7 +60,7 @@ if (response.status === 200) {
         </div>
         <div className="d-grid gap-2 col-6 mx-auto">
             <label htmlFor="password" className="form-label d-flex align-items-center justify-content-center m-3">Enter Password</label>
-            <input type="text" className="form-control" id="password" name="password" onChange={(event) => setPassword(event.target.value)}></input>
+            <input type="password" className="form-control" id="password" name="password" onChange={(event) => setPassword(event.target.value)}></input>
         </div><div className="d-grid gap-2 col-6 mx-auto">
                     <button className="btn btn-dark m-5" type="submit">Login</button>
         </div>

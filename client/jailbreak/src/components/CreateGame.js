@@ -17,16 +17,9 @@ function CreateGame(){
         const nextName = evt.target.value;
         
         setName(nextName);
-
-        //Just testing errors, TODO: remove this when proper error handling is in place.
-        if(nextName === ""){
-            setErrors([]);
-        }else{
-            setErrors(["Buh", "BuhBuh", "UhBuh", nextName]);
-        }
     }
 
-    function handleSubmit(evt){
+    async function handleSubmit(evt){
         evt.preventDefault();
         evt.stopPropagation();
 
@@ -37,7 +30,12 @@ function CreateGame(){
                 "gameNumber": history.location.state.gameNumber
             }
             
-            createGame(newGame).then(result => history.push("/all-games")).catch(console.log);
+            const response = createGame(newGame).then(result => history.push("/all-games")).catch(errs => {
+                if(errs){
+                    
+                } else{
+
+                }});
         }else{
             //TODO: Error, don't know what the game number is
         }
