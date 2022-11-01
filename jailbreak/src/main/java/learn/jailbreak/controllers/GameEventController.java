@@ -65,7 +65,7 @@ public class GameEventController {
         if(game == null || game.getUserId() != user.getUserId()){
             return new ResponseEntity<>(HttpStatus.CONFLICT); //don't want them modifying other user's stuff
         }
-        Result<GameEvent> result = gameEventService.create(gameEvent);
+        Result<GameEvent> result = gameEventService.update(gameEvent);
         if(result.isSuccess()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
