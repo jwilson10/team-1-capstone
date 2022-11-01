@@ -8,6 +8,7 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                             triggerEvent}){
 
     const [resources, setResources] = useState([]);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     useEffect(() => {
         if(!resourceUpdate){
@@ -40,8 +41,55 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                     await createInventorySlot(slot);
                 }
             } else{
-                //remove cheese
-                //update inventory slot (or create one)
+                let cheeseResource = await findResourcesByName("cheese");
+                let cheese = undefined;
+                for(let s of cheeseResource.inventorySlotList){
+                    if(game.gameId == s.gameId){
+                        cheese = s.quantity;
+                        break;
+                    }
+                }
+                //is there enough cheese?
+                if(!cheese || cheese < (resourceUpdate.amount * -1)){
+                    window.alert(`You don't have enough cheese! You need at least ${resourceUpdate.amount * -1} cheese.`);
+                }
+                //if yes, remove cheese
+                else{
+                    //update inventory slot (or create one)
+                    const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
+                    let slot = undefined;
+                    let newQuantity = 0;
+                    if(found){
+                        let slotResourceId = found.resourceId;
+                        let currentSlot = game.inventorySlotList.find(value => value.resourceId === found.resourceId);
+                        newQuantity = currentSlot.quantity + 1;
+                        slot ={
+                            slotId: currentSlot.slotId,
+                            resourceId: slotResourceId,
+                            quantity: newQuantity,
+                            gameId: game.gameId
+                        }
+                        await updateInventorySlot(slot);
+                    }else{
+                        const resource = await findResourcesByName(resourceUpdate.resourceName);
+                        const newQuantity = 1;
+
+                        if(!resource){
+                            return Promise.reject();
+                        }
+
+                        slot = {
+                            resourceId: resource.resourceId,
+                            quantity: newQuantity,
+                            gameId: game.gameId
+                        }
+                        await createInventorySlot(slot);
+                }
+                    let cheeseSlot = game.inventorySlotList.find(value => value.resourceId === cheeseResource.resourceId);
+                    cheeseSlot.quantity = cheeseSlot.quantity - 5;
+                    await updateInventorySlot(cheeseSlot);
+                }
+                    
             }
         }
 
