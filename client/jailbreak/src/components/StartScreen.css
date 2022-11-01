@@ -1,0 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Neucha|Cabin+Sketch&display=swap);
+body{
+    background-color: black;
+    color: whitesmoke;
+}
+
+.logo{
+    fill:whitesmoke;
+    font-family:'Cabin Sketch';
+    text-anchor: middle;
+}

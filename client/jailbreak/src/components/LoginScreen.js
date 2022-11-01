@@ -3,6 +3,7 @@ import {useContext, useState} from "react";
 import {useHistory} from "react-router-dom";
 import Error from "./Error";
 import AuthContext from "../context/AuthContext";
+import "./LoginScreen.css";
 
 //Dummy commit message
 //Dummy commit message, but again though
@@ -66,7 +67,7 @@ if (response.status === 200) {
         </div>
     </form>
     <div>
-      <Link to="/create-account"><h6 className=" d-flex align-items-center justify-content-center m-5">Don't have an account? Create one</h6></Link>
+      <Link to="/create-account"><h5 className=" d-flex align-items-center justify-content-center m-2 create-account">Don't have an account? Create one</h5></Link>
     </div>  
     </>
   )

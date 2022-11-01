@@ -1,5 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import { deleteGame } from "../services/gameService";
+import "./GameDisplayCard.css";
 
 function GameDisplayCard({title, game, resetGames, gameNum}){
 
