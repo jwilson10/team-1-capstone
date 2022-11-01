@@ -105,6 +105,22 @@ class GameEventServiceTest {
     }
 
     @Test
+    void shouldNotAllowOverwritingOfExistingGameEventId(){
+        GameEvent gameEvent = createValidGameEvent();
+        gameEvent.setGameEventId(1);
+        when(gameEventRepository.findById(1)).thenReturn(Optional.of(createValidGameEvent()));
+        when(gameRepository.findById(1)).thenReturn(Optional.of(createValidGame()));
+        when(eventRepository.findById(1)).thenReturn(Optional.of(createValidEvent()));
+
+        Result<GameEvent> result = gameEventService.create(gameEvent);
+
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Current Game Event Slot already exists.", result.getMessages().get(0));
+        assertNull(result.getPayload());
+    }
+
+    @Test
     void shouldUpdate() {
         GameEvent gameEvent = createValidGameEvent();
         gameEvent.setJustAdded(false);

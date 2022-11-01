@@ -31,7 +31,7 @@ public class GameEventService {
     }
 
     public Result<GameEvent> create(GameEvent gameEvent){
-        Result<GameEvent> result = validate(gameEvent);
+        Result<GameEvent> result = createValidate(gameEvent);
         if(result.isSuccess()){
             result.setResultType(ResultType.SUCCESS);
             GameEvent newGameEvent = gameEventRepository.save(gameEvent);
@@ -46,6 +46,16 @@ public class GameEventService {
            result.setResultType(ResultType.SUCCESS);
            GameEvent newGameEvent = gameEventRepository.save(gameEvent);
            result.setPayload(newGameEvent);
+        }
+        return result;
+    }
+
+    private Result<GameEvent> createValidate(GameEvent gameEvent){
+        Result<GameEvent> result = validate(gameEvent);
+        if(result.isSuccess()){
+            if(gameEvent.getGameEventId() != 0 || gameEventRepository.findById(gameEvent.getEventId()) != null){
+                result.addMessage("Current Game Event Slot already exists.");
+            }
         }
         return result;
     }
