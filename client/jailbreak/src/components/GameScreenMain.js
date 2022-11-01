@@ -78,7 +78,7 @@ function GameScreenMain(){
             });
         }else{
             setMessage({
-                message: `you lose ${amount} ${resourceName}`
+                message: `you lose ${amount * -1} ${resourceName}`
             });
         }
     }

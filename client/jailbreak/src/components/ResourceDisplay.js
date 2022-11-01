@@ -15,7 +15,7 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
         }
 
         async function updateInventory(){
-
+            if(resourceUpdate.amount > 0){
             //Add or update an inventory slot.
             const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
             let slot = undefined;
@@ -39,7 +39,11 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
 
                 await createInventorySlot(slot);
             }
-        }
+            } else{
+                //remove cheese
+                //update inventory slot (or create one)
+            }
+            }
 
         updateInventory().then(() => {
             updateGame();
