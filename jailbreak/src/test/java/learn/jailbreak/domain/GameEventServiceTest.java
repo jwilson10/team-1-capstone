@@ -54,7 +54,6 @@ class GameEventServiceTest {
 
         Result<GameEvent> result = gameEventService.create(gameEvent);
         assertTrue(result.isSuccess());
-        assertEquals(1, result.getPayload().getGameEventId());
     }
 
     @Test
@@ -76,7 +75,7 @@ class GameEventServiceTest {
         GameEvent gameEvent = createValidGameEvent();
         gameEvent.setGameId(100);
         when(gameEventRepository.save(gameEvent)).thenReturn(createValidGameEvent());
-        when(gameRepository.findById(100)).thenReturn(null);
+        when(gameRepository.findById(100)).thenReturn(Optional.empty());
         when(eventRepository.findById(1)).thenReturn(Optional.of(createValidEvent()));
 
         Result<GameEvent> result = gameEventService.create(gameEvent);
@@ -94,7 +93,7 @@ class GameEventServiceTest {
         gameEvent.setEventId(100);
         when(gameEventRepository.save(gameEvent)).thenReturn(createValidGameEvent());
         when(gameRepository.findById(1)).thenReturn(Optional.of(createValidGame()));
-        when(eventRepository.findById(100)).thenReturn(null);
+        when(eventRepository.findById(100)).thenReturn(Optional.empty());
 
         Result<GameEvent> result = gameEventService.create(gameEvent);
 
@@ -134,6 +133,62 @@ class GameEventServiceTest {
         assertTrue(result.isSuccess());
         assertEquals(1, result.getPayload().getGameEventId());
         assertEquals(false, result.getPayload().isJustAdded());
+    }
+
+    @Test
+    void shouldNotUpdateNonExistentSlot(){
+        GameEvent gameEvent = createValidGameEvent();
+        gameEvent.setGameEventId(100);
+
+        when(gameEventRepository.save(gameEvent)).thenReturn(gameEvent);
+        when(gameEventRepository.findById(1)).thenReturn(Optional.of(createValidGameEvent()));
+        when(gameRepository.findById(1)).thenReturn(Optional.of(createValidGame()));
+        when(eventRepository.findById(1)).thenReturn(Optional.of(createValidEvent()));
+
+        Result<GameEvent> result = gameEventService.update(gameEvent);
+
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Game event not found.", result.getMessages().get(0));
+        assertNull(result.getPayload());
+    }
+
+    @Test
+    void shouldNotAllowGameIdChange(){
+        GameEvent gameEvent = createValidGameEvent();
+        gameEvent.setGameEventId(1);
+        gameEvent.setGameId(100);
+
+        when(gameEventRepository.save(gameEvent)).thenReturn(gameEvent);
+        when(gameEventRepository.findById(1)).thenReturn(Optional.of(createValidGameEvent()));
+        when(gameRepository.findById(100)).thenReturn(Optional.of(createValidGame()));
+        when(eventRepository.findById(1)).thenReturn(Optional.of(createValidEvent()));
+
+        Result<GameEvent> result = gameEventService.update(gameEvent);
+
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Cannot change game or event id!", result.getMessages().get(0));
+        assertNull(result.getPayload());
+    }
+
+    @Test
+    void shouldNotAllowEventIdChange(){
+        GameEvent gameEvent = createValidGameEvent();
+        gameEvent.setGameEventId(1);
+        gameEvent.setEventId(100);
+
+        when(gameEventRepository.save(gameEvent)).thenReturn(gameEvent);
+        when(gameEventRepository.findById(1)).thenReturn(Optional.of(createValidGameEvent()));
+        when(gameRepository.findById(1)).thenReturn(Optional.of(createValidGame()));
+        when(eventRepository.findById(100)).thenReturn(Optional.of(createValidEvent()));
+
+        Result<GameEvent> result = gameEventService.update(gameEvent);
+
+        assertFalse(result.isSuccess());
+        assertEquals(1, result.getMessages().size());
+        assertEquals("Cannot change game or event id!", result.getMessages().get(0));
+        assertNull(result.getPayload());
     }
 
     private static GameEvent createValidGameEvent(){

@@ -53,7 +53,7 @@ public class GameEventService {
     private Result<GameEvent> createValidate(GameEvent gameEvent){
         Result<GameEvent> result = validate(gameEvent);
         if(result.isSuccess()){
-            if(gameEvent.getGameEventId() != 0 || gameEventRepository.findById(gameEvent.getEventId()) != null){
+            if(gameEvent.getGameEventId() != 0 || gameEventRepository.findById(gameEvent.getEventId()).orElse(null) != null){
                 result.addMessage("Current Game Event Slot already exists.");
             }
         }
@@ -84,12 +84,12 @@ public class GameEventService {
             return result;
         }
 
-        if(gameRepository.findById(gameEvent.getGameId()) == null){
+        if(gameRepository.findById(gameEvent.getGameId()).orElse(null) == null){
             result.addMessage("Game not found.");
             return result;
         }
 
-        if(eventRepository.findById(gameEvent.getEventId()) == null){
+        if(eventRepository.findById(gameEvent.getEventId()).orElse(null) == null){
             result.addMessage("Event not found.");
         }
 
