@@ -40,6 +40,32 @@ public class GameEventService {
         return result;
     }
 
+    public Result<GameEvent> update(GameEvent gameEvent){
+        Result<GameEvent> result = updateValidate(gameEvent);
+        if(result.isSuccess()){
+           result.setResultType(ResultType.SUCCESS);
+           GameEvent newGameEvent = gameEventRepository.save(gameEvent);
+           result.setPayload(newGameEvent);
+        }
+        return result;
+    }
+
+    private Result<GameEvent> updateValidate(GameEvent gameEvent) {
+        Result<GameEvent> result = validate(gameEvent);
+        if(!result.isSuccess()){
+            return result;
+        }
+        GameEvent currentEvent = gameEventRepository.findById(gameEvent.getGameEventId()).orElse(null);
+        if(currentEvent == null){
+            result.addMessage("Game event not found.");
+            return result;
+        }
+        if(gameEvent.getEventId() != currentEvent.getEventId() || gameEvent.getGameId() != currentEvent.getGameId()){
+            result.addMessage("Cannot change game or event id!");
+        }
+        return result;
+    }
+
     private Result<GameEvent> validate(GameEvent gameEvent) {
         Result<GameEvent> result = new Result<>();
 

@@ -104,11 +104,27 @@ class GameEventServiceTest {
         assertNull(result.getPayload());
     }
 
+    @Test
+    void shouldUpdate() {
+        GameEvent gameEvent = createValidGameEvent();
+        gameEvent.setJustAdded(false);
+        gameEvent.setGameEventId(1);
+        when(gameEventRepository.save(gameEvent)).thenReturn(gameEvent);
+        when(gameEventRepository.findById(1)).thenReturn(Optional.of(createValidGameEvent()));
+        when(gameRepository.findById(1)).thenReturn(Optional.of(createValidGame()));
+        when(eventRepository.findById(1)).thenReturn(Optional.of(createValidEvent()));
+
+        Result<GameEvent> result = gameEventService.update(gameEvent);
+        assertTrue(result.isSuccess());
+        assertEquals(1, result.getPayload().getGameEventId());
+        assertEquals(false, result.getPayload().isJustAdded());
+    }
+
     private static GameEvent createValidGameEvent(){
         GameEvent gameEvent = new GameEvent();
         gameEvent.setEventId(1);
         gameEvent.setGameId(1);
-        gameEvent.setGameEventId(1);
+        gameEvent.setJustAdded(true);
         return gameEvent;
     }
 
