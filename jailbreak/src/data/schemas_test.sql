@@ -50,6 +50,7 @@ quantity int not null,
     foreign key (game_id)
     references game(game_id)
 );
+
     -- call set_known_good_state();
     
 use jailbreak_test;
