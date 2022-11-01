@@ -60,6 +60,7 @@ create table game_event(
     game_event_id int primary key auto_increment,
     event_id int not null,
     game_id int not null,
+    just_added boolean not null,
     constraint fk_game_event_event_id
         foreign key (event_id)
         references `event`(event_id),
@@ -99,9 +100,9 @@ select * from resources;
     ("meeting"),
     ("distraction");
     
-    insert into game_event(game_id, event_id) values
-    (1, 1),
-    (2, 1),
-    (2, 2);
+    insert into game_event(game_id, event_id, just_added) values
+    (1, 1, true),
+    (2, 1, true),
+    (2, 2, true);
     
 select * from game_event;

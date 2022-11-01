@@ -15,6 +15,16 @@ public class GameEvent {
     @Column(name="event_id")
     private int eventId;
 
+    private boolean justAdded;
+
+    public boolean isJustAdded() {
+        return justAdded;
+    }
+
+    public void setJustAdded(boolean justAdded) {
+        this.justAdded = justAdded;
+    }
+
     public int getGameEventId() {
         return gameEventId;
     }

@@ -40,8 +40,8 @@ BEGIN
     ("tutorial"),
     ("distraction");
     
-    insert into game_event(game_id, event_id) values
-    (1, 1),
-    (2, 1),
-    (2, 2);
+    insert into game_event(game_id, event_id, just_added) values
+    (1, 1, true),
+    (2, 1, true),
+    (2, 2, true);
 END

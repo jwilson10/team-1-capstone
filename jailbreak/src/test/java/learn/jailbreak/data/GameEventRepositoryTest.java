@@ -37,6 +37,7 @@ class GameEventRepositoryTest {
         GameEvent gameEvent = new GameEvent();
         gameEvent.setEventId(2);
         gameEvent.setGameId(1);
+        gameEvent.setJustAdded(true);
 
         GameEvent actual = gameEventRepository.save(gameEvent);
 
@@ -52,6 +53,20 @@ class GameEventRepositoryTest {
         assertEquals(2, gameEvents.size());
         assertEquals(1, gameEvents.get(0).getEventId());
         assertEquals(2, gameEvents.get(1).getEventId());
+        assertEquals(true, gameEvents.get(0).isJustAdded());
+        assertEquals(true, gameEvents.get(1).isJustAdded());
+    }
+
+    @Test
+    void shouldUpdateGameEvent(){
+        GameEvent gameEvent = gameEventRepository.findById(1).orElse(null);
+        gameEvent.setJustAdded(false);
+
+        GameEvent result = gameEventRepository.save(gameEvent);
+
+        assertNotNull(result);
+        assertEquals(1, result.getGameEventId());
+        assertFalse(result.isJustAdded());
     }
 
 }
