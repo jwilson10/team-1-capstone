@@ -25,4 +25,13 @@ public class EventController {
         }
         return ResponseEntity.ok(event);
     }
+
+    @GetMapping("/id/{eventId}")
+    public ResponseEntity<Object> findById(@PathVariable int eventId){
+        Event event = eventService.findByEventId(eventId);
+        if(event == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(event);
+    }
 }
