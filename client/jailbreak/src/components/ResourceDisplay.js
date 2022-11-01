@@ -50,8 +50,6 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                     }
                 }
                 //is there enough cheese?
-                console.log("We're ending up here.");
-                console.log("CHEESE!" + cheese);
                 if(!cheese || cheese < (resourceUpdate.amount * -1)){
                     window.alert(`You don't have enough cheese! You need at least ${resourceUpdate.amount * -1} cheese.`);
                 }
@@ -61,10 +59,18 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                     const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
                     let slot = undefined;
                     let newQuantity = 0;
+                    console.log(found);
                     if(found){
-                        slot.resourceId = found.resourceId;
-                        let quantity = game.inventorySlotList.find(value => value.resourceId === slot.resourceId).quantity;
-                        slot.quantity = quantity + 1;
+                        let slotResourceId = found.resourceId;
+                        let currentSlot = game.inventorySlotList.find(value => value.resourceId === found.resourceId);
+                        console.log(currentSlot);
+                        newQuantity = currentSlot.quantity + 1;
+                        slot ={
+                            slotId: currentSlot.slotId,
+                            resourceId: slotResourceId,
+                            quantity: newQuantity,
+                            gameId: game.gameId
+                        }
                         await updateInventorySlot(slot);
                     }else{
                         const resource = await findResourcesByName(resourceUpdate.resourceName);
@@ -81,6 +87,9 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                         }
                         await createInventorySlot(slot);
                 }
+                    let cheeseSlot = game.inventorySlotList.find(value => value.resourceId === cheeseResource.resourceId);
+                    cheeseSlot.quantity = cheeseSlot.quantity - 5;
+                    await updateInventorySlot(cheeseSlot);
                 }
                     
             }
