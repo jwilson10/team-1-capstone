@@ -65,7 +65,7 @@ create table game_event(
         references `event`(event_id),
 	constraint fk_game_event_game_id
         foreign key (game_id)
-        references inventory_slot(game_id)
+        references game(game_id)
 	);
     
 use jailbreak;
