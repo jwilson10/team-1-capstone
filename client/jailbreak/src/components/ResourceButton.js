@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./ResourceButton.css";
 
-function ResourceButton({resourceName, amount, updateResource, content}){
+function ResourceButton({resourceName, amount, updateResource, content, disabled}){
     const [isCoolingDown, setIsCoolingDown] = useState(false);
     const [cooldownTime, setCooldownTime] = useState(3000);
 
@@ -22,7 +22,7 @@ function ResourceButton({resourceName, amount, updateResource, content}){
 
     return(
         <>
-            <button className={`btn mt-3 ${resourceName}`} resourcename={resourceName} amount={amount} onClick={onResourceButtonClick} disabled={isCoolingDown}>{content}</button>
+            <button className={`btn mt-3 ${resourceName}`} resourcename={resourceName} amount={amount} onClick={onResourceButtonClick} disabled={isCoolingDown || disabled}>{content}</button>
         </>
     )
 }

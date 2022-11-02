@@ -2,18 +2,22 @@ import { useState } from "react";
 import { useEffect } from "react";
 import "./MessagesDisplay.css"
 
-function MessagesDisplay({message, updateState}){
+function MessagesDisplay({messagesObject, updateState}){
 
     const [messages, setMessages] = useState([]);
     const [addExtraSpace, setAddExtraSpace] = useState(true);
 
-    useEffect(() => {
-        //addMessageToFront("Messages Display: " + updateState.number);
-    }, [updateState]);
+    // useEffect(() => {
+    //     if(localStorage.getItem("eventState")){
+    //         const eventState = JSON.parse(localStorage.getItem("eventState"));
+
+    //         eventState.messages.forEach(addMessageToFront);
+    //     }
+    // }, [updateState]);
     
     useEffect(() => {
-        addMessageToFront(message.message);
-    }, [message]);
+        messagesObject.messages.forEach(addMessageToFront);
+    }, [messagesObject]);
 
 
     function addMessageToFront(message){

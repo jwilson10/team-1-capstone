@@ -15,3 +15,19 @@ export async function findEventByName(eventName){
         return Promise.reject();
     }
 }
+
+export async function findEventById(eventId){
+    const init = {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }
+    }
+
+    const response = await fetch(`${RESOURCES_API_URL}/id/${eventId}`, init);
+    if(response.ok) {
+        return response.json();
+    } else{
+        return Promise.reject();
+    }
+}

@@ -10,7 +10,9 @@ import { useHistory } from "react-router-dom";
 import { findGame } from "../services/gameService";
 import ActionButtons2 from "./ActionButtons2";
 import ActionButtons3 from "./ActionButtons3";
-import { createGameEvent } from "../services/gameEventService";
+import { createGameEvent, updateJustAdded } from "../services/gameEventService";
+import { findEventById, findEventByName } from "../services/eventService";
+import handleFreshEvents from "./components-util/GSM_handleFreshEvents";
 
 function GameScreenMain(){    
     const [stateForUpdate, setStateForUpdate] = useState(
@@ -18,13 +20,14 @@ function GameScreenMain(){
         );
     const [resourceUpdate, setResourceUpdate] = useState(undefined);
     const [initialResources, setInitialResources] = useState([]);
-    const [game, setGame] = useState({});
+    const [game, setGame] = useState({uninitialized: true});
     const [updateInterval, setUpdateInterval] = useState(undefined);
-
-    //This is an object instead of a string because setEffect in the message display
+    const [triggeredStartEvent, setTriggeredStartEvent] = useState(false);
+    
+    //This is an object instead of a string because useEffect in the message display
     //didnt trigger when the string was set to its previous value
-    const [message, setMessage] = useState({
-        message: ""
+    const [messages, setMessages] = useState({
+        messages: []
     });
 
     const auth = useContext(AuthContext);
@@ -34,7 +37,6 @@ function GameScreenMain(){
     const UPDATE_DELAY_IN_MS = 2000;
 
     useEffect(() =>{
-    
         async function getGameFromHistory(){
             if(history.location.state && history.location.state.game){    
                 //The game stored in history state doesnt update, so we need to grab the updated
@@ -52,24 +54,71 @@ function GameScreenMain(){
         getGameFromHistory();
     }, []);
 
+    useEffect(() => {
+        if(!game.uninitialized && !triggeredStartEvent){
+            triggerEvent("start");
+            setTriggeredStartEvent(true);
+        }
+    }, [stateForUpdate]);
+
+    function getEmptyEventState(){
+        const eventState = {
+            tutorialComplete: false,
+            showMinionsButton: false,
+            noMoreMinions: false,
+            roomOpenedUp: false,
+            outsideOpenedUp: false,
+            cheeseIncrement: 0,
+            yogiesIncrement: 0,
+            messages: [],
+        };
+
+        return eventState;
+    }
     
-    function handleEventState(){
-        if(game && game.eventsList){
-            const eventState = {
-                cheeseIncrement: 0,
-                yogiesIncrement: 0,
-            };
-            
-            game.eventsList.forEach(element => {
-                switch(element.eventId){
-                    case 1:
-                        eventState.cheeseIncrement += 3;
-                        break;
-                    case 2:
-                        eventState.yogiesIncrement += 1;
-                        break;
-                }
+    async function handleEventState(){
+        //Handle event state messages
+        if(localStorage.getItem("eventState")){
+            const eventState = JSON.parse(localStorage.getItem("eventState"));
+
+            const newMessages = {messages: []};
+            eventState.messages.forEach(message => {
+                if(message){
+                    newMessages.messages.push(message);
+                }   
             });
+
+            if(newMessages.messages.length > 0){
+                setMessages(newMessages);
+            }
+        }
+
+        if(game && game.eventsList){
+            const eventState = getEmptyEventState();
+
+            //Map gameEvents to events
+            const events = await Promise.all(game.eventsList.map(async gameEvent => {
+                const event = await findEventById(gameEvent.eventId);
+                event.gameEventObject = gameEvent;
+                return event;
+            }));
+            
+            await Promise.all(events.map(event => {                
+                const en = event.eventName;
+                if(en === "tutorial"){
+                    eventState.tutorialComplete = true;
+                }else if(en === "unlock_minions"){
+                    eventState.showMinionsButton = true;
+                }else if(en.match(/minion_gain_/)){
+                    eventState.cheeseIncrement += 3;
+
+                    if(en === "minion_gain_final"){
+                        eventState.noMoreMinions = true;
+                    }
+                }
+
+                return handleFreshEvents(event, eventState);
+            }));
 
             localStorage.setItem("eventState", JSON.stringify(eventState));
         }
@@ -78,14 +127,6 @@ function GameScreenMain(){
     useEffect(() => {
         handleEventState();
     }, [game]);
-
-    function update(){
-        setStateForUpdate(previousState => {
-            const newState = {...previousState};
-            newState.number += 1;
-            return newState;
-        });
-    }
 
     function updateResource(evt){
         const resourceName = evt.target.getAttribute("resourceName"); 
@@ -97,19 +138,19 @@ function GameScreenMain(){
         });
         
         if(amount > 0){
-            setMessage({
-                message: `you gain ${amount} ${resourceName}`
+            setMessages({
+                messages: [`you gain ${amount} ${resourceName}`]
             });
         }else{
-            setMessage({
-                message: `you lose ${amount * -1} cheese and gain a ${resourceName}`
+            setMessages({
+                messages: [`you lose ${amount * -1} cheese and gain a ${resourceName}`]
             });
         }
     }
 
     async function updateGame(){
         if(game.gameId){
-            console.log("Game ID:" + game.gameId);
+            // console.log("Game ID:" + game.gameId);
             const result = await findGame(game.gameId);
             setGame(result);
         }
@@ -121,20 +162,34 @@ function GameScreenMain(){
         console.log(game);
     }
 
-    async function triggerEvent(eventId){
-        if(game.eventsList.find(event => event.eventId === eventId)){
+    async function triggerEvent(eventName){
+        const eventObj = await findEventByName(eventName);
+
+        if(game.eventsList.find(event => event.eventId === eventObj.eventId)){
             return;
         }
 
         await createGameEvent({
-            eventId: eventId,
-            gameId: game.gameId
+            eventId: eventObj.eventId,
+            gameId: game.gameId,
+            justAdded: true
         });
 
         updateGame();
     }
 
+    function update(){
+        setStateForUpdate(previousState => {
+            const newState = {...previousState};
+            newState.number += 1;
+            return newState;
+        });
+    }
+
     if(!updateInterval){
+        //Initialize the event state local var
+        localStorage.setItem("eventState", JSON.stringify(getEmptyEventState()));
+
         setUpdateInterval(setInterval(update, UPDATE_DELAY_IN_MS));
     }
 
@@ -147,7 +202,7 @@ function GameScreenMain(){
                     <div className="col col-10 game">
                         <div className="row">
                             <div className="col messages">
-                                <MessagesDisplay message={message} stateForUpdate={stateForUpdate}></MessagesDisplay>
+                                <MessagesDisplay messagesObject={messages} stateForUpdate={stateForUpdate}></MessagesDisplay>
                             </div>
                             <div className="col col-9">
                                 <div className="col">
@@ -156,10 +211,14 @@ function GameScreenMain(){
                                             <button className="btn btn-secondary w-100">Cage</button>
                                         </div>
                                         <div className="col">
-                                            <button className="btn btn-secondary w-100">Room</button>
+                                            {JSON.parse(localStorage.getItem("eventState")).roomOpenedUp &&
+                                                <button className="btn btn-secondary w-100">Room</button>
+                                            }
                                         </div>
                                         <div className="col">
-                                            <button className="btn btn-secondary w-100">Outside</button>
+                                            {JSON.parse(localStorage.getItem("eventState")).outsideOpenedUp &&
+                                                <button className="btn btn-secondary w-100">Outside</button>
+                                            }
                                         </div>
                                         <div className="col col-6">
                                         </div>
@@ -179,7 +238,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Craft</h6>
-                                                    <ActionButtons2 updateResource={updateResource}></ActionButtons2>
+                                                    <ActionButtons2 updateResource={updateResource} stateForUpdate={stateForUpdate}></ActionButtons2>
                                                 </div>
                                             </div>
                                         </div>

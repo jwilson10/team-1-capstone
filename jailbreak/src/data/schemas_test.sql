@@ -89,6 +89,7 @@ select * from resources;
     
     insert into resources (resource_name, resource_value, resource_default_inc_rate) values
     ('cheese', 1, 1),
+    ('minions', 1, 1),
     ('yogies', 2, 1);
     
     insert into inventory_slot(game_id, resource_id, quantity) values
@@ -96,9 +97,26 @@ select * from resources;
     (2, 2, 1);
     
     insert into event(event_name) values
+    ("start"),
     ("tutorial"),
+    ("unlock_minions"),
+    ("minion_gain_1"),
+    ("minion_gain_2"),
+    ("minion_gain_3"),
+    ("minion_gain_4"),
+    ("minion_gain_5"),
+    ("minion_gain_6"),
+    ("minion_gain_7"),
+    ("minion_gain_8"),
+    ("minion_gain_9"),
+    ("minion_gain_final"),
     ("meeting"),
-    ("distraction");
+    ("talk_1"),
+    ("bribe"),
+    ("talk_2"),
+    ("enter_room"),
+    ("escape")
+    ;
     
     insert into game_event(game_id, event_id, just_added) values
     (1, 1, true),

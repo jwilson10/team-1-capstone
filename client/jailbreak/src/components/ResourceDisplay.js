@@ -119,13 +119,32 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
         loadResources();
     }, [game]);
 
+    //Some events triggered here
     useEffect(() => {
         if(!resources) return;
 
-        //Trigger the "tutorial" event when prerequisites are met
-        const cheese = resources.find(resource => resource.resourceName === "cheese");
-        if(cheese && cheese.slot.quantity >= 15){
-            triggerEvent(1);
+        let eventState = undefined;
+        if(localStorage.getItem("eventState")){
+            eventState = JSON.parse(localStorage.getItem("eventState"));
+            
+            const cheese = resources.find(resource => resource.resourceName === "cheese");
+            const minions = resources.find(resource => resource.resourceName === "minions");
+
+            //Trigger the "tutorial" event when prerequisites are met
+            if(!eventState.tutorialComplete && cheese && cheese.slot.quantity >= 15){
+                triggerEvent("tutorial");
+            }
+            //Trigger the "unlock_minions" event when prerequisites are met
+            if(eventState.tutorialComplete && cheese && cheese.slot.quantity >= 60){
+                triggerEvent("unlock_minions");
+            }
+            if(eventState.tutorialComplete && minions && minions.slot.quantity > 0){
+                if(minions.slot.quantity < 9){
+                    triggerEvent(`minion_gain_${minions.slot.quantity + 1}`);
+                }else if(minions.slot.quantity === 10){
+                    triggerEvent(`minion_gain_final`);
+                }
+            }
         }
 
         async function handleIncrements(){
@@ -137,9 +156,6 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
             if(!eventState){
                 return;
             }
-            
-            console.log("resources");
-            console.log(resources);
 
             await Promise.all(
                 resources.map(resource => {

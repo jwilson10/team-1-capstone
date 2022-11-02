@@ -18,6 +18,8 @@ export async function findGameEvent(gameEventId){
 }
 
 export async function createGameEvent(gameEvent){
+    gameEvent.gameEventId = 0;
+
     const init = {
         method: "POST",
         headers: {
@@ -27,15 +29,36 @@ export async function createGameEvent(gameEvent){
         body: JSON.stringify(gameEvent)
     };
 
+    // debugger;
+
     const response = await fetch(`${GAME_EVENT_API_URL}`, init);
     if(response.ok){
         return Promise.resolve();
-    } 
-    // else if(response.status === 400){
-    //     const errs = await response.json();
-    //     return Promise.reject(errs);
-    // } 
-    else{
+    } else if(response.status === 400 || response.status === 409){
+        const errs = await response.json();
+        return Promise.reject(errs);
+    } else{
         return Promise.reject();
     }
 }
+
+export async function updateJustAdded(gameEvent, justAdded){
+    gameEvent.justAdded = justAdded;
+    
+    const init = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        },
+        body: JSON.stringify(gameEvent)
+    };
+
+    const response = await fetch(`${GAME_EVENT_API_URL}`, init)
+    if(response.ok){
+        return Promise.resolve();
+    } else{
+        return Promise.reject();
+    }
+}
+
