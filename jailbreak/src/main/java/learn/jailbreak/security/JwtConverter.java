@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class JwtConverter {
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final String ISSUER = "jailbreak";
+    //TODO: REPLACE THIS WITH 45 WHEN VERIFIED THAT REFRESHING WORKS!!
     private final int EXPIRATION_MINUTES = 45;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
     public String getTokenFromUser(User user) {
