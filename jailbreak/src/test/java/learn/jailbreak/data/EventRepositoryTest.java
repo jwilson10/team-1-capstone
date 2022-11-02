@@ -29,7 +29,7 @@ class EventRepositoryTest {
     @Transactional
     void shouldFindAll(){
         List<Event> events = repository.findAll();
-        assertEquals(2, events.size());
+        assertEquals(19, events.size());
     }
 
     @Test
@@ -38,7 +38,7 @@ class EventRepositoryTest {
 
         assertNotNull(event);
         assertEquals(1, event.getEventId());
-        assertEquals("tutorial", event.getEventName());
+        assertEquals("start", event.getEventName());
     }
 
     @Test
@@ -46,7 +46,7 @@ class EventRepositoryTest {
         Event event = repository.findByEventName("tutorial");
 
         assertNotNull(event);
-        assertEquals(1, event.getEventId());
+        assertEquals(2, event.getEventId());
         assertEquals("tutorial", event.getEventName());
     }
 
