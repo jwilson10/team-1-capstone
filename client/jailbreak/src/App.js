@@ -16,6 +16,7 @@ import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
 import { useCallback } from "react";
 import {logout, refresh} from "./services/authService";
+import PageNotFound from "./components/PageNotFound";
 
 const LOCAL_STORAGE_TOKEN_KEY = "jwt";
 
@@ -129,6 +130,9 @@ function App() {
           </Route>
           <Route path="/game">
             <GameScreenMain />
+          </Route>
+          <Route path ="*">
+            <PageNotFound/>
           </Route>
         </Switch>
       </Router>

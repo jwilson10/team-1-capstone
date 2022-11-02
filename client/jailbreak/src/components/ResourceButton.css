@@ -28,17 +28,17 @@
     outline: 2px solid black;
 }
 
-.minions{
+.minions, .event, .rat{
     background-color: rgba(181, 181, 181, 0.904);
     outline: 1px solid black;
 }
 
-.minions:hover{
+.minions:hover, .event:hover, .rat:hover{
     background-color: rgba(199, 199, 199, 0.912);
     outline: 2px solid black;
 }
 
-.minions:active:hover{
+.minions:active:hover, .event:active:hover, .rat:active:hover{
     background-color: rgba(181, 181, 181, 0.904);
     outline: 2px solid black;
 }

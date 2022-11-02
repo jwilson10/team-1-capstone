@@ -13,6 +13,9 @@ import ActionButtons3 from "./ActionButtons3";
 import { createGameEvent, updateJustAdded } from "../services/gameEventService";
 import { findEventById, findEventByName } from "../services/eventService";
 import handleFreshEvents from "./components-util/GSM_handleFreshEvents";
+import GSM_cageEnvironment from "./components-util/GSM_cageEnvironment";
+import GSM_roomEnvironment from "./components-util/GSM_roomEnvironment";
+import GSM_outsideEnvironment from "./components-util/GSM_outsideEnvironment";
 
 function GameScreenMain(){    
     const [stateForUpdate, setStateForUpdate] = useState(
@@ -29,6 +32,8 @@ function GameScreenMain(){
     const [messages, setMessages] = useState({
         messages: []
     });
+
+    const [environment, setEnvironment] = useState("cage");
 
     const auth = useContext(AuthContext);
 
@@ -66,8 +71,12 @@ function GameScreenMain(){
             tutorialComplete: false,
             showMinionsButton: false,
             noMoreMinions: false,
+            canTalk: false,
+            canBribe: false,
+            hasBribed: false,
             roomOpenedUp: false,
             outsideOpenedUp: false,
+            escaped: false,
             cheeseIncrement: 0,
             yogiesIncrement: 0,
             messages: [],
@@ -115,9 +124,21 @@ function GameScreenMain(){
                     if(en === "minion_gain_final"){
                         eventState.noMoreMinions = true;
                     }
+                }else if(en === "meeting"){
+                    eventState.canTalk = true;
+                }else if(en === "talk_1"){
+                    eventState.canBribe = true;
+                }else if(en === "bribe"){
+                    eventState.hasBribed = true;
+                }else if(en === "talk_2"){
+                    eventState.roomOpenedUp = true;
+                }else if(en === "enter_room"){
+                    eventState.outsideOpenedUp = true;
+                }else if(en === "escape"){
+                    eventState.escaped = true;
                 }
 
-                return handleFreshEvents(event, eventState);
+                return handleFreshEvents(event, eventState, game);
             }));
 
             localStorage.setItem("eventState", JSON.stringify(eventState));
@@ -129,23 +150,8 @@ function GameScreenMain(){
     }, [game]);
 
     function updateResource(evt){
-        const resourceName = evt.target.getAttribute("resourceName"); 
-        const amount = evt.target.getAttribute("amount"); 
-
-        setResourceUpdate({
-            resourceName: resourceName,
-            amount: amount
-        });
-        
-        if(amount > 0){
-            setMessages({
-                messages: [`you gain ${amount} ${resourceName}`]
-            });
-        }else{
-            setMessages({
-                messages: [`you lose ${amount * -1} cheese and gain a ${resourceName}`]
-            });
-        }
+        const craftingRecipe = JSON.parse(evt.target.getAttribute("craftingRecipe"));
+        setResourceUpdate(craftingRecipe);
     }
 
     async function updateGame(){
@@ -208,54 +214,31 @@ function GameScreenMain(){
                                 <div className="col">
                                     <div className="row container mt-4">
                                         <div className="col">
-                                            <button className="btn btn-secondary w-100">Cage</button>
+                                            <button className={`btn ${environment === "cage" ? "btn-success" : "btn-secondary"} w-100`} onClick={() => setEnvironment("cage")}>Cage</button>
                                         </div>
                                         <div className="col">
                                             {JSON.parse(localStorage.getItem("eventState")).roomOpenedUp &&
-                                                <button className="btn btn-secondary w-100">Room</button>
+                                                <button className={`btn ${environment === "room" ? "btn-success" : "btn-secondary"} w-100`} onClick={() => setEnvironment("room")}>Room</button>
                                             }
                                         </div>
                                         <div className="col">
                                             {JSON.parse(localStorage.getItem("eventState")).outsideOpenedUp &&
-                                                <button className="btn btn-secondary w-100">Outside</button>
+                                                <button className={`btn ${environment === "outside" ? "btn-success" : "btn-secondary"} w-100`} onClick={() => setEnvironment("outside")}>Outside</button>
                                             }
                                         </div>
                                         <div className="col col-6">
                                         </div>
                                     </div>
                                     <div className="row container mt-4">
-                                        <div className="col action">
-                                            {/* Card */}
-                                            <div className="card action-card">
-                                                <div className="card-body d-flex flex-column">
-                                                    <h6 className="card-title">Basic</h6>
-                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col action">
-                                            {/* Card */}
-                                            <div className="card action-card">
-                                                <div className="card-body d-flex flex-column">
-                                                    <h6 className="card-title">Craft</h6>
-                                                    <ActionButtons2 updateResource={updateResource} stateForUpdate={stateForUpdate}></ActionButtons2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col action">
-                                            {/* Card */}
-                                            <div className="card action-card">
-                                                <div className="card-body d-flex flex-column">
-                                                    <h6 className="card-title">Trade</h6>
-                                                    <ActionButtons3 updateResource={updateResource}></ActionButtons3>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {/* The three different "Main" screens. Changes the middle most view with the buttons */}
+                                        {environment==="cage" && <GSM_cageEnvironment updateResource={updateResource} triggerEvent={triggerEvent} stateForUpdate={stateForUpdate}></GSM_cageEnvironment>}
+                                        {environment==="room" && <GSM_roomEnvironment updateResource={updateResource} triggerEvent={triggerEvent} stateForUpdate={stateForUpdate}></GSM_roomEnvironment>}
+                                        {environment==="outside" && <GSM_outsideEnvironment updateResource={updateResource} triggerEvent={triggerEvent} stateForUpdate={stateForUpdate}></GSM_outsideEnvironment>}
                                         <div className="col-6 resources">
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerEvent={triggerEvent}></ResourceDisplay>
+                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerEvent={triggerEvent} setMessages={setMessages}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>

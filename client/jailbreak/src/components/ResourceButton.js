@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import "./ResourceButton.css";
 
-function ResourceButton({resourceName, amount, updateResource, content, disabled}){
+function ResourceButton({craftingRecipe, updateResource, content, disabled, onShouldTriggerEvent}){
     const [isCoolingDown, setIsCoolingDown] = useState(false);
-    const [cooldownTime, setCooldownTime] = useState(3000);
+    const [cooldownTime, setCooldownTime] = useState(4000);
 
     useEffect(() => {
-        if(!isCoolingDown) return;
+        if(!isCoolingDown || !updateResource) return;
 
         setTimeout(() => {
             setIsCoolingDown(false);
@@ -14,7 +14,7 @@ function ResourceButton({resourceName, amount, updateResource, content, disabled
     }, [isCoolingDown]);
 
     function onResourceButtonClick(evt){
-        if(isCoolingDown) return;
+        if(isCoolingDown || !updateResource) return;
 
         setIsCoolingDown(true);
         updateResource(evt);
@@ -22,7 +22,11 @@ function ResourceButton({resourceName, amount, updateResource, content, disabled
 
     return(
         <>
-            <button className={`btn mt-3 ${resourceName}`} resourcename={resourceName} amount={amount} onClick={onResourceButtonClick} disabled={isCoolingDown || disabled}>{content}</button>
+            {updateResource ?
+                <button className={`btn mt-3 ${JSON.parse(craftingRecipe).crafted}`} craftingRecipe={craftingRecipe} onClick={onResourceButtonClick} disabled={isCoolingDown || disabled}>{content}</button>
+                :
+                <button className={`btn mt-3 event`} onClick={onShouldTriggerEvent}>{content}</button>
+            }
         </>
     )
 }

@@ -21,7 +21,18 @@ function ActionButtons2({updateResource, stateForUpdate}){
     return(
         <>
             { showMinions ?
-                <ResourceButton resourceName="minions" amount="-50" updateResource={updateResource} content="Gather Minions"
+                <ResourceButton 
+                    craftingRecipe={
+                        JSON.stringify({
+                            crafted: "minions",
+                            amount: 1,
+                            costs: [
+                                {resource: "cheese", amount: 50}
+                            ]
+                        })
+                    }
+                    updateResource={updateResource} 
+                    content="Gather Minions"
                     disabled={canStillAddMinions()}></ResourceButton>
                 :
                 <></>
