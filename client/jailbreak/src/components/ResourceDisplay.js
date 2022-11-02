@@ -5,10 +5,14 @@ import {findResourcesById, findResourcesByName} from "../services/resourcesServi
 
 
 function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
-                            triggerEvent}){
+                            triggerEvent, setMessages}){
 
     const [resources, setResources] = useState([]);
     const [errorMessages, setErrorMessages] = useState([]);
+
+    function reduceMeetsCosts (previous, current){
+        return [previous[0] && current[0]];
+    }
 
     useEffect(() => {
         if(!resourceUpdate){
@@ -16,80 +20,72 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
         }
 
         async function updateInventory(){
-            if(resourceUpdate.amount > 0){
-                //Add or update an inventory slot.
-                const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
-                let slot = undefined;
+            //handle costs
+            //map costs to booleans
+            const meetsCosts = resourceUpdate.costs.map(cost => {
+                const found = resources.find(value => value.resourceName === cost.resource);
                 if(found){
-                    slot = found.slot;
-                    slot.quantity = parseInt(slot.quantity) + parseInt(resourceUpdate.amount);
+                    return [found.slot.quantity >= cost.amount, cost, found];
+                }
 
-                    await updateInventorySlot(slot);
+                return [false, cost, undefined];
+            });
+
+            //Are the costs met? Reduce to an array with a single true/false value
+            const costsMet = meetsCosts.reduce(reduceMeetsCosts, [true]);
+
+            //map the costs to a string and use that string to communicate costs
+            const costsArray = resourceUpdate.costs.map(cost => `${cost.amount} ${cost.resource}`);
+            const costsString = costsArray.join(", ");
+            
+            if(!costsMet[0]){
+                setMessages({
+                    messages: [`you need ${costsString}`]
+                });
+                return;
+            }else{
+                if(costsString === ""){
+                    setMessages({
+                        messages: [`you gain ${resourceUpdate.amount} ${resourceUpdate.crafted}`]
+                    });
                 }else{
-                    const resource = await findResourcesByName(resourceUpdate.resourceName);
+                    //subtract costs from resource totals
+                    await Promise.all(meetsCosts.map(async value => {
+                        const slot = value[2].slot;
+                        const cost = value[1];
 
-                    if(!resource){
-                        return Promise.reject();
-                    }
-
-                    slot = {
-                        resourceId: resource.resourceId,
-                        quantity: resourceUpdate.amount,
-                        gameId: game.gameId
-                    }
-
-                    await createInventorySlot(slot);
-                }
-            } else{
-                let cheeseResource = await findResourcesByName("cheese");
-                let cheese = undefined;
-                for(let s of cheeseResource.inventorySlotList){
-                    if(game.gameId == s.gameId){
-                        cheese = s.quantity;
-                        break;
-                    }
-                }
-                //is there enough cheese?
-                if(!cheese || cheese < (resourceUpdate.amount * -1)){
-                    window.alert(`You don't have enough cheese! You need at least ${resourceUpdate.amount * -1} cheese.`);
-                }
-                //if yes, remove cheese
-                else{
-                    //update inventory slot (or create one)
-                    const found = resources.find(value => value.resourceName === resourceUpdate.resourceName);
-                    let slot = undefined;
-                    let newQuantity = 0;
-                    if(found){
-                        let slotResourceId = found.resourceId;
-                        let currentSlot = game.inventorySlotList.find(value => value.resourceId === found.resourceId);
-                        newQuantity = currentSlot.quantity + 1;
-                        slot ={
-                            slotId: currentSlot.slotId,
-                            resourceId: slotResourceId,
-                            quantity: newQuantity,
-                            gameId: game.gameId
-                        }
-                        await updateInventorySlot(slot);
-                    }else{
-                        const resource = await findResourcesByName(resourceUpdate.resourceName);
-                        const newQuantity = 1;
-
-                        if(!resource){
-                            return Promise.reject();
-                        }
-
-                        slot = {
-                            resourceId: resource.resourceId,
-                            quantity: newQuantity,
-                            gameId: game.gameId
-                        }
-                        await createInventorySlot(slot);
-                }
-                    let cheeseSlot = game.inventorySlotList.find(value => value.resourceId === cheeseResource.resourceId);
-                    cheeseSlot.quantity = cheeseSlot.quantity - 5;
-                    await updateInventorySlot(cheeseSlot);
-                }
+                        slot.quantity = parseInt(slot.quantity) - parseInt(cost.amount);
+                        return updateInventorySlot(slot);
+                    }));
                     
+                    setMessages({
+                        messages: [`you lose ${costsString}. you gain a ${resourceUpdate.crafted} in return.`]
+                    });
+                }
+            }
+
+            //Add or update an inventory slot.
+            const found = resources.find(value => value.resourceName === resourceUpdate.crafted);
+            let slot = undefined;
+            if(found){
+                slot = found.slot;
+                slot.quantity = parseInt(slot.quantity) + parseInt(resourceUpdate.amount);
+
+                await updateInventorySlot(slot);
+            }else{
+                const resource = await findResourcesByName(resourceUpdate.crafted);
+
+                if(!resource){
+                    return Promise.reject();
+                }
+
+                slot = {
+                    resourceId: resource.resourceId,
+                    quantity: resourceUpdate.amount,
+                    gameId: game.gameId
+                }
+
+                await createInventorySlot(slot);
             }
         }
 
@@ -130,12 +126,15 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
             const cheese = resources.find(resource => resource.resourceName === "cheese");
             const minions = resources.find(resource => resource.resourceName === "minions");
 
+            //Some of these event triggers could be condensed into fewer if-else statements,
+            //but I prefer being more verbose here. - Ethan
+
             //Trigger the "tutorial" event when prerequisites are met
             if(!eventState.tutorialComplete && cheese && cheese.slot.quantity >= 15){
                 triggerEvent("tutorial");
             }
             //Trigger the "unlock_minions" event when prerequisites are met
-            if(eventState.tutorialComplete && cheese && cheese.slot.quantity >= 60){
+            if(eventState.tutorialComplete && cheese && cheese.slot.quantity >= 40){
                 triggerEvent("unlock_minions");
             }
             if(eventState.tutorialComplete && minions && minions.slot.quantity > 0){
@@ -144,6 +143,9 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                 }else if(minions.slot.quantity === 10){
                     triggerEvent(`minion_gain_final`);
                 }
+            }
+            if(eventState.tutorialComplete && minions && minions.slot.quantity > 3){
+                triggerEvent("meeting");
             }
         }
 

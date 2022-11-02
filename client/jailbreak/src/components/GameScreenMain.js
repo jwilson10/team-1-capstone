@@ -66,6 +66,9 @@ function GameScreenMain(){
             tutorialComplete: false,
             showMinionsButton: false,
             noMoreMinions: false,
+            canTalk: false,
+            canBribe: false,
+            hasBribed: false,
             roomOpenedUp: false,
             outsideOpenedUp: false,
             cheeseIncrement: 0,
@@ -115,9 +118,15 @@ function GameScreenMain(){
                     if(en === "minion_gain_final"){
                         eventState.noMoreMinions = true;
                     }
+                }else if(en === "meeting"){
+                    eventState.canTalk = true;
+                }else if(en === "talk_1"){
+                    eventState.canBribe = true;
+                }else if(en === "bribe"){
+                    eventState.hasBribed = true;
                 }
 
-                return handleFreshEvents(event, eventState);
+                return handleFreshEvents(event, eventState, game);
             }));
 
             localStorage.setItem("eventState", JSON.stringify(eventState));
@@ -129,23 +138,8 @@ function GameScreenMain(){
     }, [game]);
 
     function updateResource(evt){
-        const resourceName = evt.target.getAttribute("resourceName"); 
-        const amount = evt.target.getAttribute("amount"); 
-
-        setResourceUpdate({
-            resourceName: resourceName,
-            amount: amount
-        });
-        
-        if(amount > 0){
-            setMessages({
-                messages: [`you gain ${amount} ${resourceName}`]
-            });
-        }else{
-            setMessages({
-                messages: [`you lose ${amount * -1} cheese and gain a ${resourceName}`]
-            });
-        }
+        const craftingRecipe = JSON.parse(evt.target.getAttribute("craftingRecipe"));
+        setResourceUpdate(craftingRecipe);
     }
 
     async function updateGame(){
@@ -229,7 +223,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Basic</h6>
-                                                    <ActionButtons1 updateResource={updateResource}></ActionButtons1>
+                                                    <ActionButtons1 updateResource={updateResource} triggerEvent={triggerEvent}></ActionButtons1>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,7 +249,7 @@ function GameScreenMain(){
                                             <div className="card action-card">
                                                 <div className="card-body d-flex flex-column">
                                                     <h6 className="card-title">Resources</h6>
-                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerEvent={triggerEvent}></ResourceDisplay>
+                                                    <ResourceDisplay stateForUpdate={stateForUpdate} resourceUpdate={resourceUpdate} game={game} updateGame={updateGame} triggerEvent={triggerEvent} setMessages={setMessages}></ResourceDisplay>
                                                 </div>
                                             </div>
                                         </div>
