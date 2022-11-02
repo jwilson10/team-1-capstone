@@ -14,61 +14,100 @@ import GameScreenMain from "./components/GameScreenMain";
 import Error from "./components/Error";
 import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
+import { useCallback } from "react";
+import {logout, refresh} from "./services/authService";
 import PageNotFound from "./components/PageNotFound";
 
 const LOCAL_STORAGE_TOKEN_KEY = "jwt";
 
+const WAIT_TIME = 15 * 60 * 1000;
+const EMPTY_USER = {
+  userId: 0,
+  username: '',
+  roles: []
+};
+
 function App() {
-  const [user, setUser] = useState(null);
+
+  const [user, setUser] = useState(EMPTY_USER);
   const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-    if(token){
-      login(token);
-    }
-
-    setRestoreLoginAttemptCompleted(true);
+  const refreshUser = useCallback(() =>{
+    console.log("REFRESHING TOKEN!!!");
+    refresh()
+      .then(data =>{
+        if(data.username){
+          setUser(data);
+          setTimeout(refreshUser, WAIT_TIME);
+        } else{
+          logout();
+        }
+      }).catch(blah => logout());
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+  const onAuthenticated = useCallback((authenticatedUser) => {
+    setUser(authenticatedUser);
+    setTimeout(refreshUser, WAIT_TIME)
+  }, [refreshUser]);
 
-    const { sub: username, user_id: userId, role_id: role } = jwtDecode(token);
-
-    let roleString = "NONE";
-    if (role === 1) {
-      roleString = "ADMIN"
-    } else if (role === 2) {
-      roleString = "USER"
-    }
-
-    const user = {
-      userId,
-      username,
-      roleString,
-      token
-    };
-
-    setUser(user);
-
-    return user;
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
-  };
+  useEffect(() => {
+    refreshUser();
+  }, [refreshUser]);
 
   const auth = {
-    user: user ? { ...user } : null,
-    login,
-    logout
+    user: user,
+    onAuthenticated,
+    logout() {
+      logout();
+      setUser(EMPTY_USER);
+    },
+    isAdmin(){
+      return user.roles.includes('ADMIN');
+    }
   };
 
-  if (!restoreLoginAttemptCompleted) {
-    return null;
-  }
+  // useEffect(() => {
+  //   const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+  //   if(token){
+  //     login(token);
+  //   }
+
+  //   setRestoreLoginAttemptCompleted(true);
+  // }, []);
+
+  // const login = (token) => {
+  //   localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+
+  //   const { sub: username, user_id: userId, role_id: role } = jwtDecode(token);
+
+  //   let roleString = "NONE";
+  //   if (role === 1) {
+  //     roleString = "ADMIN"
+  //   } else if (role === 2) {
+  //     roleString = "USER"
+  //   }
+
+  //   const user = {
+  //     userId,
+  //     username,
+  //     roleString,
+  //     token
+  //   };
+
+  //   setUser(user);
+  //   setTimeout(refreshUser, WAIT_TIME);
+
+  //   return user;
+  // };
+
+  // const logout = () => {
+  //   setUser(null);
+  //   localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+  // };
+
+  // if (!restoreLoginAttemptCompleted) {
+  //   return null;
+  // }
 
   return (
     <AuthContext.Provider value={auth}>

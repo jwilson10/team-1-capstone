@@ -16,7 +16,7 @@ function StartScreen() {
                     </svg>
                 </div>
                 <div className="d-flex align-items-center justify-content-center">
-                {auth.user ? 
+                {localStorage.jwt ? 
                 <Link to="/all-games">
                     <button className="btn btn-dark btn-lg">View All Games</button>
                 </Link>: 
