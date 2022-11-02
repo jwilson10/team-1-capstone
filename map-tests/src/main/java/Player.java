@@ -1,8 +1,16 @@
-public class Player {
+public class Player implements GameObject{
 
     private int x;
     private int y;
     private final char mapPiece = '@';
+
+    public Player() {
+    }
+
+    public Player(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public int getX() {
         return x;

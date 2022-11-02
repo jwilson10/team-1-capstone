@@ -1,9 +1,18 @@
-public class Cat {
+public class Cat implements GameObject{
 
     private int x;
     private int y;
     private boolean isAlive = true;
     private final char mapPiece = 'M';
+
+    public Cat() {
+    }
+
+    public Cat(int x, int y, boolean isAlive) {
+        this.x = x;
+        this.y = y;
+        this.isAlive = isAlive;
+    }
 
     public char getMapPiece() {
         return mapPiece;

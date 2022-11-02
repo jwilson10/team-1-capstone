@@ -1,8 +1,17 @@
-public class Cheese {
+public class Cheese implements GameObject{
     private int x;
     private int y;
     private boolean isAlive = true;
-    private final char mapPiece = 'M';
+    private final char mapPiece = '<';
+
+    public Cheese() {
+    }
+
+    public Cheese(int x, int y, boolean isAlive) {
+        this.x = x;
+        this.y = y;
+        this.isAlive = isAlive;
+    }
 
     public char getMapPiece() {
         return mapPiece;
