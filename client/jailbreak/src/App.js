@@ -14,6 +14,7 @@ import GameScreenMain from "./components/GameScreenMain";
 import Error from "./components/Error";
 import AuthContext from "./context/AuthContext";
 import jwtDecode from "jwt-decode";
+import PageNotFound from "./components/PageNotFound";
 
 const LOCAL_STORAGE_TOKEN_KEY = "jwt";
 
@@ -90,6 +91,9 @@ function App() {
           </Route>
           <Route path="/game">
             <GameScreenMain />
+          </Route>
+          <Route path ="*">
+            <PageNotFound/>
           </Route>
         </Switch>
       </Router>
