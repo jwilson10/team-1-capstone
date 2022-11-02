@@ -26,7 +26,7 @@ function ActionButtons3({updateResource}){
             <>
                 <button 
                     className="btn btn-light mt-3" 
-                    craftingRecipe={
+                    craftingrecipe={
                         JSON.stringify({
                             crafted: "cheese",
                             amount: 1000,
@@ -36,7 +36,7 @@ function ActionButtons3({updateResource}){
                     onClick={updateResource}>Admin Cheese</button>
                 <button 
                     className="btn btn-light mt-3" 
-                    craftingRecipe={
+                    craftingrecipe={
                         JSON.stringify({
                             crafted: "yogies",
                             amount: 1000,
@@ -46,7 +46,7 @@ function ActionButtons3({updateResource}){
                     onClick={updateResource}>Admin Yogies</button>
                 <button 
                     className="btn btn-light mt-3"
-                    craftingRecipe={
+                    craftingrecipe={
                         JSON.stringify({
                             crafted: "minions",
                             amount: 1,

@@ -23,7 +23,7 @@ function ResourceButton({craftingRecipe, updateResource, content, disabled, onSh
     return(
         <>
             {updateResource ?
-                <button className={`btn mt-3 ${JSON.parse(craftingRecipe).crafted}`} craftingRecipe={craftingRecipe} onClick={onResourceButtonClick} disabled={isCoolingDown || disabled}>{content}</button>
+                <button className={`btn mt-3 ${JSON.parse(craftingRecipe).crafted}`} craftingrecipe={craftingRecipe} onClick={onResourceButtonClick} disabled={isCoolingDown || disabled}>{content}</button>
                 :
                 <button className={`btn mt-3 event`} onClick={onShouldTriggerEvent}>{content}</button>
             }

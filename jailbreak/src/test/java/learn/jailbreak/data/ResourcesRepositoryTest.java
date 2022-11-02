@@ -29,7 +29,7 @@ class ResourcesRepositoryTest {
     @Transactional
     void shouldFindAll(){
         //Arrange
-        int expected = 3;
+        int expected = 4;
 
         //Act
         List<Resources> actual = repository.findAll();
@@ -50,7 +50,7 @@ class ResourcesRepositoryTest {
         assertEquals(resources.getResourceName(), actual.getResourceName());
         assertEquals(resources.getResourceValue(), actual.getResourceValue());
         assertEquals(resources.getResourceDefaultIncRate(), actual.getResourceDefaultIncRate());
-        assertEquals(4, actual.getResourceId());
+        assertEquals(5, actual.getResourceId());
     }
 
     @Test
