@@ -1,3 +1,4 @@
+import "./Map.css";
 
 function Map(){
 
@@ -8,17 +9,25 @@ function Map(){
         for (let i = 0; i < 15; i++) {
         let newArr = new Array;
             for(let j = 0; j < 60; j++){
-                newArr.push(" . ");                
+                if(j == 0 || j == 59){
+                    newArr.push("#");
+                } else {
+                    newArr.push(".");
+                }                
             }
         mapArr.push(newArr);
         }
     }
 
     generateMap();
+    mapArr.push("#".repeat(60));
 
-    return(<div> 
+    return(
+        <div>
+        <div className="d align-items-center"> 
         <h1>A map will go here</h1>
-        <div>{mapArr.map(row => <div class="d-grid gap-2 col-6 mx-auto">{row}</div>)}</div>
+        <div className="align-self-center map">{mapArr.map(row => <div className="row"><div className="map">{row}</div></div>)}</div>
+        </div>
         </div>);
 }
 
