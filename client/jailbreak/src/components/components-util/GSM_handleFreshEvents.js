@@ -23,8 +23,9 @@ async function handleFreshEvents(event, eventState, game){
                 break;
             case "talk_1":
                 eventState.messages.push(`"What’s your price?"`);
-                eventState.messages.push(`"Only 1000 cheese and 50 yogies."`);
-                eventState.messages.push(`Only, he says... \n"Deal."`);
+                eventState.messages.push(`"Only 1000 cheese and 30 yogies."`);
+                eventState.messages.push(`Only, he says... 
+                "Deal."`);
                 eventState.messages.push(`You've now got a goal to reach - press “Bribe” to start the distraction.`);
                 break;
             case "bribe":

@@ -125,6 +125,7 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
             
             const cheese = resources.find(resource => resource.resourceName === "cheese");
             const minions = resources.find(resource => resource.resourceName === "minions");
+            const oldRat = resources.find(resource => resource.resourceName === "old rat");
 
             //Some of these event triggers could be condensed into fewer if-else statements,
             //but I prefer being more verbose here. - Ethan
@@ -146,6 +147,9 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
             }
             if(eventState.tutorialComplete && minions && minions.slot.quantity > 3){
                 triggerEvent("meeting");
+            }
+            if(oldRat && oldRat.slot.quantity >= 1){
+                triggerEvent("bribe");
             }
         }
 

@@ -5,7 +5,7 @@
 
 #overlay{
     /* Gradient made with https://cssgradient.io/ */
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,212,255,0) 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%);
     position: absolute;
     width: 20%;
     height: 80vh;

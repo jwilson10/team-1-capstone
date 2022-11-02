@@ -9,8 +9,12 @@ function ActionButtons3({updateResource}){
         return !JSON.parse(localStorage.getItem("eventState")).canBribe;
     }
 
-    function hasBribed(){
-        return !JSON.parse(localStorage.getItem("eventState")).hasBribed;
+    function shouldBribeButtonBeDisabled(){
+        const eventState = JSON.parse(localStorage.getItem("eventState"));
+
+        const result = !eventState.canBribe || eventState.hasBribed;
+
+        return result;
     }
 
     function displayAdminButtons(){
@@ -68,13 +72,13 @@ function ActionButtons3({updateResource}){
                             amount: 1,
                             costs: [
                                 {resource: "cheese", amount: 1000},
-                                {resource: "yogies", amount: 50}
+                                {resource: "yogies", amount: 30}
                             ]
                         })
                     }
                     updateResource={updateResource} 
                     content="Bribe"
-                    disabled={cantBribe() && !hasBribed()}></ResourceButton>
+                    disabled={shouldBribeButtonBeDisabled()}></ResourceButton>
             }
         </>
     )

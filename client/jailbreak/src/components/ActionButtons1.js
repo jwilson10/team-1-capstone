@@ -14,6 +14,8 @@ function ActionButtons1({updateResource, triggerEvent}){
     
         if(eventState.canTalk && !eventState.canBribe){
             triggerEvent("talk_1");
+        }else if(eventState.canTalk && eventState.hasBribed && !eventState.roomOpenedUp){
+            triggerEvent("talk_2");
         }
     }
     
