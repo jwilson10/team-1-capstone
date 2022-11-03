@@ -1,4 +1,4 @@
-const GAME_EVENT_API_URL = "http://localhost:8080/game/event";
+const GAME_EVENT_API_URL = `${process.env.REACT_APP_API_URL}/game/event`;
 
 export async function findGameEvent(gameEventId){
     const init = {

@@ -1,4 +1,4 @@
-const RESOURCES_API_URL = "http://localhost:8080/event";
+const RESOURCES_API_URL = `${process.env.REACT_APP_API_URL}/event`;
 
 export async function findEventByName(eventName){
     const init = {
