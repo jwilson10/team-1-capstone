@@ -6,7 +6,8 @@ function ActionButtons1({updateResource, triggerEvent}){
     }
     
     function canTalk(){
-        return JSON.parse(localStorage.getItem("eventState")).canTalk;
+        return JSON.parse(localStorage.getItem("eventState")).canTalk
+            && (!JSON.parse(localStorage.getItem("eventState")).canBribe || JSON.parse(localStorage.getItem("eventState")).hasBribed);
     }
     
     function onShouldTriggerEvent(){

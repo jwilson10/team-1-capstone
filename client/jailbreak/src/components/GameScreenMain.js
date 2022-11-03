@@ -74,12 +74,14 @@ function GameScreenMain(){
             canTalk: false,
             canBribe: false,
             hasBribed: false,
+            turnOffBribeButton: false,
             roomOpenedUp: false,
             outsideOpenedUp: false,
             escaped: false,
             cheeseIncrement: 0,
             yogiesIncrement: 0,
             messages: [],
+            immediateMessage: false
         };
 
         return eventState;
@@ -114,28 +116,36 @@ function GameScreenMain(){
             
             await Promise.all(events.map(event => {                
                 const en = event.eventName;
-                if(en === "tutorial"){
-                    eventState.tutorialComplete = true;
-                }else if(en === "unlock_minions"){
-                    eventState.showMinionsButton = true;
-                }else if(en.match(/minion_gain_/)){
-                    eventState.cheeseIncrement += 3;
+                const finished = event.gameEventObject.finished;
 
-                    if(en === "minion_gain_final"){
-                        eventState.noMoreMinions = true;
+                if(en === "bribe"){
+                    eventState.turnOffBribeButton = true;
+                }
+
+                if(finished){
+                    if(en === "tutorial" ){
+                        eventState.tutorialComplete = true;
+                    }else if(en === "unlock_minions"){
+                        eventState.showMinionsButton = true;
+                    }else if(en.match(/minion_gain_/)){
+                        eventState.cheeseIncrement += 3;
+    
+                        if(en === "minion_gain_final"){
+                            eventState.noMoreMinions = true;
+                        }
+                    }else if(en === "meeting"){
+                        eventState.canTalk = true;
+                    }else if(en === "talk_1"){
+                        eventState.canBribe = true;
+                    }else if(en === "bribe"){
+                        eventState.hasBribed = true;
+                    }else if(en === "talk_2"){
+                        eventState.roomOpenedUp = true;
+                    }else if(en === "enter_room"){
+                        eventState.outsideOpenedUp = true;
+                    }else if(en === "escape"){
+                        eventState.escaped = true;
                     }
-                }else if(en === "meeting"){
-                    eventState.canTalk = true;
-                }else if(en === "talk_1"){
-                    eventState.canBribe = true;
-                }else if(en === "bribe"){
-                    eventState.hasBribed = true;
-                }else if(en === "talk_2"){
-                    eventState.roomOpenedUp = true;
-                }else if(en === "enter_room"){
-                    eventState.outsideOpenedUp = true;
-                }else if(en === "escape"){
-                    eventState.escaped = true;
                 }
 
                 return handleFreshEvents(event, eventState, game);
@@ -168,8 +178,10 @@ function GameScreenMain(){
         console.log(game);
     }
 
-    async function triggerEvent(eventName){
+    async function triggerEvent(eventName, finishedByDefault){
         const eventObj = await findEventByName(eventName);
+
+        finishedByDefault = typeof finishedByDefault === "undefined" ? false : finishedByDefault;
 
         if(game.eventsList.find(event => event.eventId === eventObj.eventId)){
             return;
@@ -178,7 +190,8 @@ function GameScreenMain(){
         await createGameEvent({
             eventId: eventObj.eventId,
             gameId: game.gameId,
-            justAdded: true
+            justAdded: true,
+            finished: finishedByDefault,
         });
 
         updateGame();
@@ -247,7 +260,7 @@ function GameScreenMain(){
                                         <div className="col-9">
                                         </div>
                                         <div className="col-3">
-                                            <button className="btn btn-success w-100" onClick={saveGame}>Save</button>
+                                            {/* <button className="btn btn-success w-100" onClick={saveGame}>Save</button> */}
                                         </div>
                                     </div>
                                 </div>

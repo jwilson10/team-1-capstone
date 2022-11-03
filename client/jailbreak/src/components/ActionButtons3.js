@@ -10,9 +10,8 @@ function ActionButtons3({updateResource}){
     }
 
     function shouldBribeButtonBeDisabled(){
-        const eventState = JSON.parse(localStorage.getItem("eventState"));
-
-        const result = !eventState.canBribe || eventState.hasBribed;
+        const eventState = JSON.parse(localStorage.getItem("eventState"));        
+        const result = eventState.turnOffBribeButton;
 
         return result;
     }

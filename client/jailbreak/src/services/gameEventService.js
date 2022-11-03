@@ -29,8 +29,6 @@ export async function createGameEvent(gameEvent){
         body: JSON.stringify(gameEvent)
     };
 
-    // debugger;
-
     const response = await fetch(`${GAME_EVENT_API_URL}`, init);
     if(response.ok){
         return Promise.resolve();
@@ -42,8 +40,14 @@ export async function createGameEvent(gameEvent){
     }
 }
 
-export async function updateJustAdded(gameEvent, justAdded){
+export async function updateJustAddedAndFinished(gameEvent, justAdded, finished){
     gameEvent.justAdded = justAdded;
+
+    const typeOfFinished = typeof finished;
+
+    if(typeOfFinished !== "undefined"){
+        gameEvent.finished = finished;
+    }
     
     const init = {
         method: "PUT",

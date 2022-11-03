@@ -17,6 +17,16 @@ public class GameEvent {
 
     private boolean justAdded;
 
+    private boolean finished;
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     public boolean isJustAdded() {
         return justAdded;
     }

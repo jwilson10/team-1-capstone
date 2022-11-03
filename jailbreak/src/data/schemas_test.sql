@@ -61,6 +61,7 @@ create table game_event(
     event_id int not null,
     game_id int not null,
     just_added boolean not null,
+    finished boolean not null default false,
     constraint fk_game_event_event_id
         foreign key (event_id)
         references `event`(event_id),

@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`%` PROCEDURE `set_known_good_state`()
+CREATE PROCEDURE `set_known_good_state` ()
 BEGIN
 	delete from game_event;
     alter table game_event auto_increment = 1;

@@ -40,13 +40,15 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
             
             if(!costsMet[0]){
                 setMessages({
-                    messages: [`you need ${costsString}`]
+                    messages: [`you need ${costsString}`],
+                    immediate: true
                 });
                 return;
             }else{
                 if(costsString === ""){
                     setMessages({
-                        messages: [`you gain ${resourceUpdate.amount} ${resourceUpdate.crafted}`]
+                        messages: [`you gain ${resourceUpdate.amount} ${resourceUpdate.crafted}`],
+                        immediate: true
                     });
                 }else{
                     //subtract costs from resource totals
@@ -59,7 +61,8 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
                     }));
                     
                     setMessages({
-                        messages: [`you lose ${costsString}. you gain a ${resourceUpdate.crafted} in return.`]
+                        messages: [`you lose ${costsString}. you gain a ${resourceUpdate.crafted} in return.`],
+                        immediate: true
                     });
                 }
             }
@@ -140,9 +143,9 @@ function ResourceDisplay({stateForUpdate, resourceUpdate, game, updateGame,
             }
             if(eventState.tutorialComplete && minions && minions.slot.quantity > 0){
                 if(minions.slot.quantity < 9){
-                    triggerEvent(`minion_gain_${minions.slot.quantity + 1}`);
+                    triggerEvent(`minion_gain_${minions.slot.quantity + 1}`, true);
                 }else if(minions.slot.quantity === 10){
-                    triggerEvent(`minion_gain_final`);
+                    triggerEvent(`minion_gain_final`, true);
                 }
             }
             if(eventState.tutorialComplete && minions && minions.slot.quantity > 3){
